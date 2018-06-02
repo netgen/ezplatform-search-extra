@@ -1,0 +1,41 @@
+{
+    "name": "netgen/ezplatform-search-extra",
+    "type": "ezplatform-bundle",
+    "license": "GPL-2.0-only",
+    "authors": [
+        {
+            "name": "Petar Španja",
+            "email": "petar@spanja.info"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "ezsystems/ezpublish-kernel": "^6.0|^7.0",
+        "ezsystems/ezplatform-solr-search-engine": "^1.0"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-master",
+        "phpunit/phpunit": "^5.7||^6.0||^7.0",
+        "matthiasnoback/symfony-dependency-injection-test": "~1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Netgen\\EzPlatformSearchExtra\\": "lib",
+            "Netgen\\Bundle\\EzPlatformSearchExtraLegacyBundle\\": "bundle/legacy",
+            "Netgen\\Bundle\\EzPlatformSearchExtraSolrBundle\\": "bundle/solr"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Netgen\\EzPlatformSearchExtra\\Tests\\": "tests/lib"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    },
+    "scripts": {
+        "test": "@php vendor/bin/phpunit --colors=always"
+    }
+}

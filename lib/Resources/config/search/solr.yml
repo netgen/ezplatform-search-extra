@@ -1,0 +1,16 @@
+services:
+    netgen.search.solr.query.common.criterion_visitor.object_state_identifier:
+        class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common\CriterionVisitor\ObjectStateIdentifier
+        arguments:
+            - '@ezpublish.spi.persistence.object_state_handler'
+        tags:
+            - {name: ezpublish.search.solr.query.content.criterion_visitor}
+            - {name: ezpublish.search.solr.query.location.criterion_visitor}
+
+    netgen.search.solr.query.common.criterion_visitor.section_identifier:
+        class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common\CriterionVisitor\SectionIdentifier
+        arguments:
+            - '@ezpublish.spi.persistence.section_handler'
+        tags:
+            - {name: ezpublish.search.solr.query.content.criterion_visitor}
+            - {name: ezpublish.search.solr.query.location.criterion_visitor}
