@@ -1,30 +1,37 @@
 <?php
 
-namespace Netgen\Bundle\EzPlatformSearchExtraLegacyBundle\DependencyInjection;
+namespace Netgen\Bundle\EzPlatformSearchExtraBundle\DependencyInjection;
 
-use Exception;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
-class NetgenEzPlatformSearchExtraLegacyExtension extends Extension
+class NetgenEzPlatformSearchExtraExtension extends Extension
 {
     /**
      * @param array $configs
-     * @param ContainerBuilder $container
-     * @throws Exception
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     *
+     * @throws \Exception
      */
     public function load(array $configs, ContainerBuilder $container)
     {
         $configuration = new Configuration();
         $this->processConfiguration($configuration, $configs);
+        $activatedBundlesMap = $container->getParameter('kernel.bundles');
 
         $loader = new Loader\YamlFileLoader(
             $container,
             new FileLocator(__DIR__ . '/../../../lib/Resources/config/search/')
         );
 
-        $loader->load('legacy.yml');
+        if (array_key_exists('EzPublishLegacySearchEngineBundle', $activatedBundlesMap)) {
+            $loader->load('legacy.yml');
+        }
+
+        if (array_key_exists('EzSystemsEzPlatformSolrSearchEngineBundle', $activatedBundlesMap)) {
+            $loader->load('solr.yml');
+        }
     }
 }

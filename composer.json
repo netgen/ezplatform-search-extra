@@ -21,8 +21,7 @@
     "autoload": {
         "psr-4": {
             "Netgen\\EzPlatformSearchExtra\\": "lib",
-            "Netgen\\Bundle\\EzPlatformSearchExtraLegacyBundle\\": "bundle/legacy",
-            "Netgen\\Bundle\\EzPlatformSearchExtraSolrBundle\\": "bundle/solr"
+            "Netgen\\Bundle\\EzPlatformSearchExtraBundle\\": "bundle"
         }
     },
     "autoload-dev": {
