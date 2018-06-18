@@ -7,8 +7,9 @@ use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\ContentId;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\LogicalAnd;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\LogicalNot;
+use eZ\Publish\API\Repository\Values\Content\Query\Criterion\LogicalOr;
 use eZ\Publish\API\Repository\Values\Content\Query\SortClause\ContentId as ContentIdSortClause;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\SectionIdentifier;
+use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\ObjectStateIdentifier;
 
 class ObjectStateIdentifierCriterionTest extends BaseCriterionTest
 {
@@ -19,27 +20,7 @@ class ObjectStateIdentifierCriterionTest extends BaseCriterionTest
                 new LocationQuery([
                     'filter' => new LogicalAnd([
                         new ContentId([4, 50, 57]),
-                        new SectionIdentifier('standard'),
-                    ]),
-                    'sortClauses' => [new ContentIdSortClause()],
-                ]),
-                [57],
-            ],
-            [
-                new LocationQuery([
-                    'filter' => new LogicalAnd([
-                        new ContentId([4, 50, 57]),
-                        new SectionIdentifier('users'),
-                    ]),
-                    'sortClauses' => [new ContentIdSortClause()],
-                ]),
-                [4],
-            ],
-            [
-                new LocationQuery([
-                    'filter' => new LogicalAnd([
-                        new ContentId([4, 50, 57]),
-                        new SectionIdentifier(['standard', 'users']),
+                        new ObjectStateIdentifier('ez_lock', 'not_locked'),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
                 ]),
@@ -49,7 +30,30 @@ class ObjectStateIdentifierCriterionTest extends BaseCriterionTest
                 new LocationQuery([
                     'filter' => new LogicalAnd([
                         new ContentId([4, 50, 57]),
-                        new SectionIdentifier('setup'),
+                        new ObjectStateIdentifier('ez_lock', 'locked'),
+                    ]),
+                    'sortClauses' => [new ContentIdSortClause()],
+                ]),
+                [50],
+            ],
+            [
+                new LocationQuery([
+                    'filter' => new LogicalAnd([
+                        new ContentId([4, 50, 57]),
+                        new LogicalOr([
+                            new ObjectStateIdentifier('ez_lock', 'locked'),
+                            new ObjectStateIdentifier('ez_lock', 'not_locked'),
+                        ]),
+                    ]),
+                    'sortClauses' => [new ContentIdSortClause()],
+                ]),
+                [4, 50, 57],
+            ],
+            [
+                new LocationQuery([
+                    'filter' => new LogicalAnd([
+                        new ContentId([4, 57]),
+                        new ObjectStateIdentifier('ez_lock', 'locked'),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
                 ]),
@@ -60,50 +64,62 @@ class ObjectStateIdentifierCriterionTest extends BaseCriterionTest
                     'filter' => new LogicalAnd([
                         new ContentId([4, 50, 57]),
                         new LogicalNot(
-                            new SectionIdentifier('standard')
+                            new ObjectStateIdentifier('ez_lock', 'locked')
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
                 ]),
-                [4, 50],
+                [4, 57],
             ],
             [
                 new LocationQuery([
                     'filter' => new LogicalAnd([
                         new ContentId([4, 50, 57]),
                         new LogicalNot(
-                            new SectionIdentifier('users')
-                        ),
-                    ]),
-                    'sortClauses' => [new ContentIdSortClause()],
-                ]),
-                [50, 57],
-            ],
-            [
-                new LocationQuery([
-                    'filter' => new LogicalAnd([
-                        new ContentId([4, 50, 57]),
-                        new LogicalNot(
-                            new SectionIdentifier(['standard', 'users'])
+                            new ObjectStateIdentifier('ez_lock', 'not_locked')
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
                 ]),
                 [50],
             ],
-            [
-                new LocationQuery([
-                    'filter' => new LogicalAnd([
-                        new ContentId([4, 50, 57]),
-                        new LogicalNot(
-                            new SectionIdentifier('setup')
-                        ),
-                    ]),
-                    'sortClauses' => [new ContentIdSortClause()],
-                ]),
-                [4, 50, 57],
-            ],
         ];
+    }
+
+    /**
+     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     */
+    public function testPrepareTestFixtures()
+    {
+        $repository = $this->getRepository();
+        $contentService = $repository->getContentService();
+        $objectStateService = $repository->getObjectStateService();
+
+        $contentInfo = $contentService->loadContentInfo(50);
+        $objectStateGroups = $objectStateService->loadObjectStateGroups();
+
+        foreach ($objectStateGroups as $objectStateGroup) {
+            if ($objectStateGroup->identifier === 'ez_lock') {
+                break;
+            }
+        }
+
+        /** @var \eZ\Publish\API\Repository\Values\ObjectState\ObjectStateGroup $objectStateGroup */
+        $objectStates = $objectStateService->loadObjectStates($objectStateGroup);
+
+        foreach ($objectStates as $objectState) {
+            if ($objectState->identifier === 'locked') {
+                break;
+            }
+        }
+
+        /** @var \eZ\Publish\API\Repository\Values\ObjectState\ObjectState $objectState */
+        $objectStateService->setContentState($contentInfo, $objectStateGroup, $objectState);
+        $this->refreshSearch($repository);
+
+        $this->assertTrue(true);
     }
 
     /**
@@ -116,7 +132,7 @@ class ObjectStateIdentifierCriterionTest extends BaseCriterionTest
      */
     public function testFindContent(Query $query, array $expectedIds)
     {
-        $searchService = $this->getSearchService();
+        $searchService = $this->getSearchService(false);
 
         $searchResult = $searchService->findContentInfo($query);
 
@@ -133,7 +149,7 @@ class ObjectStateIdentifierCriterionTest extends BaseCriterionTest
      */
     public function testFindLocations(LocationQuery $query, $expectedIds)
     {
-        $searchService = $this->getSearchService();
+        $searchService = $this->getSearchService(false);
 
         $searchResult = $searchService->findLocations($query);
 

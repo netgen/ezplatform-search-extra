@@ -37,8 +37,8 @@ abstract class BaseCriterionTest extends BaseTest
         $this->assertEquals($expectedIds, $foundIds);
     }
 
-    protected function getSearchService()
+    protected function getSearchService($initialInitializeFromScratch = true)
     {
-        return $this->getRepository(true)->getSearchService();
+        return $this->getRepository($initialInitializeFromScratch)->getSearchService();
     }
 }
