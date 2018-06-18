@@ -51,8 +51,9 @@ class ObjectStateIdentifier extends CriterionHandler
         Criterion $criterion,
         array $languageSettings
     ) {
+        $stateIdentifier = $criterion->value[0];
         $groupId = $this->objectStateHandler->loadGroupByIdentifier($criterion->target)->id;
-        $stateId = $this->objectStateHandler->loadByIdentifier($criterion->value, $groupId)->id;
+        $stateId = $this->objectStateHandler->loadByIdentifier($stateIdentifier, $groupId)->id;
         $subQuery = $query->subSelect();
 
         $subQuery
@@ -65,7 +66,7 @@ class ObjectStateIdentifier extends CriterionHandler
                 )
             );
 
-        return $query->expr->eq(
+        return $query->expr->in(
             $this->dbHandler->quoteColumn('id', 'ezcontentobject'),
             $subQuery
         );

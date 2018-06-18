@@ -56,8 +56,9 @@ class ObjectStateIdentifier extends CriterionVisitor
      */
     public function visit(Criterion $criterion, CriterionVisitor $subVisitor = null)
     {
+        $stateIdentifier = $criterion->value[0];
         $groupId = $this->objectStateHandler->loadGroupByIdentifier($criterion->target)->id;
-        $stateId = $this->objectStateHandler->loadByIdentifier($criterion->value, $groupId)->id;
+        $stateId = $this->objectStateHandler->loadByIdentifier($stateIdentifier, $groupId)->id;
 
         return 'content_object_state_ids_mid:"' . $stateId . '"';
     }
