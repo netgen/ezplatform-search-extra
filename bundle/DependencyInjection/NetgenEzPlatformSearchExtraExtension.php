@@ -23,7 +23,7 @@ class NetgenEzPlatformSearchExtraExtension extends Extension
 
         $loader = new Loader\YamlFileLoader(
             $container,
-            new FileLocator(__DIR__ . '/../../../lib/Resources/config/search/')
+            new FileLocator(__DIR__ . '/../../lib/Resources/config/search/')
         );
 
         if (array_key_exists('EzPublishLegacySearchEngineBundle', $activatedBundlesMap)) {
