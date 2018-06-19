@@ -17,8 +17,6 @@ class NetgenEzPlatformSearchExtraExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $configuration = new Configuration();
-        $this->processConfiguration($configuration, $configs);
         $activatedBundlesMap = $container->getParameter('kernel.bundles');
 
         $loader = new Loader\YamlFileLoader(
