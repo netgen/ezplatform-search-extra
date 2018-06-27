@@ -21,15 +21,17 @@ class NetgenEzPlatformSearchExtraExtension extends Extension
 
         $loader = new Loader\YamlFileLoader(
             $container,
-            new FileLocator(__DIR__ . '/../../lib/Resources/config/search/')
+            new FileLocator(__DIR__ . '/../../lib/Resources/config/')
         );
 
         if (array_key_exists('EzPublishLegacySearchEngineBundle', $activatedBundlesMap)) {
-            $loader->load('legacy.yml');
+            $loader->load('search/legacy.yml');
         }
 
         if (array_key_exists('EzSystemsEzPlatformSolrSearchEngineBundle', $activatedBundlesMap)) {
-            $loader->load('solr.yml');
+            $loader->load('search/solr.yml');
         }
+
+        $loader->load('persistence.yml');
     }
 }
