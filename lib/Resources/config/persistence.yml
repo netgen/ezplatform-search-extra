@@ -1,0 +1,9 @@
+services:
+    ezpublish.persistence.field_type_registry:
+        class: Netgen\EzPlatformSearchExtra\Core\Persistence\FieldTypeRegistry
+        factory:
+            - '@ezpublish.persistence.field_type_registry.factory'
+            - buildFieldTypeRegistry
+        arguments:
+            - Netgen\EzPlatformSearchExtra\Core\Persistence\FieldTypeRegistry
+            - '@ezpublish.field_type_collection.factory'

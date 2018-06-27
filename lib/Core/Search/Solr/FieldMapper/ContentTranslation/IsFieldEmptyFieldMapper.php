@@ -1,17 +1,17 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslationFieldMapper;
+namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation;
 
 use eZ\Publish\Core\Persistence\FieldTypeRegistry;
 use eZ\Publish\Core\Search\Common\FieldNameGenerator;
 use eZ\Publish\SPI\Persistence\Content;
 use eZ\Publish\SPI\Persistence\Content\Type\Handler as ContentTypeHandler;
 use eZ\Publish\SPI\Search\Field;
-use eZ\Publish\SPI\Search\FieldType;
+use eZ\Publish\SPI\Search\FieldType\BooleanField;
 use EzSystems\EzPlatformSolrSearchEngine\FieldMapper\ContentTranslationFieldMapper;
 
 /**
- * Indexes information on whether Content field is empty.
+ * Indexes information on whether Content field value is empty.
  */
 class IsFieldEmptyFieldMapper extends ContentTranslationFieldMapper
 {
@@ -26,7 +26,7 @@ class IsFieldEmptyFieldMapper extends ContentTranslationFieldMapper
     private $fieldNameGenerator;
 
     /**
-     * @var \eZ\Publish\Core\Persistence\FieldTypeRegistry
+     * @var \Netgen\EzPlatformSearchExtra\Core\Persistence\FieldTypeRegistry
      */
     private $fieldTypeRegistry;
 
@@ -50,6 +50,11 @@ class IsFieldEmptyFieldMapper extends ContentTranslationFieldMapper
         return true;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     */
     public function mapFields(Content $content, $languageCode)
     {
         $fields = [];
@@ -67,7 +72,7 @@ class IsFieldEmptyFieldMapper extends ContentTranslationFieldMapper
                     continue;
                 }
 
-                /** @var \eZ\Publish\Core\Persistence\FieldType $fieldType */
+                /** @var \Netgen\EzPlatformSearchExtra\Core\Persistence\FieldType $fieldType */
                 $fieldType = $this->fieldTypeRegistry->getFieldType($fieldDefinition->fieldType);
 
                 $fields[] = new Field(
@@ -77,7 +82,7 @@ class IsFieldEmptyFieldMapper extends ContentTranslationFieldMapper
                         $contentType->identifier
                     ),
                     $fieldType->isEmptyValue($field->value),
-                    new FieldType\BooleanField()
+                    new BooleanField()
                 );
             }
         }

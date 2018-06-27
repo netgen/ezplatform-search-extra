@@ -18,10 +18,11 @@ class Solr extends CoreSolrSetupFactory
     {
         $loader = new YamlFileLoader(
             $containerBuilder,
-            new FileLocator(__DIR__ . '/../../../lib/Resources/config/search/')
+            new FileLocator(__DIR__ . '/../../../lib/Resources/config/')
         );
 
-        $loader->load('solr.yml');
+        $loader->load('search/solr.yml');
+        $loader->load('persistence.yml');
 
         parent::externalBuildContainer($containerBuilder);
     }
