@@ -8,7 +8,6 @@
             "email": "petar@spanja.info"
         }
     ],
-    "minimum-stability": "dev",
     "require": {
         "ezsystems/ezpublish-kernel": "^6.0|^7.0",
         "ezsystems/ezplatform-solr-search-engine": "^1.0"
