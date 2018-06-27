@@ -10,14 +10,14 @@ use eZ\Publish\API\Repository\Values\Content\Query\CriterionInterface;
 /**
  * ObjectStateIdentifier Criterion.
  *
- * Will match content that belongs to one of the given sections.
+ * Will match content that belongs to the ObjectState by identifier.
  */
 class ObjectStateIdentifier extends Criterion implements CriterionInterface
 {
     /**
-     * Create new SectionIdentifier criterion.
+     * Create new ObjectStateIdentifier criterion.
      *
-     * Content will be matched if it matches one of the Section identifiers in $value
+     * Content will be matched if it matches the ObjectState identifier in the ObjectStateGroup
      *
      * @param string|string[] $target One ObjectStateGroup identifier that $value must be matched for
      * @param string|string[] $value One ObjectState identifier that must be matched
