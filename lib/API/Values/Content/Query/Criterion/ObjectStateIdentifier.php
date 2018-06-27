@@ -19,8 +19,8 @@ class ObjectStateIdentifier extends Criterion implements CriterionInterface
      *
      * Content will be matched if it matches the ObjectState identifier in the ObjectStateGroup
      *
-     * @param string|string[] $target One ObjectStateGroup identifier that $value must be matched for
-     * @param string|string[] $value One ObjectState identifier that must be matched
+     * @param string $target One ObjectStateGroup identifier that $value must be matched for
+     * @param string $value One ObjectState identifier that must be matched
      *
      * @throws \InvalidArgumentException if a non string identifier is given
      * @throws \InvalidArgumentException if the value type doesn't match the operator
