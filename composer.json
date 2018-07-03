@@ -9,7 +9,7 @@
         }
     ],
     "require": {
-        "ezsystems/ezpublish-kernel": "^6.0|^7.0",
+        "ezsystems/ezpublish-kernel": "5.4.*||^6.0||^7.0",
         "ezsystems/ezplatform-solr-search-engine": "^1.0"
     },
     "require-dev": {
