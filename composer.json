@@ -9,8 +9,7 @@
         }
     ],
     "require": {
-        "ezsystems/ezpublish-kernel": "^5.4.11||^6.0||^7.0",
-        "ezsystems/ezplatform-solr-search-engine": "^1.0"
+        "ezsystems/ezpublish-kernel": "^5.4.11||^6.0||^7.0"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",
@@ -18,7 +17,8 @@
         "matthiasnoback/symfony-dependency-injection-test": "~1.0"
     },
     "suggest": {
-        "netgen/ezplatform-site-api": "Boost your site-building productivity with eZ Platform"
+        "netgen/ezplatform-site-api": "Boost your site-building productivity with eZ Platform",
+        "ezsystems/ezplatform-solr-search-engine": "Supports advanced capabilities with eZ Platform search API, ^1.4 is required"
     },
     "autoload": {
         "psr-4": {
