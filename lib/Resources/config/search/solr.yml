@@ -1,34 +1,13 @@
+imports:
+    - {resource: solr/criterion_visitors.yml}
+    - {resource: solr/field_mappers.yml}
+    - {resource: solr/subdocument_mappers.yml}
+
 services:
-    netgen.search.solr.query.common.criterion_visitor.object_state_identifier:
-        class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common\CriterionVisitor\ObjectStateIdentifier
+    netgen.search.solr.document_mapper:
+        class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\DocumentMapper
+        decorates: ezpublish.search.solr.document_mapper
         arguments:
-            - '@ezpublish.spi.persistence.object_state_handler'
-        tags:
-            - {name: ezpublish.search.solr.query.content.criterion_visitor}
-            - {name: ezpublish.search.solr.query.location.criterion_visitor}
-
-    netgen.search.solr.query.common.criterion_visitor.section_identifier:
-        class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common\CriterionVisitor\SectionIdentifier
-        arguments:
-            - '@ezpublish.spi.persistence.section_handler'
-        tags:
-            - {name: ezpublish.search.solr.query.content.criterion_visitor}
-            - {name: ezpublish.search.solr.query.location.criterion_visitor}
-
-    netgen.search.solr.criterion_visitor.is_field_empty:
-        class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common\CriterionVisitor\IsFieldEmpty
-        arguments:
-            - '@ezpublish.spi.persistence.content_type_handler'
-            - '@ezpublish.search.common.field_name_generator'
-        tags:
-            - {name: ezpublish.search.solr.query.content.criterion_visitor}
-            - {name: ezpublish.search.solr.query.location.criterion_visitor}
-
-    netgen.search.solr.field_mapper.content.is_field_empty:
-        class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation\IsFieldEmptyFieldMapper
-        arguments:
-            - '@ezpublish.spi.persistence.content_type_handler'
-            - '@ezpublish.search.common.field_name_generator'
-            - '@ezpublish.persistence.field_type_registry'
-        tags:
-            - {name: ezpublish.search.solr.field_mapper.block_translation}
+            - '@netgen.search.solr.document_mapper.inner'
+            - '@netgen.search.solr.subdocument_mapper.content.aggregate'
+            - '@netgen.search.solr.subdocument_mapper.content_translation.aggregate'

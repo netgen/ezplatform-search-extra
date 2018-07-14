@@ -1,0 +1,5 @@
+services:
+    ezpublish.search.common.field_value_mapper.identifier:
+        class: Netgen\EzPlatformSearchExtra\Core\Search\Common\FieldValueMapper\IdentifierMapper
+        tags:
+            - {name: ezpublish.search.common.field_value_mapper}

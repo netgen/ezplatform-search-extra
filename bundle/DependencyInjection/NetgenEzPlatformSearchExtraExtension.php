@@ -32,6 +32,7 @@ class NetgenEzPlatformSearchExtraExtension extends Extension
             $loader->load('search/solr.yml');
         }
 
+        $loader->load('search/common.yml');
         $loader->load('persistence.yml');
     }
 }

@@ -2,8 +2,20 @@
 
 namespace Netgen\Bundle\EzPlatformSearchExtraBundle;
 
+use Netgen\EzPlatformSearchExtra\Container\Compiler;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
+
 
 class NetgenEzPlatformSearchExtraBundle extends Bundle
 {
+    public function build(ContainerBuilder $containerBuilder)
+    {
+        parent::build($containerBuilder);
+
+        $containerBuilder->addCompilerPass(new Compiler\TagSubdocumentCriterionVisitorsPass());
+        $containerBuilder->addCompilerPass(new Compiler\AggregateContentSubdocumentMapperPass());
+        $containerBuilder->addCompilerPass(new Compiler\AggregateContentTranslationSubdocumentMapperPass());
+        $containerBuilder->addCompilerPass(new Compiler\AggregateSubdocumentQueryCriterionVisitorPass());
+    }
 }
