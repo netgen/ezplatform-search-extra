@@ -13,6 +13,7 @@ class NetgenEzPlatformSearchExtraBundle extends Bundle
     {
         parent::build($containerBuilder);
 
+        // Needs to be added first because other passes depend on it
         $containerBuilder->addCompilerPass(new Compiler\TagSubdocumentCriterionVisitorsPass());
         $containerBuilder->addCompilerPass(new Compiler\AggregateContentSubdocumentMapperPass());
         $containerBuilder->addCompilerPass(new Compiler\AggregateContentTranslationSubdocumentMapperPass());

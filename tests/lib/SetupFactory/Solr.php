@@ -27,6 +27,7 @@ class Solr extends CoreSolrSetupFactory
         $loader = new YamlFileLoader($containerBuilder, new FileLocator($testConfigPath));
         $loader->load('services.yml');
 
+        // Needs to be added first because other passes depend on it
         $containerBuilder->addCompilerPass(new Compiler\TagSubdocumentCriterionVisitorsPass());
         $containerBuilder->addCompilerPass(new Compiler\AggregateContentSubdocumentMapperPass());
         $containerBuilder->addCompilerPass(new Compiler\AggregateContentTranslationSubdocumentMapperPass());
