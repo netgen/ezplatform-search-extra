@@ -45,6 +45,7 @@ final class DocumentMapper implements DocumentMapperInterface
     public function mapContentBlock(Content $content)
     {
         $block = $this->nativeDocumentMapper->mapContentBlock($content);
+        $this->escapeDocumentIds($block);
         $subdocuments = $this->getContentSubdocuments($content);
 
         foreach ($block as $contentDocument) {
@@ -58,6 +59,18 @@ final class DocumentMapper implements DocumentMapperInterface
         }
 
         return $block;
+    }
+
+    /**
+     * @param \eZ\Publish\SPI\Search\Document[] $documents
+     */
+    private function escapeDocumentIds(array $documents)
+    {
+        foreach ($documents as $document) {
+            $document->id = preg_replace('([^A-Za-z0-9/]+)', '', $document->id);
+
+            $this->escapeDocumentIds($document->documents);
+        }
     }
 
     /**
