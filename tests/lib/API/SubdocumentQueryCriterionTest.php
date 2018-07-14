@@ -12,7 +12,6 @@ use eZ\Publish\API\Repository\Values\Content\Query\SortClause\ContentId as Conte
 use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\SubdocumentQuery;
 
 /**
- * @group xxx
  * @see \Netgen\EzPlatformSearchExtra\Tests\Implementation\Solr\SubdocumentMapper\TestContentSubdocumentMapper
  * @see \Netgen\EzPlatformSearchExtra\Tests\Implementation\Solr\SubdocumentMapper\TestContentTranslationSubdocumentMapper
  */
