@@ -4,7 +4,7 @@ namespace Netgen\EzPlatformSearchExtra\Core\Persistence;
 
 use eZ\Publish\Core\Persistence\FieldTypeRegistry as CorePersistenceFieldTypeRegistry;
 
-class FieldTypeRegistry extends CorePersistenceFieldTypeRegistry
+final class FieldTypeRegistry extends CorePersistenceFieldTypeRegistry
 {
     public function getFieldType($identifier)
     {

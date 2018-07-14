@@ -15,7 +15,7 @@ use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\IsFieldEmpty
  *
  * @see \Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\IsFieldEmpty
  */
-class IsFieldEmpty extends CriterionVisitor
+final class IsFieldEmpty extends CriterionVisitor
 {
     /**
      * @var \eZ\Publish\SPI\Persistence\Content\Type\Handler

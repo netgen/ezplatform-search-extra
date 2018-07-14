@@ -13,7 +13,7 @@ use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\ObjectStateI
  *
  * @see \Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\ObjectStateIdentifier
  */
-class ObjectStateIdentifier extends CriterionVisitor
+final class ObjectStateIdentifier extends CriterionVisitor
 {
     /**
      * @var \eZ\Publish\SPI\Persistence\Content\ObjectState\Handler

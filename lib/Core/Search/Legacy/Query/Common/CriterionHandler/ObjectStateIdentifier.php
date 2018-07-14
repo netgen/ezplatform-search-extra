@@ -15,7 +15,7 @@ use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\ObjectStateI
  *
  * @see \Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\ObjectStateIdentifier
  */
-class ObjectStateIdentifier extends CriterionHandler
+final class ObjectStateIdentifier extends CriterionHandler
 {
     /**
      * @var \eZ\Publish\SPI\Persistence\Content\Section\Handler

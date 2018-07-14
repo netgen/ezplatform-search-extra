@@ -15,7 +15,7 @@ use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\SectionIdent
  *
  * @see \Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\SectionIdentifier
  */
-class SectionIdentifier extends CriterionHandler
+final class SectionIdentifier extends CriterionHandler
 {
     /**
      * @var \eZ\Publish\SPI\Persistence\Content\Section\Handler

@@ -13,7 +13,7 @@ use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\SectionIdent
  *
  * @see \Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\SectionIdentifier
  */
-class SectionIdentifier extends CriterionVisitor
+final class SectionIdentifier extends CriterionVisitor
 {
     /**
      * @var \eZ\Publish\SPI\Persistence\Content\Section\Handler

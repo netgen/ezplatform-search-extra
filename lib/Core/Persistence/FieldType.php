@@ -5,7 +5,7 @@ namespace Netgen\EzPlatformSearchExtra\Core\Persistence;
 use eZ\Publish\Core\Persistence\FieldType as CorePersistenceFieldType;
 use eZ\Publish\SPI\Persistence\Content\FieldValue;
 
-class FieldType extends CorePersistenceFieldType
+final class FieldType extends CorePersistenceFieldType
 {
     /**
      * @param \eZ\Publish\SPI\Persistence\Content\FieldValue $fieldValue
