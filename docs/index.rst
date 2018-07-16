@@ -1,5 +1,5 @@
-Netgen's extra bits for eZ Platform search
-==========================================
+Netgen's eZ Platform Search Extra
+=================================
 
 Reference
 ---------

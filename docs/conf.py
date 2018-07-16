@@ -26,7 +26,7 @@ extensions = ['sphinx.ext.autodoc',
 source_suffix = '.rst'
 master_doc = 'index'
 
-project = 'Netgen\'s extra bits for eZ Platform search'
+project = 'Netgen\'s eZ Platform Search Extra'
 copyright = 'Netgen'
 author = 'Netgen'
 
