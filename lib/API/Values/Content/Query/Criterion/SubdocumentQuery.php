@@ -14,13 +14,13 @@ class SubdocumentQuery extends Criterion implements CriterionInterface
 {
     /**
      * @param string $documentTypeIdentifier
-     * @param \eZ\Publish\API\Repository\Values\Content\Query\Criterion $subdocumentCriteria
+     * @param \eZ\Publish\API\Repository\Values\Content\Query\Criterion $filter
      *
      * @throws \InvalidArgumentException
      */
-    public function __construct($documentTypeIdentifier, Criterion $subdocumentCriteria)
+    public function __construct($documentTypeIdentifier, Criterion $filter)
     {
-        parent::__construct($documentTypeIdentifier, null, $subdocumentCriteria);
+        parent::__construct($documentTypeIdentifier, null, $filter);
     }
 
     public function getSpecifications()

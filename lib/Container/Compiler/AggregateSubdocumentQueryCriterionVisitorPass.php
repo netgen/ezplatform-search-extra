@@ -14,8 +14,8 @@ use Symfony\Component\DependencyInjection\Definition;
  */
 final class AggregateSubdocumentQueryCriterionVisitorPass implements CompilerPassInterface
 {
-    private static $aggregateVisitorId = 'netgen.search.solr.criterion_visitor.subdocument_query.aggregate';
-    private static $visitorTag = 'netgen.search.solr.criterion_visitor.subdocument_query';
+    private static $aggregateVisitorId = 'netgen.search.solr.query.subdocument.criterion_visitor.aggregate';
+    private static $visitorTag = 'netgen.search.solr.query.subdocument.criterion_visitor';
 
     public function process(ContainerBuilder $container)
     {
