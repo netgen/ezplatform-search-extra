@@ -5,8 +5,8 @@ Reference
 ---------
 
 .. toctree::
-:hidden:
+    :hidden:
 
-        reference/index
+    reference/index
 
 .. include:: /reference/map.rst.inc
