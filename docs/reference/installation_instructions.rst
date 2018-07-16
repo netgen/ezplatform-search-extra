@@ -1,14 +1,14 @@
 Installation instructions
 =========================
 
-To install Site API first add it as a dependency to your project:
+To install eZ Platform Search Extra first add it as a dependency to your project:
 
 .. code-block:: shell
 
-    $ composer require netgen/ezplatform-site-api:^2.5
+    $ composer require netgen/ezplatform-search-extra:^1.0
 
-Once Site API is installed, activate the bundle in ``app/AppKernel.php`` file by adding it to the
-``$bundles`` array in ``registerBundles()`` method, together with other required bundles:
+Once Search Extra is installed, activate the bundle in ``app/AppKernel.php`` file by adding it to
+the ``$bundles`` array in ``registerBundles()`` method, together with other required bundles:
 
 .. code-block:: php
 
@@ -16,7 +16,6 @@ Once Site API is installed, activate the bundle in ``app/AppKernel.php`` file by
     {
         ...
 
-        $bundles[] = new Netgen\Bundle\EzPlatformSiteApiBundle\NetgenEzPlatformSiteApiBundle();
         $bundles[] = new Netgen\Bundle\EzPlatformSearchExtraBundle\NetgenEzPlatformSearchExtraBundle;
 
         return $bundles;
