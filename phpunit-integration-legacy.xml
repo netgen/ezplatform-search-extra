@@ -16,6 +16,7 @@
             <exclude>tests/lib/API/IsFieldEmptyCriterionTest.php</exclude>
             <exclude>tests/lib/API/SubdocumentFieldSortClauseTest.php</exclude>
             <exclude>tests/lib/API/SubdocumentQueryCriterionTest.php</exclude>
+            <exclude>tests/lib/API/LocationQueryCriterionTest.php</exclude>
         </testsuite>
     </testsuites>
     <filter>
