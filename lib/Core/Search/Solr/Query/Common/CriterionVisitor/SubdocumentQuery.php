@@ -33,7 +33,7 @@ final class SubdocumentQuery extends CriterionVisitor
 
     public function visit(Criterion $criterion, CriterionVisitor $subVisitor = null)
     {
-        /** @var \Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\SubdocumentQuery $query */
+        /** @var \eZ\Publish\API\Repository\Values\Content\Query\Criterion $query */
         $query = $criterion->value;
         $identifier = $criterion->target;
 
