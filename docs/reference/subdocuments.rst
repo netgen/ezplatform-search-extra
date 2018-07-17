@@ -40,7 +40,7 @@ defining two methods:
 
 * ``map(Content $content): Document``
 
-  Again you receive an instance of ``eZ\Publish\SPI\Persistence\Content``, which you can use to
+  Again you will receive an instance of ``eZ\Publish\SPI\Persistence\Content``, which you can use to
   build and return an array of ``eZ\Publish\SPI\Search\Document`` instances. These represent custom
   subdocuments that will be indexed under the given Content.
 
@@ -195,4 +195,4 @@ Implementing new criteria for ``SubdocumentQuery``
 
 If you want to implement additional criteria to use with ``SubdocumentQuery`` just implement is as
 usual. Then tag the visitor service with
-``netgen.search.solr.query.subdocument.criterion_visitor`` tag.
+``netgen.search.solr.query.content.criterion_visitor.subdocument_query`` tag.
