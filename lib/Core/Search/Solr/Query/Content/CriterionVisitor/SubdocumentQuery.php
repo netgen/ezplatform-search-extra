@@ -1,6 +1,6 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common\CriterionVisitor;
+namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Content\CriterionVisitor;
 
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use EzSystems\EzPlatformSolrSearchEngine\Query\CriterionVisitor;

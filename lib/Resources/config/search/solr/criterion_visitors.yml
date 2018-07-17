@@ -25,7 +25,7 @@ services:
             - {name: ezpublish.search.solr.query.location.criterion_visitor}
 
     netgen.search.solr.query.content.criterion_visitor.subdocument_query:
-        class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common\CriterionVisitor\SubdocumentQuery
+        class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Content\CriterionVisitor\SubdocumentQuery
         arguments:
             - '@netgen.search.solr.query.content.criterion_visitor.subdocument_query.aggregate'
         tags:
