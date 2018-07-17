@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\Definition;
  */
 final class TagSubdocumentCriterionVisitorsPass implements CompilerPassInterface
 {
-    private static $subdocumentCriterionVisitorTag = 'netgen.search.solr.query.subdocument.criterion_visitor';
+    private static $subdocumentCriterionVisitorTag = 'netgen.search.solr.query.content.criterion_visitor.subdocument_query';
     private static $criterionVisitorIds = [
         'ezpublish.search.solr.query.common.criterion_visitor.logical_and',
         'ezpublish.search.solr.query.common.criterion_visitor.logical_not',
