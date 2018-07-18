@@ -8,7 +8,11 @@ use Netgen\EzPlatformSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentSubdo
 use Netgen\EzPlatformSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentTranslationSubdocumentMapper;
 
 /**
- * Indexes information on whether Content field value is empty.
+ * This DocumentMapper implementation adds support for indexing custom Content subdocuments.
+ *
+ * @see \EzSystems\EzPlatformSolrSearchEngine\DocumentMapper
+ * @see \Netgen\EzPlatformSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentSubdocumentMapper
+ * @see \Netgen\EzPlatformSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentTranslationSubdocumentMapper
  */
 final class DocumentMapper implements DocumentMapperInterface
 {
