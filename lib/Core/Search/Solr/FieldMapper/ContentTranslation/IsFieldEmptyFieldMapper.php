@@ -5,6 +5,8 @@ namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr\FieldMapper\ContentTrans
 use eZ\Publish\Core\Persistence\FieldTypeRegistry;
 use eZ\Publish\Core\Search\Common\FieldNameGenerator;
 use eZ\Publish\SPI\Persistence\Content;
+use eZ\Publish\SPI\Persistence\Content\Field as PersistenceField;
+use eZ\Publish\SPI\Persistence\Content\Type as ContentType;
 use eZ\Publish\SPI\Persistence\Content\Type\Handler as ContentTypeHandler;
 use eZ\Publish\SPI\Search\Field;
 use eZ\Publish\SPI\Search\FieldType\BooleanField;
@@ -57,7 +59,7 @@ class IsFieldEmptyFieldMapper extends ContentTranslationFieldMapper
      */
     public function mapFields(Content $content, $languageCode)
     {
-        $fields = [];
+        $fieldsGrouped = [[]];
         $contentType = $this->contentTypeHandler->load(
             $content->versionInfo->contentInfo->contentTypeId
         );
@@ -67,24 +69,33 @@ class IsFieldEmptyFieldMapper extends ContentTranslationFieldMapper
                 continue;
             }
 
-            foreach ($contentType->fieldDefinitions as $fieldDefinition) {
-                if ($fieldDefinition->id !== $field->fieldDefinitionId) {
-                    continue;
-                }
+            $fieldsGrouped[] = $this->mapField($contentType, $field);
+        }
 
-                /** @var \Netgen\EzPlatformSearchExtra\Core\Persistence\FieldType $fieldType */
-                $fieldType = $this->fieldTypeRegistry->getFieldType($fieldDefinition->fieldType);
+        return array_merge(...$fieldsGrouped);
+    }
 
-                $fields[] = new Field(
-                    $name = $this->fieldNameGenerator->getName(
-                        'is_empty',
-                        $fieldDefinition->identifier,
-                        $contentType->identifier
-                    ),
-                    $fieldType->isEmptyValue($field->value),
-                    new BooleanField()
-                );
+    private function mapField(ContentType $contentType, PersistenceField $field)
+    {
+        $fields = [];
+
+        foreach ($contentType->fieldDefinitions as $fieldDefinition) {
+            if ($fieldDefinition->id !== $field->fieldDefinitionId) {
+                continue;
             }
+
+            /** @var \Netgen\EzPlatformSearchExtra\Core\Persistence\FieldType $fieldType */
+            $fieldType = $this->fieldTypeRegistry->getFieldType($fieldDefinition->fieldType);
+
+            $fields[] = new Field(
+                $name = $this->fieldNameGenerator->getName(
+                    'is_empty',
+                    $fieldDefinition->identifier,
+                    $contentType->identifier
+                ),
+                $fieldType->isEmptyValue($field->value),
+                new BooleanField()
+            );
         }
 
         return $fields;
