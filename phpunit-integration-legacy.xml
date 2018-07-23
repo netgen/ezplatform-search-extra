@@ -12,6 +12,7 @@
         <testsuite name="Legacy Search Engine tests">
             <directory suffix="Test.php">./tests/</directory>
             <!-- Exclude tests not supported with Legacy search engine -->
+            <exclude>tests/lib/API/CustomFieldFacetTest.php</exclude>
             <exclude>tests/lib/API/IsFieldEmptyCriterionTest.php</exclude>
             <exclude>tests/lib/API/SubdocumentQueryCriterionTest.php</exclude>
         </testsuite>

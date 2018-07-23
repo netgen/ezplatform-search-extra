@@ -1,0 +1,6 @@
+services:
+    netgen.search.solr.query.common.facet_builder_visitor.custom_field:
+        class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common\FacetBuilderVisitor\CustomFieldFacetBuilderVisitor
+        tags:
+            - {name: ezpublish.search.solr.query.content.facet_builder_visitor}
+            - {name: ezpublish.search.solr.query.location.facet_builder_visitor}

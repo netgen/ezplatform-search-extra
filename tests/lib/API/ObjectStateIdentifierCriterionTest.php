@@ -11,7 +11,7 @@ use eZ\Publish\API\Repository\Values\Content\Query\Criterion\LogicalOr;
 use eZ\Publish\API\Repository\Values\Content\Query\SortClause\ContentId as ContentIdSortClause;
 use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\ObjectStateIdentifier;
 
-class ObjectStateIdentifierCriterionTest extends BaseCriterionTest
+class ObjectStateIdentifierCriterionTest extends BaseTest
 {
     public function providerForTestFind()
     {

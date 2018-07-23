@@ -15,7 +15,7 @@ use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\SubdocumentQ
  * @see \Netgen\EzPlatformSearchExtra\Tests\Implementation\Solr\SubdocumentMapper\TestContentSubdocumentMapper
  * @see \Netgen\EzPlatformSearchExtra\Tests\Implementation\Solr\SubdocumentMapper\TestContentTranslationSubdocumentMapper
  */
-class SubdocumentQueryCriterionTest extends BaseCriterionTest
+class SubdocumentQueryCriterionTest extends BaseTest
 {
     public function providerForTestFind()
     {
