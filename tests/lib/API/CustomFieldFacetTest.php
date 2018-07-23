@@ -220,7 +220,7 @@ class CustomFieldFacetTest extends BaseTest
 
         $searchResult = $searchService->findContentInfo($query);
 
-        $this->assertEquals($searchResult->facets, $expectedFacets);
+        $this->assertEquals($expectedFacets, $searchResult->facets);
     }
 
     /**
@@ -237,6 +237,6 @@ class CustomFieldFacetTest extends BaseTest
 
         $searchResult = $searchService->findLocations($query);
 
-        $this->assertEquals($searchResult->facets, $expectedFacets);
+        $this->assertEquals($expectedFacets, $searchResult->facets);
     }
 }
