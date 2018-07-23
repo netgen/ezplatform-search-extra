@@ -21,6 +21,8 @@ matrix:
           env: TEST_CONFIG="phpunit-integration-solr.xml" SOLR_VERSION="6.5.1"  CORES_SETUP="shared" COMPOSER_REQUIRE="ezsystems/ezpublish-kernel:~6.7.4@dev"
         - php: 7.2
           env: TEST_CONFIG="phpunit-integration-solr.xml" SOLR_VERSION="6.6.0"  CORES_SETUP="dedicated"
+        - php: 7.2
+          env: TEST_CONFIG="vendor/ezsystems/ezpublish-kernel/phpunit-integration-legacy-solr.xml" SOLR_VERSION="6.6.0" CORES_SETUP="shared" REGRESSION="yes"
 
 branches:
     only:
@@ -30,11 +32,20 @@ branches:
 before_script:
     - phpenv config-rm xdebug.ini
     - echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-    - if [ "$COMPOSER_REQUIRE" != "" ] ; then composer require --no-update $COMPOSER_REQUIRE ; fi
+    - if [ "$COMPOSER_REQUIRE" != "" ]; then
+          composer require --no-update $COMPOSER_REQUIRE;
+      fi
     - travis_retry composer update --prefer-dist --no-interaction
-    - if [ "$TEST_CONFIG" = "phpunit-integration-solr.xml" ] ; then cd ./vendor/ezsystems/ezplatform-solr-search-engine; ./bin/.travis/init_solr.sh; cd ../../..; fi
+    - if [[ $TEST_CONFIG = *"solr"* ]]; then
+          cd ./vendor/ezsystems/ezplatform-solr-search-engine;
+          ./bin/.travis/init_solr.sh;
+          cd ../../..;
+      fi
 
 script:
+    - if [ "$REGRESSION" = "yes" ]; then
+          sed -i.bak s/EzSystems\\\\EzPlatformSolrSearchEngine\\\\Tests\\\\SetupFactory\\\\LegacySetupFactory/Netgen\\\\EzPlatformSearchExtra\\\\Tests\\\\SetupFactory\\\\Solr/g $TEST_CONFIG;
+      fi
     - php vendor/bin/phpunit --bootstrap tests/bootstrap.php -c $TEST_CONFIG
 
 notifications:

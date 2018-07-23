@@ -1,0 +1,37 @@
+services:
+    netgen.search.solr.query.common.criterion_visitor.object_state_identifier:
+        class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common\CriterionVisitor\ObjectStateIdentifier
+        arguments:
+            - '@ezpublish.spi.persistence.object_state_handler'
+        tags:
+            - {name: ezpublish.search.solr.query.content.criterion_visitor}
+            - {name: ezpublish.search.solr.query.location.criterion_visitor}
+
+    netgen.search.solr.query.common.criterion_visitor.section_identifier:
+        class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common\CriterionVisitor\SectionIdentifier
+        arguments:
+            - '@ezpublish.spi.persistence.section_handler'
+        tags:
+            - {name: ezpublish.search.solr.query.content.criterion_visitor}
+            - {name: ezpublish.search.solr.query.location.criterion_visitor}
+
+    netgen.search.solr.query.common.criterion_visitor.is_field_empty:
+        class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common\CriterionVisitor\IsFieldEmpty
+        arguments:
+            - '@ezpublish.spi.persistence.content_type_handler'
+            - '@ezpublish.search.common.field_name_generator'
+        tags:
+            - {name: ezpublish.search.solr.query.content.criterion_visitor}
+            - {name: ezpublish.search.solr.query.location.criterion_visitor}
+
+    netgen.search.solr.query.content.criterion_visitor.subdocument_query:
+        class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Content\CriterionVisitor\SubdocumentQuery
+        arguments:
+            - '@netgen.search.solr.query.content.criterion_visitor.subdocument_query.aggregate'
+        tags:
+            - {name: ezpublish.search.solr.query.content.criterion_visitor}
+
+    # Note: services tagged with 'netgen.search.solr.query.content.criterion_visitor.subdocument_query'
+    # are registered to this one using container compiler pass
+    netgen.search.solr.query.content.criterion_visitor.subdocument_query.aggregate:
+        class: EzSystems\EzPlatformSolrSearchEngine\Query\Common\CriterionVisitor\Aggregate

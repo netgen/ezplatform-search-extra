@@ -1,0 +1,10 @@
+services:
+    # Note: services tagged with 'netgen.search.solr.subdocument_mapper.content'
+    # are registered to this one using container compiler pass
+    netgen.search.solr.subdocument_mapper.content.aggregate:
+        class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentSubdocumentMapper\Aggregate
+
+    # Note: services tagged with 'netgen.search.solr.subdocument_mapper.content_translation'
+    # are registered to this one using container compiler pass
+    netgen.search.solr.subdocument_mapper.content_translation.aggregate:
+        class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentTranslationSubdocumentMapper\Aggregate
