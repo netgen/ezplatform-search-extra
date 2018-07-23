@@ -10,7 +10,7 @@ use eZ\Publish\API\Repository\Values\Content\Query\Criterion\LogicalNot;
 use eZ\Publish\API\Repository\Values\Content\Query\SortClause\ContentId as ContentIdSortClause;
 use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\SectionIdentifier;
 
-class SectionIdentifierCriterionTest extends BaseCriterionTest
+class SectionIdentifierCriterionTest extends BaseTest
 {
     public function providerForTestFind()
     {

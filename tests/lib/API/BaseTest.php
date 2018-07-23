@@ -2,13 +2,13 @@
 
 namespace Netgen\EzPlatformSearchExtra\Tests\API;
 
-use eZ\Publish\API\Repository\Tests\BaseTest;
+use eZ\Publish\API\Repository\Tests\BaseTest as APIBaseTest;
 use eZ\Publish\API\Repository\Values\Content\ContentInfo;
 use eZ\Publish\API\Repository\Values\Content\Location;
 use eZ\Publish\API\Repository\Values\Content\Search\SearchResult;
 use RuntimeException;
 
-abstract class BaseCriterionTest extends BaseTest
+abstract class BaseTest extends APIBaseTest
 {
     protected function assertSearchResultContentIds(
         SearchResult $searchResult,

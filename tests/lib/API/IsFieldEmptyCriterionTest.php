@@ -10,7 +10,7 @@ use eZ\Publish\API\Repository\Values\Content\Query\Criterion\LogicalNot;
 use eZ\Publish\API\Repository\Values\Content\Query\SortClause\ContentId as ContentIdSortClause;
 use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\IsFieldEmpty;
 
-class IsFieldEmptyCriterionTest extends BaseCriterionTest
+class IsFieldEmptyCriterionTest extends BaseTest
 {
     public function providerForTestFind()
     {
