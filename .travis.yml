@@ -16,11 +16,11 @@ matrix:
         - php: 7.2
           env: TEST_CONFIG="phpunit-integration-legacy.xml"
         - php: 7.1
-          env: TEST_CONFIG="phpunit-integration-solr.xml" SOLR_VERSION="4.10.4" CORES_SETUP="single" SOLR_CORES="collection1"
+          env: TEST_CONFIG="phpunit-integration-solr.xml" SOLR_VERSION="6.6.0" CORES_SETUP="single" SOLR_CORES="collection1"
         - php: 7.1
-          env: TEST_CONFIG="phpunit-integration-solr.xml" SOLR_VERSION="6.5.1"  CORES_SETUP="shared" COMPOSER_REQUIRE="ezsystems/ezpublish-kernel:~6.7.4@dev"
+          env: TEST_CONFIG="phpunit-integration-solr.xml" SOLR_VERSION="6.6.0" CORES_SETUP="shared" COMPOSER_REQUIRE="ezsystems/ezpublish-kernel:~6.7.4@dev"
         - php: 7.2
-          env: TEST_CONFIG="phpunit-integration-solr.xml" SOLR_VERSION="6.6.0"  CORES_SETUP="dedicated"
+          env: TEST_CONFIG="phpunit-integration-solr.xml" SOLR_VERSION="6.6.0" CORES_SETUP="dedicated"
         - php: 7.2
           env: TEST_CONFIG="vendor/ezsystems/ezpublish-kernel/phpunit-integration-legacy-solr.xml" SOLR_VERSION="6.6.0" CORES_SETUP="shared" REGRESSION="yes"
 
