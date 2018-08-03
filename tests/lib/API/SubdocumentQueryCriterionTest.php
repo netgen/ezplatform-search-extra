@@ -250,14 +250,6 @@ class SubdocumentQueryCriterionTest extends BaseTest
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
 
-        $contentInfo = $contentService->loadContentInfo(10);
-        $draft = $contentService->createContentDraft($contentInfo);
-        $contentService->publishVersion($draft->versionInfo);
-
-        $contentInfo = $contentService->loadContentInfo(14);
-        $draft = $contentService->createContentDraft($contentInfo);
-        $contentService->publishVersion($draft->versionInfo);
-
         $contentInfo = $contentService->loadContentInfo(4);
         $draft = $contentService->createContentDraft($contentInfo);
         $updateStruct = $contentService->newContentUpdateStruct();
