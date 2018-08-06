@@ -27,7 +27,12 @@ for more details.
 - [`SubdocumentField`](https://github.com/netgen/ezplatform-search-extra/blob/master/lib/API/Values/Content/Query/SortClause/SubdocumentField.php) sort clause (`solr`)
 
   Provides a way to sort Content by a subdocument field, choosing scoring calculation mode and optionally limiting with `SubdocumentQuery` criterion.
+
   **Note:** This will require Solr `6.6` or higher in order to work correctly with all scoring modes.
+
+- [`LocationQuery`](https://github.com/netgen/ezplatform-search-extra/blob/master/lib/API/Values/Content/Query/Criterion/LoctionQuery.php) criterion (`solr`, `legacy`)
+
+  Allows grouping of Location criteria so that they apply together on a Location.
 
 ## Installation
 
