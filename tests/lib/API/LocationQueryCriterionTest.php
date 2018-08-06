@@ -309,7 +309,7 @@ class LocationQueryCriterionTest extends BaseTest
                         new ContentId([12, 13, 42]),
                         new LogicalNot(
                             new LocationQuery(
-                                new Query\Criterion\LogicalOr([
+                                new LogicalOr([
                                     new Subtree($homeLocation->pathString),
                                     new Subtree($mediaLocation->pathString),
                                 ])
@@ -326,7 +326,7 @@ class LocationQueryCriterionTest extends BaseTest
                     'filter' => new LogicalAnd([
                         new ContentId([12, 13, 42]),
                         new LocationQuery(
-                            new Query\Criterion\LogicalOr([
+                            new LogicalOr([
                                 new Subtree($homeLocation->pathString),
                                 new Subtree($mediaLocation->pathString),
                             ])
