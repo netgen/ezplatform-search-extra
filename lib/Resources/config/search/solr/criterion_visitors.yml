@@ -35,3 +35,10 @@ services:
     # are registered to this one using container compiler pass
     netgen.search.solr.query.content.criterion_visitor.subdocument_query.aggregate:
         class: EzSystems\EzPlatformSolrSearchEngine\Query\Common\CriterionVisitor\Aggregate
+
+    netgen.search.solr.query.content.criterion_visitor.location_query:
+        class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Content\CriterionVisitor\LocationQuery
+        arguments:
+            - '@ezpublish.search.solr.query.location.criterion_visitor.aggregate'
+        tags:
+            - {name: ezpublish.search.solr.query.content.criterion_visitor}
