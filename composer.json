@@ -1,5 +1,6 @@
 {
     "name": "netgen/ezplatform-search-extra",
+    "description": "Netgen's extra bits for eZ Platform search",
     "type": "ezplatform-bundle",
     "license": "GPL-2.0-only",
     "authors": [
