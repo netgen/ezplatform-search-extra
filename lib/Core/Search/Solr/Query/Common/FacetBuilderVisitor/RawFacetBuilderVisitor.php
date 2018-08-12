@@ -20,7 +20,7 @@ class RawFacetBuilderVisitor extends FacetBuilderVisitor implements FacetFieldVi
     {
         return new RawFacet([
             'name' => $facetBuilder->name,
-            'data' => $data,
+            'data' => reset($data),
         ]);
     }
 

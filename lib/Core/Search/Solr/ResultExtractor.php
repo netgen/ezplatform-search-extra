@@ -40,7 +40,7 @@ final class ResultExtractor Extends BaseResultExtractor
 
             $searchResult->facets[] = $this->facetBuilderVisitor->mapField(
                 $identifier,
-                $data->facets->{$identifier},
+                [$data->facets->{$identifier}],
                 $facetBuilder
             );
         }
