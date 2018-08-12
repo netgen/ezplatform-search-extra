@@ -10,7 +10,8 @@
         }
     ],
     "require": {
-        "ezsystems/ezpublish-kernel": "^5.4.11||^6.0||^7.0"
+        "ezsystems/ezpublish-kernel": "^5.4.11||^6.0||^7.0",
+        "ext-json": "*"
     },
     "require-dev": {
         "ezsystems/ezplatform-solr-search-engine": "^1.4",
