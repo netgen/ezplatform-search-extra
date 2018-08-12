@@ -19,6 +19,7 @@ services:
         decorates: ezpublish.search.solr.result_extractor.native
         arguments:
             - '@netgen.search.solr.result_extractor.inner'
+            - '@ezpublish.search.solr.query.content.facet_builder_visitor.aggregate'
 
     netgen.search.solr.query.content.query_converter:
         class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common\QueryConverter

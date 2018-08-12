@@ -2,6 +2,7 @@
 
 namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr;
 
+use EzSystems\EzPlatformSolrSearchEngine\Query\FacetFieldVisitor;
 use EzSystems\EzPlatformSolrSearchEngine\ResultExtractor as BaseResultExtractor;
 use Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder;
 
@@ -21,10 +22,14 @@ final class ResultExtractor Extends BaseResultExtractor
     /** @noinspection MagicMethodsValidityInspection */
     /**
      * @param \EzSystems\EzPlatformSolrSearchEngine\ResultExtractor $nativeResultExtractor
+     * @param \EzSystems\EzPlatformSolrSearchEngine\Query\FacetFieldVisitor $facetBuilderVisitor
      */
-    public function __construct(BaseResultExtractor $nativeResultExtractor)
-    {
+    public function __construct(
+        BaseResultExtractor $nativeResultExtractor,
+        FacetFieldVisitor $facetBuilderVisitor
+    ) {
         $this->nativeResultExtractor = $nativeResultExtractor;
+        $this->facetBuilderVisitor = $facetBuilderVisitor;
     }
 
     public function extract($data, array $facetBuilders = [])
