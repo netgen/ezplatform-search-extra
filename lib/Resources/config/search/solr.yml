@@ -32,6 +32,6 @@ services:
         class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common\QueryConverter
         decorates: ezpublish.search.solr.query_converter.location
         arguments:
-            - '@ezpublish.search.solr.query.content.criterion_visitor.aggregate'
-            - '@ezpublish.search.solr.query.content.sort_clause_visitor.aggregate'
-            - '@ezpublish.search.solr.query.content.facet_builder_visitor.aggregate'
+            - '@ezpublish.search.solr.query.location.criterion_visitor.aggregate'
+            - '@ezpublish.search.solr.query.location.sort_clause_visitor.aggregate'
+            - '@ezpublish.search.solr.query.location.facet_builder_visitor.aggregate'
