@@ -3,7 +3,7 @@
 namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr;
 
 use EzSystems\EzPlatformSolrSearchEngine\ResultExtractor as BaseResultExtractor;
-use Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\Facet\RawFacetBuilder;
+use Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder;
 
 /**
  * This DocumentMapper implementation adds support for handling RawFacetBuilders.

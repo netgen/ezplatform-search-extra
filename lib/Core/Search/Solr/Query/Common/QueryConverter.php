@@ -8,7 +8,7 @@ use EzSystems\EzPlatformSolrSearchEngine\Query\CriterionVisitor;
 use EzSystems\EzPlatformSolrSearchEngine\Query\FacetFieldVisitor;
 use EzSystems\EzPlatformSolrSearchEngine\Query\QueryConverter as BaseQueryConverter;
 use EzSystems\EzPlatformSolrSearchEngine\Query\SortClauseVisitor;
-use Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\Facet\RawFacetBuilder;
+use Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder;
 
 /**
  * Converts the query tree into an array of Solr query parameters.

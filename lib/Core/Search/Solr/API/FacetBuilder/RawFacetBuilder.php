@@ -1,6 +1,6 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\Facet;
+namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\FacetBuilder;
 
 use eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder;
 

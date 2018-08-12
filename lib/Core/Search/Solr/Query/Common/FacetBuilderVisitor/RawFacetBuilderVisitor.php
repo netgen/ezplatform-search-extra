@@ -6,7 +6,7 @@ use EzSystems\EzPlatformSolrSearchEngine\Query\FacetBuilderVisitor;
 use EzSystems\EzPlatformSolrSearchEngine\Query\FacetFieldVisitor;
 use eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder;
 use Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\Facet\RawFacet;
-use Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\Facet\RawFacetBuilder;
+use Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder;
 
 /**
  * Visits the ContentType facet builder.
@@ -37,7 +37,7 @@ class RawFacetBuilderVisitor extends FacetBuilderVisitor implements FacetFieldVi
      */
     public function visitBuilder(FacetBuilder $facetBuilder, $fieldId)
     {
-        /** @var $facetBuilder \Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\Facet\RawFacetBuilder */
+        /** @var $facetBuilder \Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder */
         return $facetBuilder->parameters;
     }
 }
