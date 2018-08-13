@@ -6,6 +6,7 @@
 [![Latest stable](https://img.shields.io/github/release/netgen/ezplatform-search-extra.svg?style=flat-square)](https://packagist.org/packages/netgen/ezplatform-search-extra)
 [![License](https://img.shields.io/github/license/netgen/ezplatform-search-extra.svg?style=flat-square)](https://packagist.org/packages/netgen/ezplatform-search-extra)
 
+
 ## Features
 
 Only a short list of features is provided here, see
