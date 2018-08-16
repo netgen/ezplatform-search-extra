@@ -37,9 +37,7 @@ before_script:
       fi
     - travis_retry composer update --prefer-dist --no-interaction
     - if [[ $TEST_CONFIG = *"solr"* ]]; then
-          cd ./vendor/ezsystems/ezplatform-solr-search-engine;
           ./bin/.travis/init_solr.sh;
-          cd ../../..;
       fi
 
 script:
