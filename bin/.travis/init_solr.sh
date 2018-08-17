@@ -92,76 +92,6 @@ exit_on_error() {
     exit 1
 }
 
-is_solr_up() {
-    address="http://localhost:${SOLR_PORT}/solr/admin/cores"
-    http_code=`echo $(curl -s -o /dev/null -w "%{http_code}" ${address})`
-    echo "Checking if Solr is up on ${address}"
-    return `test ${http_code} = "200"`
-}
-
-wait_for_solr(){
-    while ! is_solr_up; do
-        sleep 3
-    done
-}
-
-solr4_configure() {
-    # remove default cores configuration
-    sed -i.bak 's/<core name=".*" instanceDir=".*" \/>//g' "${SOLR_INSTALL_DIR}/example/multicore/solr.xml"
-
-    for solr_core in ${SOLR_CORES} ; do
-        solr4_add_core ${solr_core}
-    done
-}
-
-solr4_add_core() {
-    solr_core=$1
-    core_dir="${SOLR_INSTALL_DIR}/example/multicore/${solr_core}"
-    core_conf_dir="${core_dir}/conf"
-    config_dir="${SOLR_INSTALL_DIR}/example/solr/collection1/conf"
-
-    # add core configuration
-    sed -i.bak "s/<shardHandlerFactory/<core name=\"$solr_core\" instanceDir=\"$solr_core\" \/><shardHandlerFactory/g" ${SOLR_INSTALL_DIR}/example/multicore/solr.xml
-
-    # prepare core directories
-    create_dir ${core_dir}
-    create_dir ${core_conf_dir}
-
-    files=${SOLR_CONFIG}
-    files+=("${config_dir}/currency.xml")
-    files+=("${config_dir}/stopwords.txt")
-    files+=("${config_dir}/synonyms.txt")
-
-    copy_files ${core_conf_dir} "${files[*]}"
-
-    # copy core0 solrconfig.xml and patch it for current core
-    if [ ! -f ${core_conf_dir}/solrconfig.xml ] ; then
-        copy_file "${SOLR_INSTALL_DIR}/example/multicore/core0/conf/solrconfig.xml" ${core_conf_dir}
-        sed -i.bak s/core0/"${solr_core}"/g ${core_conf_dir}/solrconfig.xml
-    fi
-
-    echo "Configured core ${solr_core}"
-}
-
-solr4_run() {
-    echo "Running with version ${SOLR_VERSION}"
-    echo "Starting solr on port ${SOLR_PORT}..."
-
-    cd ${SOLR_INSTALL_DIR}/example
-
-    if [ "$SOLR_DEBUG" = "true" ] ; then
-        java -Djetty.port=${SOLR_PORT} -Dsolr.solr.home=multicore -jar start.jar &
-    else
-        java -Djetty.port=${SOLR_PORT} -Dsolr.solr.home=multicore -jar start.jar > /dev/null 2>&1 &
-    fi
-
-    wait_for_solr
-
-    cd ../../../
-    echo 'Started'
-}
-
-# Configure for Solr 6, see solr4_configure() for 4.10
 configure() {
     home_dir="${SOLR_INSTALL_DIR}/server/${SOLR_HOME}"
     template_dir="${home_dir}/template"
@@ -184,7 +114,6 @@ configure() {
     sed -i.bak '/<updateRequestProcessorChain name="add-unknown-fields-to-the-schema">/,/<\/updateRequestProcessorChain>/d' "${template_dir}/solrconfig.xml"
 }
 
-# Run for Solr 6, see solr4_run() for 4.10
 run() {
     echo "Running with version ${SOLR_VERSION} in standalone mode"
     echo "Starting solr on port ${SOLR_PORT}..."
@@ -196,7 +125,6 @@ run() {
     create_cores
 }
 
-# Create cores for Solr 6, see solr4_add_core() for 4.10
 create_cores() {
     home_dir="${SOLR_INSTALL_DIR}/server/${SOLR_HOME}"
     template_dir="${home_dir}/template"
@@ -218,11 +146,5 @@ create_core() {
 }
 
 download
-
-if [[ ${SOLR_VERSION} == 6* ]] ; then
-    configure
-    run
-else
-    solr4_configure
-    solr4_run
-fi
+configure
+run
