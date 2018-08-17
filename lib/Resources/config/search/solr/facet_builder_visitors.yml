@@ -4,3 +4,9 @@ services:
         tags:
             - {name: ezpublish.search.solr.query.content.facet_builder_visitor}
             - {name: ezpublish.search.solr.query.location.facet_builder_visitor}
+
+    netgen.search.solr.query.common.facet_builder_visitor.raw:
+        class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common\FacetBuilderVisitor\RawFacetBuilderVisitor
+        tags:
+            - {name: ezpublish.search.solr.query.content.facet_builder_visitor}
+            - {name: ezpublish.search.solr.query.location.facet_builder_visitor}

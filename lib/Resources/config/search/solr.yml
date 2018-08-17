@@ -13,3 +13,26 @@ services:
             - '@netgen.search.solr.document_mapper.inner'
             - '@netgen.search.solr.subdocument_mapper.content.aggregate'
             - '@netgen.search.solr.subdocument_mapper.content_translation.aggregate'
+
+    netgen.search.solr.result_extractor:
+        class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\ResultExtractor
+        decorates: ezpublish.search.solr.result_extractor.native
+        arguments:
+            - '@netgen.search.solr.result_extractor.inner'
+            - '@ezpublish.search.solr.query.content.facet_builder_visitor.aggregate'
+
+    netgen.search.solr.query.content.query_converter:
+        class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common\QueryConverter
+        decorates: ezpublish.search.solr.query_converter.content
+        arguments:
+            - '@ezpublish.search.solr.query.content.criterion_visitor.aggregate'
+            - '@ezpublish.search.solr.query.content.sort_clause_visitor.aggregate'
+            - '@ezpublish.search.solr.query.content.facet_builder_visitor.aggregate'
+
+    netgen.search.solr.query.location.query_converter:
+        class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common\QueryConverter
+        decorates: ezpublish.search.solr.query_converter.location
+        arguments:
+            - '@ezpublish.search.solr.query.location.criterion_visitor.aggregate'
+            - '@ezpublish.search.solr.query.location.sort_clause_visitor.aggregate'
+            - '@ezpublish.search.solr.query.location.facet_builder_visitor.aggregate'

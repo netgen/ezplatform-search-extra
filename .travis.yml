@@ -16,13 +16,13 @@ matrix:
         - php: 7.2
           env: TEST_CONFIG="phpunit-integration-legacy.xml"
         - php: 7.1
-          env: TEST_CONFIG="phpunit-integration-solr.xml" SOLR_VERSION="6.6.0" CORES_SETUP="single" SOLR_CORES="collection1"
+          env: TEST_CONFIG="phpunit-integration-solr.xml" SOLR_VERSION="6.6.5" CORES_SETUP="single" SOLR_CORES="collection1"
         - php: 7.1
-          env: TEST_CONFIG="phpunit-integration-solr.xml" SOLR_VERSION="6.6.0" CORES_SETUP="shared" COMPOSER_REQUIRE="ezsystems/ezpublish-kernel:~6.7.4@dev"
+          env: TEST_CONFIG="phpunit-integration-solr.xml" SOLR_VERSION="6.6.5" CORES_SETUP="shared" COMPOSER_REQUIRE="ezsystems/ezpublish-kernel:~6.7.4@dev"
         - php: 7.2
-          env: TEST_CONFIG="phpunit-integration-solr.xml" SOLR_VERSION="6.6.0" CORES_SETUP="dedicated"
+          env: TEST_CONFIG="phpunit-integration-solr.xml" SOLR_VERSION="6.6.5" CORES_SETUP="dedicated"
         - php: 7.2
-          env: TEST_CONFIG="vendor/ezsystems/ezpublish-kernel/phpunit-integration-legacy-solr.xml" SOLR_VERSION="6.6.0" CORES_SETUP="shared" REGRESSION="yes"
+          env: TEST_CONFIG="vendor/ezsystems/ezpublish-kernel/phpunit-integration-legacy-solr.xml" SOLR_VERSION="6.6.5" CORES_SETUP="shared" REGRESSION="yes"
 
 branches:
     only:
@@ -37,15 +37,13 @@ before_script:
       fi
     - travis_retry composer update --prefer-dist --no-interaction
     - if [[ $TEST_CONFIG = *"solr"* ]]; then
-          cd ./vendor/ezsystems/ezplatform-solr-search-engine;
           ./bin/.travis/init_solr.sh;
-          cd ../../..;
       fi
-
-script:
     - if [ "$REGRESSION" = "yes" ]; then
           sed -i.bak s/EzSystems\\\\EzPlatformSolrSearchEngine\\\\Tests\\\\SetupFactory\\\\LegacySetupFactory/Netgen\\\\EzPlatformSearchExtra\\\\Tests\\\\SetupFactory\\\\Solr/g $TEST_CONFIG;
       fi
+
+script:
     - php vendor/bin/phpunit --bootstrap tests/bootstrap.php -c $TEST_CONFIG
 
 notifications:

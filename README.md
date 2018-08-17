@@ -38,6 +38,10 @@ for more details.
 
   Allows building facets on custom Solr fields.
 
+- [`RawFacetBuilder`](https://github.com/netgen/ezplatform-search-extra/blob/master/lib/Core/Search/Solr/API/FacetBuilder/RawFacetBuilder.php) facet builder (`solr`)
+
+  Exposes Solr's [JSON facet API](https://lucene.apache.org/solr/guide/7_4/json-facet-api.html) in full.
+
 ## Installation
 
 To install eZ Platform Search Extra first add it as a dependency to your project:
