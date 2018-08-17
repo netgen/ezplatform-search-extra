@@ -39,11 +39,11 @@ before_script:
     - if [[ $TEST_CONFIG = *"solr"* ]]; then
           ./bin/.travis/init_solr.sh;
       fi
-
-script:
     - if [ "$REGRESSION" = "yes" ]; then
           sed -i.bak s/EzSystems\\\\EzPlatformSolrSearchEngine\\\\Tests\\\\SetupFactory\\\\LegacySetupFactory/Netgen\\\\EzPlatformSearchExtra\\\\Tests\\\\SetupFactory\\\\Solr/g $TEST_CONFIG;
       fi
+
+script:
     - php vendor/bin/phpunit --bootstrap tests/bootstrap.php -c $TEST_CONFIG
 
 notifications:
