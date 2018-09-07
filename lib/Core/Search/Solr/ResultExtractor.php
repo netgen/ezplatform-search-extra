@@ -36,7 +36,7 @@ final class ResultExtractor Extends BaseResultExtractor
     {
         $searchResult = $this->nativeResultExtractor->extract($data, $facetBuilders);
 
-        if (!isset($data->facets)) {
+        if (!isset($data->facets) || $data->facets->count === 0) {
             return $searchResult;
         }
 
