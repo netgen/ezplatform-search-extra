@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mivancic
- * Date: 07/11/2018
- * Time: 15:49
- */
 
 namespace Netgen\EzPlatformSearchExtra\API\Values\Content\Query\SortClause;
 

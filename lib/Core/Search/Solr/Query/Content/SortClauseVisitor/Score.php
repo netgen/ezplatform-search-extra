@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mivancic
- * Date: 07/11/2018
- * Time: 15:54
- */
 
 namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Content\SortClauseVisitor;
 
