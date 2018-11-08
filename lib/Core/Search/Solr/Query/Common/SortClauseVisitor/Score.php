@@ -1,6 +1,6 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Content\SortClauseVisitor;
+namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common\SortClauseVisitor;
 
 use EzSystems\EzPlatformSolrSearchEngine\Query\SortClauseVisitor;
 use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\SortClause as SortClauseExtra;
