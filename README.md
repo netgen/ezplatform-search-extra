@@ -42,6 +42,10 @@ for more details.
 
   Exposes Solr's [JSON facet API](https://lucene.apache.org/solr/guide/7_4/json-facet-api.html) in full.
 
+- [`Score`](https://github.com/netgen/ezplatform-search-extra/blob/master/lib/API/Values/Content/Query/SortClause/Score.php) sort clause (`solr`)
+
+  Provides a way to sort Content by score value.
+
 ## Installation
 
 To install eZ Platform Search Extra first add it as a dependency to your project:
