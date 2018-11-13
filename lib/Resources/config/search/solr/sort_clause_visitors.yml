@@ -11,3 +11,9 @@ services:
         tags:
             - {name: ezpublish.search.solr.query.content.sort_clause_visitor}
             - {name: ezpublish.search.solr.query.location.sort_clause_visitor}
+
+    netgen.search.solr.query.common.sort_clause_visitor.random:
+        class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common\SortClauseVisitor\Random
+        tags:
+            - {name: ezpublish.search.solr.query.content.sort_clause_visitor}
+            - {name: ezpublish.search.solr.query.location.sort_clause_visitor}

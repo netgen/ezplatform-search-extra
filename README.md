@@ -46,6 +46,10 @@ for more details.
 
   Provides a way to sort Content by score value.
 
+- [`Random`](https://github.com/netgen/ezplatform-search-extra/blob/master/lib/API/Values/Content/Query/SortClause/Random.php) sort clause (`solr`)
+
+  Provides a way to sort Content randomly.
+
 ## Installation
 
 To install eZ Platform Search Extra first add it as a dependency to your project:
