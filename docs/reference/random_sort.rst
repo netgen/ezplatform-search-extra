@@ -25,6 +25,8 @@ For example, the following query will return random sorted content based on a pr
 
 .. code-block:: php
 
+    use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\SortClause\Random;
+
     $seed = (int)(time() / 360);
 
     new Query([
@@ -33,6 +35,6 @@ For example, the following query will return random sorted content based on a pr
             new Visibility(Visibility::VISIBLE),
         ]),
         'sortClauses' =>  [
-            new RandomSortClause($seed),
+            new Random($seed),
         ]
     ]);
