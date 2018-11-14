@@ -4,6 +4,7 @@ namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common\SortClauseV
 
 use EzSystems\EzPlatformSolrSearchEngine\Query\SortClauseVisitor;
 use eZ\Publish\API\Repository\Values\Content\Query\SortClause;
+use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\SortClause\Random as RandomSortClause;
 
 /**
  * Visits the sortClause tree into a Solr query.
@@ -19,7 +20,7 @@ class Random extends SortClauseVisitor
      */
     public function canVisit(SortClause $sortClause)
     {
-        return $sortClause instanceof SortClause\Random;
+        return $sortClause instanceof RandomSortClause;
     }
 
     /**
