@@ -2,9 +2,9 @@
 
 namespace Netgen\EzPlatformSearchExtra\API\Values\Content\Query\SortClause;
 
-use eZ\Publish\API\Repository\Values\Content\Query\SortClause\Target\RandomTarget;
 use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Query\SortClause;
+use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\SortClause\Target\RandomTarget;
 
 /**
  * Sets sort random on a content query.
