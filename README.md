@@ -55,7 +55,7 @@ for more details.
 To install eZ Platform Search Extra first add it as a dependency to your project:
 
 ```sh
-composer require netgen/ezplatform-search-extra:^1.3
+composer require netgen/ezplatform-search-extra:^1.4
 ```
 
 Once the added dependency is installed, activate the bundle in `app/AppKernel.php` file by adding it to the `$bundles` array in `registerBundles()` method, together with other required bundles:
