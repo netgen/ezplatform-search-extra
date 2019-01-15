@@ -18,5 +18,7 @@ class NetgenEzPlatformSearchExtraBundle extends Bundle
         $containerBuilder->addCompilerPass(new Compiler\AggregateContentSubdocumentMapperPass());
         $containerBuilder->addCompilerPass(new Compiler\AggregateContentTranslationSubdocumentMapperPass());
         $containerBuilder->addCompilerPass(new Compiler\AggregateSubdocumentQueryCriterionVisitorPass());
+        $containerBuilder->addCompilerPass(new Compiler\FieldType\RichTextIndexablePass());
+        $containerBuilder->addCompilerPass(new Compiler\FieldType\XmlTextIndexablePass());
     }
 }

@@ -9,6 +9,16 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class NetgenEzPlatformSearchExtraExtension extends Extension
 {
+    public function getAlias()
+    {
+        return 'netgen_ez_platform_search_extra';
+    }
+
+    public function getConfiguration(array $config, ContainerBuilder $container)
+    {
+        return new Configuration($this->getAlias());
+    }
+
     /**
      * @param array $configs
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
@@ -34,5 +44,20 @@ class NetgenEzPlatformSearchExtraExtension extends Extension
 
         $loader->load('search/common.yml');
         $loader->load('persistence.yml');
+
+        $this->processExtensionConfiguration($configs, $container);
+    }
+
+    private function processExtensionConfiguration(array $configs, ContainerBuilder $container)
+    {
+        $configuration = $this->getConfiguration($configs, $container);
+
+        if ($configuration === null) {
+            return;
+        }
+
+        $configuration = $this->processConfiguration($configuration, $configs);
+
+        $container->setParameter('netgen_ez_platform_search_extra_configuration', $configuration);
     }
 }
