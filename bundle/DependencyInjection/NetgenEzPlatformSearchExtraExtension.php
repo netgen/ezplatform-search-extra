@@ -58,6 +58,21 @@ class NetgenEzPlatformSearchExtraExtension extends Extension
 
         $configuration = $this->processConfiguration($configuration, $configs);
 
-        $container->setParameter('netgen_ez_platform_search_extra_configuration', $configuration);
+        $container->setParameter(
+            'netgen_ez_platform_search_extra.indexable_field_type.ezrichtext.enabled',
+            $configuration['indexable_field_type']['ezrichtext']['enabled']
+        );
+        $container->setParameter(
+            'netgen_ez_platform_search_extra.indexable_field_type.ezrichtext.short_text_limit',
+            $configuration['indexable_field_type']['ezrichtext']['short_text_limit']
+        );
+        $container->setParameter(
+            'netgen_ez_platform_search_extra.indexable_field_type.ezxmltext.enabled',
+            $configuration['indexable_field_type']['ezxmltext']['enabled']
+        );
+        $container->setParameter(
+            'netgen_ez_platform_search_extra.indexable_field_type.ezxmltext.short_text_limit',
+            $configuration['indexable_field_type']['ezxmltext']['short_text_limit']
+        );
     }
 }

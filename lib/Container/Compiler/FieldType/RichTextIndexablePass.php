@@ -11,26 +11,15 @@ class RichTextIndexablePass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        $configurationParameterName = 'netgen_ez_platform_search_extra_configuration';
+        $enabled = $container->getParameter('netgen_ez_platform_search_extra.indexable_field_type.ezrichtext.enabled');
+        $shortTextLimit = $container->getParameter('netgen_ez_platform_search_extra.indexable_field_type.ezrichtext.short_text_limit');
 
-        if (!$container->hasParameter($configurationParameterName)) {
-            return;
-        }
-
-        $configuration = $container->getParameter($configurationParameterName);
-
-        if (!isset($configuration['indexable_field_type']['ezrichtext'])) {
-            return;
-        }
-
-        $configuration = $configuration['indexable_field_type']['ezrichtext'];
-
-        if ($configuration['enabled'] === true) {
-            $this->redefineIndexableImplementation($container, $configuration);
+        if ($enabled === true) {
+            $this->redefineIndexableImplementation($container, $shortTextLimit);
         }
     }
 
-    private function redefineIndexableImplementation(ContainerBuilder $container, array $configuration)
+    private function redefineIndexableImplementation(ContainerBuilder $container, $shortTextLimit)
     {
         try {
             $originalServiceId = $this->getOriginalServiceId($container);
@@ -41,7 +30,7 @@ class RichTextIndexablePass implements CompilerPassInterface
         $definition = $container->findDefinition($originalServiceId);
 
         $definition->setClass(IndexableXmlText::class);
-        $definition->setArgument(0, $configuration['short_text_limit']);
+        $definition->setArgument(0, $shortTextLimit);
         $definition->addTag('ezpublish.fieldType.indexable', ['alias' => 'ezrichtext']);
 
         $container->setDefinition($originalServiceId, $definition);
