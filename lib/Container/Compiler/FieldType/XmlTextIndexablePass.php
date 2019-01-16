@@ -24,7 +24,7 @@ class XmlTextIndexablePass implements CompilerPassInterface
 
         $configuration = $configuration['indexable_field_type']['ezxmltext'];
 
-        if ($configuration['override'] === true) {
+        if ($configuration['enabled'] === true) {
             $this->redefineIndexableImplementation($container, $configuration);
         }
     }

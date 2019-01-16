@@ -25,7 +25,7 @@ class RichTextIndexablePass implements CompilerPassInterface
 
         $configuration = $configuration['indexable_field_type']['ezrichtext'];
 
-        if ($configuration['override'] === true) {
+        if ($configuration['enabled'] === true) {
             $this->redefineIndexableImplementation($container, $configuration);
         }
     }

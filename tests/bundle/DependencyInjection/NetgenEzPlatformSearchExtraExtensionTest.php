@@ -57,7 +57,7 @@ class NetgenEzPlatformSearchExtraExtensionTest extends AbstractExtensionTestCase
                 [
                     'indexable_field_type' => [
                         'ezxmltext' => [
-                            'override' => true,
+                            'enabled' => true,
                             'short_text_limit' => 256
                         ],
                     ],
@@ -74,7 +74,7 @@ class NetgenEzPlatformSearchExtraExtensionTest extends AbstractExtensionTestCase
                 [
                     'indexable_field_type' => [
                         'ezrichtext' => [
-                            'override' => true,
+                            'enabled' => true,
                             'short_text_limit' => 256
                         ],
                     ],
@@ -92,11 +92,11 @@ class NetgenEzPlatformSearchExtraExtensionTest extends AbstractExtensionTestCase
                 [
                     'indexable_field_type' => [
                         'ezxmltext' => [
-                            'override' => true,
+                            'enabled' => true,
                             'short_text_limit' => 256
                         ],
                         'ezrichtext' => [
-                            'override' => true,
+                            'enabled' => true,
                             'short_text_limit' => 256
                         ],
                     ],
@@ -119,11 +119,11 @@ class NetgenEzPlatformSearchExtraExtensionTest extends AbstractExtensionTestCase
             [
                 'indexable_field_type' => [
                     'ezxmltext' => [
-                        'override' => true,
+                        'enabled' => true,
                         'short_text_limit' => 256
                     ],
                     'ezrichtext' => [
-                        'override' => true,
+                        'enabled' => true,
                         'short_text_limit' => 256
                     ],
                 ],
