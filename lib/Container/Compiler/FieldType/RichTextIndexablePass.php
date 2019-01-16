@@ -42,11 +42,11 @@ class RichTextIndexablePass implements CompilerPassInterface
         $newServiceId = SearchField::class;
         $oldServiceId = 'ezpublish.fieldType.indexable.ezrichtext';
 
-        if ($container->hasDefinition($newServiceId)) {
+        if ($container->has($newServiceId)) {
             return $newServiceId;
         }
 
-        if ($container->hasDefinition($oldServiceId)) {
+        if ($container->has($oldServiceId)) {
             return $oldServiceId;
         }
 

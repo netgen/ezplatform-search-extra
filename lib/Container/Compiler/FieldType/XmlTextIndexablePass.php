@@ -22,7 +22,7 @@ class XmlTextIndexablePass implements CompilerPassInterface
     {
         $originalServiceId = 'ezpublish.fieldType.indexable.ezxmltext';
 
-        if (!$container->hasDefinition($originalServiceId)) {
+        if (!$container->has($originalServiceId)) {
             return;
         }
 
