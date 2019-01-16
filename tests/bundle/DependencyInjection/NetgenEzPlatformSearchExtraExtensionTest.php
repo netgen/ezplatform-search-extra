@@ -114,20 +114,22 @@ class NetgenEzPlatformSearchExtraExtensionTest extends AbstractExtensionTestCase
     {
         $this->load($configuration);
 
+
         $this->assertContainerBuilderHasParameter(
-            'netgen_ez_platform_search_extra_configuration',
-            [
-                'indexable_field_type' => [
-                    'ezxmltext' => [
-                        'enabled' => true,
-                        'short_text_limit' => 256
-                    ],
-                    'ezrichtext' => [
-                        'enabled' => true,
-                        'short_text_limit' => 256
-                    ],
-                ],
-            ]
+            'netgen_ez_platform_search_extra.indexable_field_type.ezrichtext.enabled',
+            true
+        );
+        $this->assertContainerBuilderHasParameter(
+            'netgen_ez_platform_search_extra.indexable_field_type.ezrichtext.short_text_limit',
+            256
+        );
+        $this->assertContainerBuilderHasParameter(
+            'netgen_ez_platform_search_extra.indexable_field_type.ezxmltext.enabled',
+            true
+        );
+        $this->assertContainerBuilderHasParameter(
+            'netgen_ez_platform_search_extra.indexable_field_type.ezxmltext.short_text_limit',
+            256
         );
     }
 }
