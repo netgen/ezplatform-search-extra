@@ -49,6 +49,8 @@ for more details.
 - [`Random`](https://github.com/netgen/ezplatform-search-extra/blob/master/lib/API/Values/Content/Query/SortClause/Random.php) sort clause (`solr`)
 
   Provides a way to sort Content randomly.
+  
+- [`Indexable`](https://github.com/netgen/ezplatform-search-extra/blob/master/lib/Core/FieldType/XmlText/Indexable.php) implementation for `XmlText` that shortens text indexed as keyword to 256 characters, to avoid failure 
 
 ## Installation
 

@@ -10,7 +10,7 @@
     </php>
     <testsuites>
         <testsuite name="Solr Search Engine tests">
-            <directory suffix="Test.php">./tests/</directory>
+            <directory suffix="Test.php">./tests/lib/</directory>
         </testsuite>
     </testsuites>
     <filter>
