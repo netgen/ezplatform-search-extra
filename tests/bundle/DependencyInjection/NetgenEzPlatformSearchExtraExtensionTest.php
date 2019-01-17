@@ -104,7 +104,7 @@ class NetgenEzPlatformSearchExtraExtensionTest extends AbstractExtensionTestCase
             ],
             [
                 [
-                    'use_native_search_result_extractor' => false,
+                    'use_loading_search_result_extractor' => true,
                     'indexable_field_type' => [
                         'ezxmltext' => [
                             'enabled' => true,
@@ -130,8 +130,8 @@ class NetgenEzPlatformSearchExtraExtensionTest extends AbstractExtensionTestCase
         $this->load($configuration);
 
         $this->assertContainerBuilderHasParameter(
-            'netgen_ez_platform_search_extra.use_native_search_result_extractor',
-            false
+            'netgen_ez_platform_search_extra.use_loading_search_result_extractor',
+            true
         );
         $this->assertContainerBuilderHasParameter(
             'netgen_ez_platform_search_extra.indexable_field_type.ezrichtext.enabled',

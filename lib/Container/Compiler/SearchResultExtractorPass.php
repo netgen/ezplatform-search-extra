@@ -22,11 +22,11 @@ final class SearchResultExtractorPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $useNativeSearchResultExtractor = $container->getParameter(
-            'netgen_ez_platform_search_extra.use_native_search_result_extractor'
+        $useLoadingSearchResultExtractor = $container->getParameter(
+            'netgen_ez_platform_search_extra.use_loading_search_result_extractor'
         );
 
-        if ($useNativeSearchResultExtractor !== true) {
+        if ($useLoadingSearchResultExtractor === true) {
             return;
         }
 

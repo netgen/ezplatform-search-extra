@@ -65,8 +65,8 @@ class NetgenEzPlatformSearchExtraExtension extends Extension
     private function processSearchResultExtractorConfiguration(array $configuration, ContainerBuilder $container)
     {
         $container->setParameter(
-            'netgen_ez_platform_search_extra.use_native_search_result_extractor',
-            $configuration['use_native_search_result_extractor']
+            'netgen_ez_platform_search_extra.use_loading_search_result_extractor',
+            $configuration['use_loading_search_result_extractor']
         );
     }
 

@@ -69,9 +69,9 @@ class Configuration implements ConfigurationInterface
     {
         $nodeDefinition
             ->children()
-                ->booleanNode('use_native_search_result_extractor')
-                    ->info('Get search result objects by reconstructing them from the returned Solr data, instead of loading them from the persistence layer')
-                    ->defaultFalse()
+                ->booleanNode('use_loading_search_result_extractor')
+                    ->info('Get search result objects by loading them from the persistence layer, instead of reconstructing them from the returned Solr data')
+                    ->defaultTrue()
                 ->end()
             ->end();
     }
