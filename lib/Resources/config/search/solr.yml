@@ -15,11 +15,22 @@ services:
             - '@netgen.search.solr.subdocument_mapper.content_translation.aggregate'
 
     netgen.search.solr.result_extractor:
-        class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\ResultExtractor
+        class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\ResultExtractor\NativeResultExtractor
         decorates: ezpublish.search.solr.result_extractor.native
         arguments:
             - '@netgen.search.solr.result_extractor.inner'
             - '@ezpublish.search.solr.query.content.facet_builder_visitor.aggregate'
+            - '@ezpublish.search.solr.gateway.endpoint_registry'
+
+    netgen.search.solr.result_extractor:
+        class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\ResultExtractor\LoadingResultExtractor
+        decorates: ezpublish.search.solr.result_extractor.native
+        arguments:
+            - '@ezpublish.spi.persistence.content_handler'
+            - '@ezpublish.spi.persistence.location_handler'
+            - '@netgen.search.solr.result_extractor.inner'
+            - '@ezpublish.search.solr.query.content.facet_builder_visitor.aggregate'
+            - '@ezpublish.search.solr.gateway.endpoint_registry'
 
     netgen.search.solr.query.content.query_converter:
         class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common\QueryConverter
