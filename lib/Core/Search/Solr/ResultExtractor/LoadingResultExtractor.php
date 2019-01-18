@@ -128,9 +128,9 @@ final class LoadingResultExtractor Extends ResultExtractor
 
     private function loadContentInfoMapByIdList(array $contentIdList)
     {
-        if (method_exists($this->contentHandler, 'loadContentInfoList')) {
-            return $this->contentHandler->loadContentInfoList($contentIdList);
-        }
+        //if (method_exists($this->contentHandler, 'loadContentInfoList')) {
+        //    return $this->contentHandler->loadContentInfoList($contentIdList);
+        //}
 
         $contentInfoList = [];
 
@@ -150,9 +150,9 @@ final class LoadingResultExtractor Extends ResultExtractor
      */
     private function loadLocationMapByIdList(array $locationIdList)
     {
-        if (method_exists($this->locationHandler, 'loadList')) {
-            return $this->locationHandler->loadList($locationIdList);
-        }
+        //if (method_exists($this->locationHandler, 'loadList')) {
+        //    return $this->locationHandler->loadList($locationIdList);
+        //}
 
         $locationList = [];
 
