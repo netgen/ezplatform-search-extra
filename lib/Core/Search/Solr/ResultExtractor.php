@@ -2,7 +2,6 @@
 
 namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr;
 
-use EzSystems\EzPlatformSolrSearchEngine\Query\FacetFieldVisitor;
 use EzSystems\EzPlatformSolrSearchEngine\ResultExtractor as BaseResultExtractor;
 use Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder;
 
@@ -11,30 +10,11 @@ use Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuild
  *
  * @see \Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\Facet\RawFacetBuilder
  */
-final class ResultExtractor Extends BaseResultExtractor
+abstract class ResultExtractor Extends BaseResultExtractor
 {
-    /**
-     * @var \EzSystems\EzPlatformSolrSearchEngine\ResultExtractor
-     */
-    private $nativeResultExtractor;
-
-    /** @noinspection PhpMissingParentConstructorInspection */
-    /** @noinspection MagicMethodsValidityInspection */
-    /**
-     * @param \EzSystems\EzPlatformSolrSearchEngine\ResultExtractor $nativeResultExtractor
-     * @param \EzSystems\EzPlatformSolrSearchEngine\Query\FacetFieldVisitor $facetBuilderVisitor
-     */
-    public function __construct(
-        BaseResultExtractor $nativeResultExtractor,
-        FacetFieldVisitor $facetBuilderVisitor
-    ) {
-        $this->nativeResultExtractor = $nativeResultExtractor;
-        $this->facetBuilderVisitor = $facetBuilderVisitor;
-    }
-
     public function extract($data, array $facetBuilders = [])
     {
-        $searchResult = $this->nativeResultExtractor->extract($data, $facetBuilders);
+        $searchResult = $this->extractSearchResult($data, $facetBuilders);
 
         if (!isset($data->facets) || $data->facets->count === 0) {
             return $searchResult;
@@ -54,6 +34,16 @@ final class ResultExtractor Extends BaseResultExtractor
     }
 
     /**
+     * Extract the base search result.
+     *
+     * @param mixed $data
+     * @param \eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder[] $facetBuilders
+     *
+     * @return \eZ\Publish\API\Repository\Values\Content\Search\SearchResult
+     */
+    abstract protected function extractSearchResult($data, array $facetBuilders = []);
+
+    /**
      * @param \eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder[] $facetBuilders
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder[]
@@ -66,10 +56,5 @@ final class ResultExtractor Extends BaseResultExtractor
                 return $facetBuilder instanceof RawFacetBuilder;
             }
         );
-    }
-
-    public function extractHit($hit)
-    {
-        return $this->nativeResultExtractor->extractHit($hit);
     }
 }

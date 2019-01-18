@@ -27,6 +27,7 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root($this->rootNodeName);
 
         $this->addIndexableFieldTypeSection($rootNode);
+        $this->addSearchResultExtractorSection($rootNode);
 
         return $treeBuilder;
     }
@@ -60,6 +61,17 @@ class Configuration implements ConfigurationInterface
                             ->end()
                         ->end()
                     ->end()
+                ->end()
+            ->end();
+    }
+
+    private function addSearchResultExtractorSection(ArrayNodeDefinition $nodeDefinition)
+    {
+        $nodeDefinition
+            ->children()
+                ->booleanNode('use_loading_search_result_extractor')
+                    ->info('Get search result objects by loading them from the persistence layer, instead of reconstructing them from the returned Solr data')
+                    ->defaultTrue()
                 ->end()
             ->end();
     }
