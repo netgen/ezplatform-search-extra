@@ -50,7 +50,39 @@ for more details.
 
   Provides a way to sort Content randomly.
   
-- [`Indexable`](https://github.com/netgen/ezplatform-search-extra/blob/master/lib/Core/FieldType/XmlText/Indexable.php) implementation for `XmlText` that shortens text indexed as keyword to 256 characters, to avoid failure 
+- Indexable implementations for [`RichText`](https://github.com/netgen/ezplatform-search-extra/blob/master/lib/Core/FieldType/RichText/Indexable.php) and [`XmlText`](https://github.com/netgen/ezplatform-search-extra/blob/master/lib/Core/FieldType/XmlText/Indexable.php) (`solr`)
+
+  These implementations shorten text indexed as keyword to 256 characters, which prevents failures
+  when the field's content is too big for Solr's string field. They can be controlled with
+  semantic configuration (showing defaults):
+
+  ```yaml
+  netgen_ez_platform_search_extra:
+      indexable_field_type:
+          ezxmltext:
+              enabled: true
+              short_text_limit: 256
+          ezrichtext:
+              enabled: true
+              short_text_limit: 256
+  ```
+
+- [`Loading implementation`](https://github.com/netgen/ezplatform-search-extra/blob/master/lib/Core/FieldType/RichText/Indexable.php) of result extractor (`solr`)
+
+  Loading result extractor gets it's value objects by loading them from the persistence. This
+  prevents:
+
+    - `UnauthorizedException` failures because of the missing `content/versionread` permission
+    when Content is updated and incremented current version number is not yet indexed in Solr
+    - `NotFoundException` failures when Content/Location is deleted and the corresponding document
+    is not yet removed from Solr index
+
+  Usage of loading result extractor can be controlled with semantic configuration (showing defaults):
+
+  ```yaml
+  netgen_ez_platform_search_extra:
+      use_loading_search_result_extractor: true
+  ```
 
 ## Installation
 
