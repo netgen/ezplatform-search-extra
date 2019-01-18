@@ -2,6 +2,7 @@
 
 namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr\ResultExtractor;
 
+use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\SPI\Persistence\Content\ContentInfo;
 use eZ\Publish\SPI\Persistence\Content\Location;
 use EzSystems\EzPlatformSolrSearchEngine\Gateway\EndpointRegistry;
@@ -73,8 +74,14 @@ final class LoadingResultExtractor Extends ResultExtractor
     {
         $valueObjectMapById = $this->loadValueObjectMapById($searchResult);
 
-        foreach ($searchResult->searchHits as $searchHit) {
-            $searchHit->valueObject = $valueObjectMapById[$this->getValueObjectId($searchHit->valueObject)];
+        foreach ($searchResult->searchHits as $index => $searchHit) {
+            $id = $this->getValueObjectId($searchHit->valueObject);
+
+            if (array_key_exists($id, $valueObjectMapById)) {
+                $searchHit->valueObject = $valueObjectMapById[$id];
+            } else {
+                // temp: do nothing
+            }
         }
 
         return $searchResult;
@@ -135,7 +142,11 @@ final class LoadingResultExtractor Extends ResultExtractor
         $contentInfoList = [];
 
         foreach ($contentIdList as $contentId) {
-            $contentInfoList[$contentId] = $this->contentHandler->loadContentInfo($contentId);
+            try {
+                $contentInfoList[$contentId] = $this->contentHandler->loadContentInfo($contentId);
+            } catch (NotFoundException $e) {
+                // do nothing
+            }
         }
 
         return $contentInfoList;
@@ -143,8 +154,6 @@ final class LoadingResultExtractor Extends ResultExtractor
 
     /**
      * @param array $locationIdList
-     *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
      *
      * @return array|\eZ\Publish\SPI\Persistence\Content\ContentInfo[]
      */
@@ -157,7 +166,11 @@ final class LoadingResultExtractor Extends ResultExtractor
         $locationList = [];
 
         foreach ($locationIdList as $locationId) {
-            $locationList[$locationId] = $this->locationHandler->load($locationId);
+            try {
+                $locationList[$locationId] = $this->locationHandler->load($locationId);
+            } catch (NotFoundException $e) {
+                // do nothing
+            }
         }
 
         return $locationList;
