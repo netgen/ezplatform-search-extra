@@ -66,8 +66,6 @@ final class LoadingResultExtractor Extends ResultExtractor
     /**
      * @param \eZ\Publish\API\Repository\Values\Content\Search\SearchResult $searchResult
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
-     *
      * @return \eZ\Publish\API\Repository\Values\Content\Search\SearchResult
      */
     private function replaceExtractedValuesByLoadedValues(SearchResult $searchResult)
@@ -89,8 +87,6 @@ final class LoadingResultExtractor Extends ResultExtractor
 
     /**
      * @param \eZ\Publish\API\Repository\Values\Content\Search\SearchResult $searchResult
-     *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
      *
      * @return array|\eZ\Publish\SPI\Persistence\Content\ContentInfo[]
      */
