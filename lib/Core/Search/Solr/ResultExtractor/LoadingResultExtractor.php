@@ -49,11 +49,6 @@ final class LoadingResultExtractor Extends ResultExtractor
         parent::__construct($facetBuilderVisitor, $endpointRegistry);
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
-     */
     protected function extractSearchResult($data, array $facetBuilders = [])
     {
         $searchResult = $this->nativeResultExtractor->extract($data, $facetBuilders);
