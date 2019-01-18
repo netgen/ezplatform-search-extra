@@ -78,7 +78,8 @@ final class LoadingResultExtractor Extends ResultExtractor
             if (array_key_exists($id, $valueObjectMapById)) {
                 $searchHit->valueObject = $valueObjectMapById[$id];
             } else {
-                // temp: do nothing
+                unset($searchResult->searchHits[$index]);
+                --$searchResult->totalCount;
             }
         }
 
