@@ -67,7 +67,7 @@ for more details.
               short_text_limit: 256
   ```
 
-- [`Loading implementation`](https://github.com/netgen/ezplatform-search-extra/blob/master/lib/Core/FieldType/RichText/Indexable.php) of result extractor (`solr`)
+- [`Loading`](https://github.com/netgen/ezplatform-search-extra/blob/master/lib/Core/Search/Solr/ResultExtractor/LoadingResultExtractor.php) implementation of result extractor (`solr`)
 
   Loading result extractor gets it's value objects by loading them from the persistence. This
   prevents:
