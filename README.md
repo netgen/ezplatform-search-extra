@@ -8,7 +8,7 @@
 
 ## Features
 
-Only a short list of features is provided here, see
+Only a list of features is provided here, see
 [documentation](https://netgen-ezplatform-search-extra.readthedocs.io)
 for more details.
 
