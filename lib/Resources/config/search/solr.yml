@@ -5,6 +5,9 @@ imports:
     - {resource: solr/sort_clause_visitors.yml}
     - {resource: solr/subdocument_mappers.yml}
 
+parameters:
+    ezpublish.spi.search.solr.class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\Handler
+
 services:
     netgen.search.solr.document_mapper:
         class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\DocumentMapper
@@ -39,16 +42,3 @@ services:
             - '@ezpublish.search.solr.query.location.criterion_visitor.aggregate'
             - '@ezpublish.search.solr.query.location.sort_clause_visitor.aggregate'
             - '@ezpublish.search.solr.query.location.facet_builder_visitor.aggregate'
-
-    netgen.spi.search.solr:
-        decorates: ezpublish.spi.search.solr
-        class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\Handler
-        arguments:
-            - "@ezpublish.search.solr.gateway"
-            - "@ezpublish.spi.persistence.content_handler"
-            - "@ezpublish.search.solr.document_mapper"
-            - "@ezpublish.search.solr.result_extractor"
-            - "@ezpublish.search.solr.core_filter"
-        tags:
-            - {name: ezpublish.searchEngine, alias: solr}
-        lazy: true
