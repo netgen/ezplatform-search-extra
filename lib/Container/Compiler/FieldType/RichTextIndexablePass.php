@@ -3,7 +3,7 @@
 namespace Netgen\EzPlatformSearchExtra\Container\Compiler\FieldType;
 
 use EzSystems\EzPlatformRichText\eZ\FieldType\RichText\SearchField;
-use Netgen\EzPlatformSearchExtra\Core\FieldType\XmlText\Indexable as IndexableXmlText;
+use Netgen\EzPlatformSearchExtra\Core\FieldType\RichText\Indexable as IndexableRichText;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -30,7 +30,7 @@ class RichTextIndexablePass implements CompilerPassInterface
 
         $definition = $container->findDefinition($originalServiceId);
 
-        $definition->setClass(IndexableXmlText::class);
+        $definition->setClass(IndexableRichText::class);
         $definition->setArgument(0, $shortTextLimit);
         $definition->addTag('ezpublish.fieldType.indexable', ['alias' => 'ezrichtext']);
 
