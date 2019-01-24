@@ -17,6 +17,8 @@ class Solr extends CoreSolrSetupFactory
      */
     protected function externalBuildContainer(ContainerBuilder $containerBuilder)
     {
+        parent::externalBuildContainer($containerBuilder);
+
         $configPath = __DIR__ . '/../../../lib/Resources/config/';
         $loader = new YamlFileLoader($containerBuilder, new FileLocator($configPath));
         $loader->load('search/common.yml');
@@ -32,7 +34,5 @@ class Solr extends CoreSolrSetupFactory
         $containerBuilder->addCompilerPass(new Compiler\AggregateContentSubdocumentMapperPass());
         $containerBuilder->addCompilerPass(new Compiler\AggregateContentTranslationSubdocumentMapperPass());
         $containerBuilder->addCompilerPass(new Compiler\AggregateSubdocumentQueryCriterionVisitorPass());
-
-        parent::externalBuildContainer($containerBuilder);
     }
 }
