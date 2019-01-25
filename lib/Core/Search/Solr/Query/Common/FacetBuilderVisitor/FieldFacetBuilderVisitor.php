@@ -61,16 +61,13 @@ class FieldFacetBuilderVisitor extends FacetBuilderVisitor implements FacetField
         $criteria = new Criterion\MatchAll();
         $fieldPaths = $facetBuilder->fieldPaths;
 
-        $parts = explode(':', $fieldPaths);
-        if (count($parts) > 1) {
-            $contentTypeIdentifier = $parts[0];
+        if (count($fieldPaths) > 1) {
+            $contentTypeIdentifier = array_shift($fieldPaths);
             $criteria = new Criterion\ContentTypeIdentifier($contentTypeIdentifier);
-            $fieldPaths = $parts[1];
         }
 
-        $parts = explode('/', $fieldPaths);
-        $fieldDefinitionIdentifier = $parts[0];
-        $name = isset($parts[1]) ? $parts[1] : null;
+        $fieldDefinitionIdentifier = array_shift($fieldPaths);
+        $name = array_shift($fieldPaths);
 
         $fieldTypes = $this->fieldNameResolver->getFieldTypes(
             $criteria,
