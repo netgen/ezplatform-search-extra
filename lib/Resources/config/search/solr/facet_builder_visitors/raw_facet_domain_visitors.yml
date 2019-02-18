@@ -1,0 +1,12 @@
+services:
+    # Note: services tagged with 'netgen.search.solr.query.common.facet_builder_visitor.raw.domain_visitor'
+    # are registered to this one using container compiler pass
+    netgen.search.solr.query.common.facet_builder_visitor.raw.domain_visitor.aggregate:
+        class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common\FacetBuilderVisitor\RawFacetBuilderVisitor\DomainVisitor\Aggregate
+
+    netgen.search.solr.query.common.facet_builder_visitor.raw.domain_visitor.block_children:
+        class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common\FacetBuilderVisitor\RawFacetBuilderVisitor\DomainVisitor\BlockChildren
+        arguments:
+            - '@netgen.search.solr.query.content.criterion_visitor.subdocument_query.aggregate'
+        tags:
+            - { name: netgen.search.solr.query.common.facet_builder_visitor.raw.domain_visitor }

@@ -1,3 +1,6 @@
+imports:
+    - { resource: facet_builder_visitors/raw_facet_domain_visitors.yml }
+
 services:
     netgen.search.solr.query.common.facet_builder_visitor.custom_field:
         class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common\FacetBuilderVisitor\CustomFieldFacetBuilderVisitor
@@ -7,6 +10,8 @@ services:
 
     netgen.search.solr.query.common.facet_builder_visitor.raw:
         class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common\FacetBuilderVisitor\RawFacetBuilderVisitor
+        arguments:
+            - '@netgen.search.solr.query.common.facet_builder_visitor.raw.domain_visitor.aggregate'
         tags:
             - {name: ezpublish.search.solr.query.content.facet_builder_visitor}
             - {name: ezpublish.search.solr.query.location.facet_builder_visitor}

@@ -15,14 +15,19 @@ class RawFacetBuilder extends FacetBuilder
      * Example:
      *
      * ```php
-     * $facet->parameters = [
-     *     'type': 'terms'
-     *     'field' => 'genre',
-     *     'limit' => 5,
-     * ];
+     *  $facet->parameters = [
+     *      'type': 'terms'
+     *      'field' => 'genre',
+     *      'limit' => 5,
+     *  ];
      * ```
      *
      * @var array
      */
     public $parameters;
+
+    /**
+     * @var \Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder\Domain|null
+     */
+    public $domain;
 }
