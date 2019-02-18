@@ -3,7 +3,6 @@
 namespace Netgen\EzPlatformSearchExtra\Tests\Solr;
 
 use eZ\Publish\API\Repository\Tests\BaseTest;
-use eZ\Publish\API\Repository\Values\Content\LocationQuery;
 use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\ContentId;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\CustomField;
@@ -18,7 +17,7 @@ class RawFacetDomainTest extends BaseTest
     {
         return [
             [
-                new LocationQuery([
+                new Query([
                     'facetBuilders' => [
                         new RawFacetBuilder([
                             'name' => 'test_facet',
@@ -80,7 +79,7 @@ class RawFacetDomainTest extends BaseTest
                 ],
             ],
             [
-                new LocationQuery([
+                new Query([
                     'facetBuilders' => [
                         new RawFacetBuilder([
                             'name' => 'test_facet',
@@ -136,7 +135,7 @@ class RawFacetDomainTest extends BaseTest
                 ],
             ],
             [
-                new LocationQuery([
+                new Query([
                     'facetBuilders' => [
                         new RawFacetBuilder([
                             'name' => 'test_facet',
