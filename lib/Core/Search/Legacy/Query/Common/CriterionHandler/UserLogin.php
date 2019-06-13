@@ -46,7 +46,7 @@ final class UserLogin extends CriterionHandler
                 break;
             default:
                 throw new RuntimeException(
-                    "Unknown operator '{$criterion->operator}' for UserEmail criterion handler"
+                    "Unknown operator '{$criterion->operator}' for UserLogin criterion handler"
                 );
         }
 
