@@ -34,13 +34,13 @@ final class UserLogin extends CriterionHandler
             case Operator::EQ:
             case Operator::IN:
                 $expression = $query->expr->in(
-                    $this->dbHandler->quoteColumn('email'),
+                    $this->dbHandler->quoteColumn('login'),
                     $criterion->value
                 );
                 break;
             case Operator::LIKE:
                 $expression = $query->expr->like(
-                    $this->dbHandler->quoteColumn('email'),
+                    $this->dbHandler->quoteColumn('login'),
                     $criterion->value
                 );
                 break;
