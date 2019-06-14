@@ -39,9 +39,10 @@ final class UserEmail extends CriterionHandler
                 );
                 break;
             case Operator::LIKE:
+                $string = $this->prepareLikeString($criterion->value);
                 $expression = $query->expr->like(
                     $this->dbHandler->quoteColumn('email'),
-                    $criterion->value
+                    $query->bindValue($string)
                 );
                 break;
             default:
@@ -59,5 +60,21 @@ final class UserEmail extends CriterionHandler
             $this->dbHandler->quoteColumn('id', 'ezcontentobject'),
             $subQuery
         );
+    }
+
+    /**
+     * Returns the given $string prepared for use in SQL LIKE clause.
+     *
+     * LIKE clause wildcards '%' and '_' contained in the given $string will be escaped.
+     *
+     * @param $string
+     *
+     * @return string
+     */
+    protected function prepareLikeString($string)
+    {
+        $string = addcslashes($string, '%_');
+
+        return str_replace('*', '%', $string);
     }
 }

@@ -11,6 +11,12 @@
     <testsuites>
         <testsuite name="Solr Search Engine tests">
             <directory suffix="Test.php">./tests/lib/</directory>
+            <!-- Exclude tests not supported with Legacy search engine -->
+            <exclude>tests/lib/API/HasUserCriterionTest.php</exclude>
+            <exclude>tests/lib/API/UserEmailCriterionTest.php</exclude>
+            <exclude>tests/lib/API/UserEnabledCriterionTest.php</exclude>
+            <exclude>tests/lib/API/UserIdCriterionTest.php</exclude>
+            <exclude>tests/lib/API/UserLoginCriterionTest.php</exclude>
         </testsuite>
     </testsuites>
     <filter>

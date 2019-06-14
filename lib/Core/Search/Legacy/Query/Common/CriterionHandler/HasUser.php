@@ -6,18 +6,18 @@ use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use eZ\Publish\Core\Persistence\Database\SelectQuery;
 use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\UserEnabled as UserEnabledCriterion;
+use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\HasUser as HasUserCriterion;
 
 /**
- * Handles the UserEnabled criterion.
+ * Handles the HasUser criterion.
  *
- * @see \Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\UserEnabled
+ * @see \Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\HasUser
  */
-final class UserEnabled extends CriterionHandler
+final class HasUser extends CriterionHandler
 {
     public function accept(Criterion $criterion)
     {
-        return $criterion instanceof UserEnabledCriterion;
+        return $criterion instanceof HasUserCriterion;
     }
 
     public function handle(
@@ -27,26 +27,27 @@ final class UserEnabled extends CriterionHandler
         array $languageSettings
     ) {
         $subQuery = $query->subSelect();
-        $enabled = reset($criterion->value);
+        $hasUser = reset($criterion->value);
 
         $subQuery
             ->select($this->dbHandler->quoteColumn('contentobject_id'))
             ->from($this->dbHandler->quoteTable('ezuser'))
-            ->innerJoin(
-                $this->dbHandler->quoteTable('ezuser_setting'),
-                'ezuser.contentobject_id',
-                'ezuser_setting.user_id'
-            )
             ->where(
                 $query->expr->eq(
-                    $this->dbHandler->quoteColumn('is_enabled', 'ezuser_setting'),
-                    $enabled ? 1 : 0
+                    $this->dbHandler->quoteColumn('contentobject_id', 'ezuser'),
+                    $this->dbHandler->quoteColumn('id', 'ezcontentobject')
                 )
             );
 
-        return $query->expr->in(
+        $expression = $query->expr->in(
             $this->dbHandler->quoteColumn('id', 'ezcontentobject'),
             $subQuery
         );
+
+        if ($hasUser === true) {
+            return $expression;
+        }
+
+        return $query->expr->not($expression);
     }
 }

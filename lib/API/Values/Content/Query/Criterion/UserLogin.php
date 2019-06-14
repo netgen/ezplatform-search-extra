@@ -12,6 +12,15 @@ use eZ\Publish\API\Repository\Values\Content\Query\CriterionInterface;
  */
 class UserLogin extends Criterion implements CriterionInterface
 {
+    /**
+     * @param string $operator
+     * @param string|string[] $value
+     */
+    public function __construct($operator, $value)
+    {
+        parent::__construct(null, $operator, $value);
+    }
+
     public function getSpecifications()
     {
         return array(

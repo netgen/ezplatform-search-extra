@@ -25,6 +25,14 @@ services:
         tags:
             - {name: ezpublish.search.legacy.gateway.criterion_handler.content}
 
+    netgen.search.legacy.query.common.criterion_visitor.has_user:
+        class: Netgen\EzPlatformSearchExtra\Core\Search\Legacy\Query\Common\CriterionHandler\HasUser
+        arguments:
+            - '@ezpublish.api.storage_engine.legacy.dbhandler'
+        tags:
+            - {name: ezpublish.search.legacy.gateway.criterion_handler.content}
+            - {name: ezpublish.search.legacy.gateway.criterion_handler.location}
+
     netgen.search.legacy.query.common.criterion_visitor.user_email:
         class: Netgen\EzPlatformSearchExtra\Core\Search\Legacy\Query\Common\CriterionHandler\UserEmail
         arguments:
@@ -53,6 +61,7 @@ services:
         class: Netgen\EzPlatformSearchExtra\Core\Search\Legacy\Query\Common\CriterionHandler\UserLogin
         arguments:
             - '@ezpublish.api.storage_engine.legacy.dbhandler'
+            - '@ezpublish.api.storage_engine.transformation_processor'
         tags:
             - {name: ezpublish.search.legacy.gateway.criterion_handler.content}
             - {name: ezpublish.search.legacy.gateway.criterion_handler.location}
