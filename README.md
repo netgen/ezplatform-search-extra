@@ -12,6 +12,14 @@ Only a list of features is provided here, see
 [documentation](https://netgen-ezplatform-search-extra.readthedocs.io)
 for more details.
 
+- A set of User related criteria (`legacy`):
+
+  - [`HasUser`](https://github.com/netgen/ezplatform-search-extra/blob/master/lib/API/Values/Content/Query/Criterion/HasUser.php) criterion
+  - [`UserEmail`](https://github.com/netgen/ezplatform-search-extra/blob/master/lib/API/Values/Content/Query/Criterion/UserEmail.php) criterion
+  - [`UserEnabled`](https://github.com/netgen/ezplatform-search-extra/blob/master/lib/API/Values/Content/Query/Criterion/UserEnabled.php) criterion
+  - [`UserId`](https://github.com/netgen/ezplatform-search-extra/blob/master/lib/API/Values/Content/Query/Criterion/UserId.php) criterion
+  - [`UserLogin`](https://github.com/netgen/ezplatform-search-extra/blob/master/lib/API/Values/Content/Query/Criterion/UserLogin.php) criterion
+
 - [`IsFieldEmpty`](https://github.com/netgen/ezplatform-search-extra/blob/master/lib/API/Values/Content/Query/Criterion/IsFieldEmpty.php) criterion (`solr`)
 
   Requires initial reindexing after installation.
