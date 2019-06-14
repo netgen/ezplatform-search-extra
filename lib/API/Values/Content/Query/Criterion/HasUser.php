@@ -8,31 +8,26 @@ use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator\Specificat
 use eZ\Publish\API\Repository\Values\Content\Query\CriterionInterface;
 
 /**
- * UserId criterion matches Content based on matching User ID.
+ * HasUser criterion matches Content based on whether is has matching User or not.
  */
-class UserId extends Criterion implements CriterionInterface
+class HasUser extends Criterion implements CriterionInterface
 {
     /**
-     * @param string|int|string[]|int[] $id
+     * @param bool $hasUser
      */
-    public function __construct($id)
+    public function __construct($hasUser)
     {
-        parent::__construct(null, null, $id);
+        parent::__construct(null, null, $hasUser);
     }
 
     public function getSpecifications()
     {
-        return array(
-            new Specifications(
-                Operator::IN,
-                Specifications::FORMAT_ARRAY,
-                Specifications::TYPE_INTEGER | Specifications::TYPE_STRING
-            ),
+        return [
             new Specifications(
                 Operator::EQ,
                 Specifications::FORMAT_SINGLE,
-                Specifications::TYPE_INTEGER | Specifications::TYPE_STRING
+                Specifications::TYPE_BOOLEAN
             ),
-        );
+        ];
     }
 }
