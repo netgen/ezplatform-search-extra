@@ -8,6 +8,7 @@ use EzSystems\EzPlatformSolrSearchEngine\Query\CriterionVisitor;
 use EzSystems\EzPlatformSolrSearchEngine\Query\FacetFieldVisitor;
 use EzSystems\EzPlatformSolrSearchEngine\Query\QueryConverter as BaseQueryConverter;
 use EzSystems\EzPlatformSolrSearchEngine\Query\SortClauseVisitor;
+use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\FulltextSpellcheck;
 use Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder;
 
 /**
@@ -80,6 +81,10 @@ class QueryConverter extends BaseQueryConverter
             $params['facet'] = 'true';
             $params['facet.sort'] = 'count';
             $params = array_merge($oldFacetParams, $params);
+        }
+
+        if ($query->query instanceof FulltextSpellcheck) {
+            $params['spellcheck.q'] = $query->query->value;
         }
 
         return $params;
