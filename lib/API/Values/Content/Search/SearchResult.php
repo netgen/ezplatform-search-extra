@@ -7,9 +7,9 @@ use eZ\Publish\API\Repository\Values\Content\Search\SearchResult as BaseSearchRe
 class SearchResult extends BaseSearchResult
 {
     /**
-     * List of suggestions after spell checking.
+     * Contains suggestion for misspelled words.
      *
-     * @var \Netgen\EzPlatformSearchExtra\API\Values\Content\Search\SpellCheckSuggestion[]
+     * @var \Netgen\EzPlatformSearchExtra\API\Values\Content\Search\Suggestion
      */
-    public $spellCheckSuggestions = array();
+    public $suggestion;
 }
