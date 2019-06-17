@@ -11,6 +11,8 @@ use EzSystems\EzPlatformSolrSearchEngine\ResultExtractor as BaseResultExtractor;
 use eZ\Publish\SPI\Persistence\Content\Handler as ContentHandler;
 use eZ\Publish\SPI\Persistence\Content\Location\Handler as LocationHandler;
 use Netgen\EzPlatformSearchExtra\API\Values\Content\Search\SpellCheckSuggestion;
+use Netgen\EzPlatformSearchExtra\API\Values\Content\Search\Suggestion;
+use Netgen\EzPlatformSearchExtra\API\Values\Content\Search\WordSuggestion;
 use Netgen\EzPlatformSearchExtra\Core\Search\Solr\ResultExtractor;
 use Netgen\EzPlatformSearchExtra\API\Values\Content\Search\SearchResult;
 use RuntimeException;
@@ -56,8 +58,8 @@ final class LoadingResultExtractor Extends ResultExtractor
         $searchResult = new SearchResult(get_object_vars($searchResult));
         $this->replaceExtractedValuesByLoadedValues($searchResult);
 
-        if ($this->isSpellcheckAvailable($data)) {
-            $searchResult->spellCheckSuggestions = $this->getSpellCheckSuggestions($data);
+        if ($this->isSpellCheckAvailable($data)) {
+            $searchResult->suggestion = $this->getSpellCheckSuggestion($data);
         }
 
         return $searchResult;
@@ -178,40 +180,41 @@ final class LoadingResultExtractor Extends ResultExtractor
      *
      * @return bool
      */
-    private function isSpellcheckAvailable($data)
+    private function isSpellCheckAvailable($data)
     {
         return property_exists($data, 'spellcheck') && property_exists($data->spellcheck, 'suggestions');
     }
 
     /**
-     * Extracts suggestions from received data.
+     * Extracts spell check suggestions from received data.
      *
      * @param $data
      *
-     * @return \Netgen\EzPlatformSearchExtra\API\Values\Content\Search\SpellCheckSuggestion[]
+     * @return \Netgen\EzPlatformSearchExtra\API\Values\Content\Search\Suggestion
      */
-    private function getSpellCheckSuggestions($data)
+    private function getSpellCheckSuggestion($data)
     {
-        $suggestions = [];
-        if (empty($data->spellcheck->suggestions)) {
-            return $suggestions;
-        }
+        $receivedSuggestions = $data->spellcheck->suggestions;
+        $wordSuggestions = [];
 
-        for ($i = 0; $i < (count($data->spellcheck->suggestions) - 1); $i += 2) {
-            if (!property_exists($data->spellcheck->suggestions[$i+1], 'suggestion') || empty($data->spellcheck->suggestions[$i+1]->suggestion)) {
+        for ($i = 0; $i < (count($receivedSuggestions) - 1); $i += 2) {
+            $originalWord = $receivedSuggestions[$i];
+            $receivedWordSuggestions = $receivedSuggestions[$i+1];
+
+            if (!property_exists($receivedWordSuggestions, 'suggestion') || empty($receivedWordSuggestions->suggestion)) {
                 continue;
             }
 
-            $suggestions[$data->spellcheck->suggestions[$i]] = [];
-            foreach ($data->spellcheck->suggestions[$i+1]->suggestion as $suggestion) {
-                $suggestions[$data->spellcheck->suggestions[$i]][] = new SpellCheckSuggestion([
-                    'word' => $suggestion->word,
+            foreach ($receivedWordSuggestions->suggestion as $suggestion) {
+                $wordSuggestions[] = new WordSuggestion([
+                    'originalWord' => $originalWord,
+                    'suggestedWord' => $suggestion->word,
                     'frequency' => $suggestion->freq,
                 ]);
             }
         }
 
-        return $suggestions;
+        return new Suggestion($wordSuggestions);
     }
 
     /**
