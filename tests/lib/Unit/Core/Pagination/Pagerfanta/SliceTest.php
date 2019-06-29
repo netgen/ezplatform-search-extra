@@ -1,6 +1,6 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Tests\Unit\Pagination\Pagerfanta;
+namespace Netgen\EzPlatformSearchExtra\Tests\Unit\Core\Pagination\Pagerfanta;
 
 use eZ\Publish\API\Repository\Values\Content\Search\SearchHit;
 use Netgen\EzPlatformSearchExtra\Core\Pagination\Pagerfanta\Slice;
