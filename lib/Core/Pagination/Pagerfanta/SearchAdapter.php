@@ -16,9 +16,15 @@ class SearchAdapter extends BaseAdapter
     public function __construct(Query $query, SearchService $searchService)
     {
         parent::__construct($query);
+
         $this->searchService = $searchService;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     */
     protected function executeQuery(Query $query)
     {
         if ($query instanceof LocationQuery) {
