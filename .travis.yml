@@ -44,7 +44,7 @@ before_script:
           ./bin/.travis/init_solr.sh;
       fi
     - if [ "$REGRESSION" = "yes" ]; then
-          sed -i.bak s/EzSystems\\\\EzPlatformSolrSearchEngine\\\\Tests\\\\SetupFactory\\\\LegacySetupFactory/Netgen\\\\EzPlatformSearchExtra\\\\Tests\\\\SetupFactory\\\\Solr/g $TEST_CONFIG;
+          sed -i.bak s/EzSystems\\\\EzPlatformSolrSearchEngine\\\\Tests\\\\SetupFactory\\\\LegacySetupFactory/Netgen\\\\EzPlatformSearchExtra\\\\Tests\\\\Integration\\\\SetupFactory\\\\Solr/g $TEST_CONFIG;
       fi
 
 script:
