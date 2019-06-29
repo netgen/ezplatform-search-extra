@@ -2,6 +2,7 @@
 
 namespace Netgen\EzPlatformSearchExtra\Core\Pagination\Pagerfanta;
 
+use function array_key_exists;
 use ArrayAccess;
 use ArrayIterator;
 use eZ\Publish\API\Repository\Values\Content\Search\SearchHit;
@@ -43,7 +44,7 @@ final class Slice implements IteratorAggregate, ArrayAccess
 
     public function offsetExists($offset)
     {
-        return \array_key_exists($offset, $this->searchHits);
+        return array_key_exists($offset, $this->searchHits);
     }
 
     public function offsetGet($offset)
