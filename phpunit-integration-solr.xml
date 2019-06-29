@@ -5,18 +5,18 @@
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true">
     <php>
-        <env name="setupFactory" value="Netgen\EzPlatformSearchExtra\Tests\SetupFactory\Solr" />
+        <env name="setupFactory" value="Netgen\EzPlatformSearchExtra\Tests\Integration\SetupFactory\Solr" />
         <ini name="error_reporting" value="-1" />
     </php>
     <testsuites>
         <testsuite name="Solr Search Engine tests">
-            <directory suffix="Test.php">./tests/lib/</directory>
-            <!-- Exclude tests not supported with Legacy search engine -->
-            <exclude>tests/lib/API/HasUserCriterionTest.php</exclude>
-            <exclude>tests/lib/API/UserEmailCriterionTest.php</exclude>
-            <exclude>tests/lib/API/UserEnabledCriterionTest.php</exclude>
-            <exclude>tests/lib/API/UserIdCriterionTest.php</exclude>
-            <exclude>tests/lib/API/UserLoginCriterionTest.php</exclude>
+            <directory suffix="Test.php">./tests/lib/Integration/</directory>
+            <!-- Exclude tests not supported with Solr search engine -->
+            <exclude>tests/lib/Integration/API/HasUserCriterionTest.php</exclude>
+            <exclude>tests/lib/Integration/API/UserEmailCriterionTest.php</exclude>
+            <exclude>tests/lib/Integration/API/UserEnabledCriterionTest.php</exclude>
+            <exclude>tests/lib/Integration/API/UserIdCriterionTest.php</exclude>
+            <exclude>tests/lib/Integration/API/UserLoginCriterionTest.php</exclude>
         </testsuite>
     </testsuites>
     <filter>

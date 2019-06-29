@@ -10,6 +10,7 @@
     <testsuites>
         <testsuite name="Unit tests">
             <directory suffix="Test.php">./tests/bundle/</directory>
+            <directory suffix="Test.php">./tests/lib/Unit</directory>
         </testsuite>
     </testsuites>
     <filter>

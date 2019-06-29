@@ -5,19 +5,19 @@
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true">
     <php>
-        <env name="setupFactory" value="Netgen\EzPlatformSearchExtra\Tests\SetupFactory\Legacy" />
+        <env name="setupFactory" value="Netgen\EzPlatformSearchExtra\Tests\Integration\SetupFactory\Legacy" />
         <ini name="error_reporting" value="-1" />
     </php>
     <testsuites>
         <testsuite name="Legacy Search Engine tests">
-            <directory suffix="Test.php">./tests/lib/</directory>
+            <directory suffix="Test.php">./tests/lib/Integration/</directory>
             <!-- Exclude tests not supported with Legacy search engine -->
-            <exclude>tests/lib/API/CustomFieldFacetTest.php</exclude>
-            <exclude>tests/lib/API/IsFieldEmptyCriterionTest.php</exclude>
-            <exclude>tests/lib/API/SubdocumentFieldSortClauseTest.php</exclude>
-            <exclude>tests/lib/API/SubdocumentQueryCriterionTest.php</exclude>
-            <exclude>tests/lib/Solr/RawFacetDomainTest.php</exclude>
-            <exclude>tests/lib/Solr/RawFacetTest.php</exclude>
+            <exclude>tests/lib/Integration/API/CustomFieldFacetTest.php</exclude>
+            <exclude>tests/lib/Integration/API/IsFieldEmptyCriterionTest.php</exclude>
+            <exclude>tests/lib/Integration/API/SubdocumentFieldSortClauseTest.php</exclude>
+            <exclude>tests/lib/Integration/API/SubdocumentQueryCriterionTest.php</exclude>
+            <exclude>tests/lib/Integration/Solr/RawFacetDomainTest.php</exclude>
+            <exclude>tests/lib/Integration/Solr/RawFacetTest.php</exclude>
         </testsuite>
     </testsuites>
     <filter>
