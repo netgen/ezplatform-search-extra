@@ -12,6 +12,12 @@ Only a list of features is provided here, see
 [documentation](https://netgen-ezplatform-search-extra.readthedocs.io)
 for more details.
 
+- Pagerfanta adapters providing access to extra information returned by the search
+  engine, like facets, max score and execution time (`solr`, `legacy`):
+
+  - [`SearchAdapter`](https://github.com/netgen/ezplatform-search-extra/blob/master/lib/Core/Pagination/Pagerfanta/SearchAdapter.php) when using `API` search service
+  - [`SearchHandlerAdapter`](https://github.com/netgen/ezplatform-search-extra/blob/master/lib/Core/Pagination/Pagerfanta/SearchHandlerAdapter.php) when using `SPI` search handler
+
 - A set of User related criteria (`legacy`):
 
   - [`HasUser`](https://github.com/netgen/ezplatform-search-extra/blob/master/lib/API/Values/Content/Query/Criterion/HasUser.php) criterion
