@@ -16,9 +16,15 @@ class SearchHandlerAdapter extends BaseAdapter
     public function __construct(Query $query, SearchHandlerInterface $searchHandler)
     {
         parent::__construct($query);
+
         $this->searchHandler = $searchHandler;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     */
     protected function executeQuery(Query $query)
     {
         if ($query instanceof LocationQuery) {
