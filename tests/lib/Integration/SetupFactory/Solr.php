@@ -19,7 +19,7 @@ class Solr extends CoreSolrSetupFactory
     {
         parent::externalBuildContainer($containerBuilder);
 
-        $configPath = __DIR__ . '/../../../lib/Resources/config/';
+        $configPath = __DIR__ . '/../../../../lib/Resources/config/';
         $loader = new YamlFileLoader($containerBuilder, new FileLocator($configPath));
         $loader->load('search/common.yml');
         $loader->load('search/solr.yml');
