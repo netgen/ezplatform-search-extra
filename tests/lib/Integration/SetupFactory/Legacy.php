@@ -6,6 +6,7 @@ use eZ\Publish\API\Repository\Tests\SetupFactory\Legacy as CoreLegacySetupFactor
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Netgen\EzPlatformSearchExtra\Container\Compiler;
 
 class Legacy extends CoreLegacySetupFactory
 {
@@ -22,6 +23,7 @@ class Legacy extends CoreLegacySetupFactory
         );
 
         $loader->load('search/legacy.yml');
-        $loader->load('persistence.yml');
+
+        $containerBuilder->addCompilerPass(new Compiler\FieldTypeRegistryPass());
     }
 }
