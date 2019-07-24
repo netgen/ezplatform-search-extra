@@ -3,17 +3,18 @@
 namespace Netgen\EzPlatformSearchExtra\Core\Persistence;
 
 use eZ\Publish\Core\Persistence\FieldTypeRegistry as CorePersistenceFieldTypeRegistry;
+use eZ\Publish\SPI\Persistence\FieldType as FieldTypeInterface;
 
 final class FieldTypeRegistry extends CorePersistenceFieldTypeRegistry
 {
-    public function getFieldType($identifier)
+    public function getFieldType(string $identifier): FieldTypeInterface
     {
-        if (!isset($this->fieldTypeMap[$identifier])) {
-            $this->fieldTypeMap[$identifier] = new FieldType(
+        if (!isset($this->fieldTypes[$identifier])) {
+            $this->fieldTypes[$identifier] = new FieldType(
                 $this->getCoreFieldType($identifier)
             );
         }
 
-        return $this->fieldTypeMap[$identifier];
+        return $this->fieldTypes[$identifier];
     }
 }

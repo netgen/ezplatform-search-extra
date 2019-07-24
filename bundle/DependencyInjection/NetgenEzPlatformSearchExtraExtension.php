@@ -43,7 +43,6 @@ class NetgenEzPlatformSearchExtraExtension extends Extension
         }
 
         $loader->load('search/common.yml');
-        $loader->load('persistence.yml');
 
         $this->processExtensionConfiguration($configs, $container);
     }
