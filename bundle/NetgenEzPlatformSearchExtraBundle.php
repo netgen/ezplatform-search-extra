@@ -22,5 +22,6 @@ class NetgenEzPlatformSearchExtraBundle extends Bundle
         $containerBuilder->addCompilerPass(new Compiler\FieldType\XmlTextIndexablePass());
         $containerBuilder->addCompilerPass(new Compiler\SearchResultExtractorPass());
         $containerBuilder->addCompilerPass(new Compiler\RawFacetBuilderDomainVisitorPass());
+        $containerBuilder->addCompilerPass(new Compiler\FieldTypeRegistryPass());
     }
 }
