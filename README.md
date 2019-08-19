@@ -12,6 +12,10 @@ Only a list of features is provided here, see
 [documentation](https://netgen-ezplatform-search-extra.readthedocs.io)
 for more details.
 
+- [`CustomField`](https://github.com/netgen/ezplatform-search-extra/blob/master/lib/API/Values/Content/Query/SortClause/CustomField.php) sort clause (`solr`)
+
+  Provides a way to sort directly on Solr field by its name.
+
 - Pagerfanta adapters providing access to extra information returned by the search
   engine, like facets, max score and execution time (`solr`, `legacy`):
 
