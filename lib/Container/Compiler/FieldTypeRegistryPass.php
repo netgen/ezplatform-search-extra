@@ -25,6 +25,8 @@ class FieldTypeRegistryPass implements CompilerPassInterface
         $fieldTypeRegistry = $container->findDefinition('ezpublish.persistence.field_type_registry');
         $fieldTypeRegistry->setClass($fieldTypeRegistryClass);
 
-        $fieldTypeRegistry->replaceArgument(0, $fieldTypeRegistryClass);
+        if (count($fieldTypeRegistry->getArguments()) > 0) {
+            $fieldTypeRegistry->replaceArgument(0, $fieldTypeRegistryClass);
+        }
     }
 }
