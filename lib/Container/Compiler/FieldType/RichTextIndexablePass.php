@@ -31,7 +31,7 @@ class RichTextIndexablePass implements CompilerPassInterface
         $definition = $container->findDefinition($originalServiceId);
 
         $definition->setClass(IndexableRichText::class);
-        $definition->setArgument(0, $shortTextLimit);
+        $definition->addArgument($shortTextLimit);
         $definition->addTag('ezpublish.fieldType.indexable', ['alias' => 'ezrichtext']);
 
         $container->setDefinition($originalServiceId, $definition);

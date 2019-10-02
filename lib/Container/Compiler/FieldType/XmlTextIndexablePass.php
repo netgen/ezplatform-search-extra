@@ -29,7 +29,7 @@ class XmlTextIndexablePass implements CompilerPassInterface
         $definition = $container->findDefinition($originalServiceId);
 
         $definition->setClass(IndexableXmlText::class);
-        $definition->setArgument(0, $shortTextLimit);
+        $definition->addArgument($shortTextLimit);
         $definition->addTag('ezpublish.fieldType.indexable', ['alias' => 'ezxmltext']);
 
         $container->setDefinition($originalServiceId, $definition);
