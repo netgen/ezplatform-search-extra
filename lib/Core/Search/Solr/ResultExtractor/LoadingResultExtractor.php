@@ -194,7 +194,7 @@ final class LoadingResultExtractor Extends ResultExtractor
      */
     private function getSpellCheckSuggestion($data)
     {
-        $receivedSuggestions = $data->spellcheck->suggestions;
+        $receivedSuggestions = (array) $data->spellcheck->suggestions;
         $wordSuggestions = [];
 
         for ($i = 0; $i < (count($receivedSuggestions) - 1); $i += 2) {
