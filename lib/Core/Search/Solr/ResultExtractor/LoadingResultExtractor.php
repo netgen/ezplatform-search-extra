@@ -207,9 +207,9 @@ final class LoadingResultExtractor Extends ResultExtractor
 
             foreach ($receivedWordSuggestions->suggestion as $suggestion) {
                 $wordSuggestions[] = new WordSuggestion([
-                    'originalWord' => $originalWord,
-                    'suggestedWord' => $suggestion->word,
-                    'frequency' => $suggestion->freq,
+                    'originalWord' => (string) $originalWord,
+                    'suggestedWord' => (string) $suggestion->word,
+                    'frequency' => (string) $suggestion->freq,
                 ]);
             }
         }
