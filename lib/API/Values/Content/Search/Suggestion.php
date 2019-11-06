@@ -48,7 +48,7 @@ class Suggestion
      */
     public function getOriginalWords()
     {
-        return array_keys($this->suggestionsByOriginalWords);
+        return array_map('strval', array_keys($this->suggestionsByOriginalWords));
     }
 
     /**
