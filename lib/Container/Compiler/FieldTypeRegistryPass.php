@@ -2,17 +2,25 @@
 
 namespace Netgen\EzPlatformSearchExtra\Container\Compiler;
 
+use eZ\Publish\Core\FieldType\Null\Type as NullType;
+use eZ\Publish\Core\Persistence\FieldType as eZFieldType;
 use eZ\Publish\SPI\FieldType\Generic\Type as GenericFieldType;
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Netgen\EzPlatformSearchExtra\Core\Persistence\FieldTypeRegistry;
 use Netgen\EzPlatformSearchExtra\Core\Persistence\LegacyFieldTypeRegistry;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class FieldTypeRegistryPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
         if (!$container->has('ezpublish.persistence.field_type_registry')) {
+            return;
+        }
+
+        $testNullType = new NullType('test_is_empty');
+        $eZFieldType = new eZFieldType($testNullType);
+        if (method_exists($eZFieldType, 'isEmptyValue')) {
             return;
         }
 
