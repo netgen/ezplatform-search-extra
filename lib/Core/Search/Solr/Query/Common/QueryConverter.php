@@ -84,7 +84,14 @@ class QueryConverter extends BaseQueryConverter
         }
 
         if ($query->query instanceof FulltextSpellcheck) {
-            $params['spellcheck.q'] = $query->query->getSpellCheckQuery();
+            $spellcheckQuery = $query->query->getSpellcheckQuery();
+
+            $params['spellcheck.q'] = $spellcheckQuery->query;
+            $params['spellcheck.count'] = $spellcheckQuery->count;
+
+            foreach ($spellcheckQuery->parameters as $key => $value) {
+                $params['spellcheck.'.$key] = $value;
+            }
         }
 
         return $params;
