@@ -7,7 +7,7 @@ interface FulltextSpellcheck
     /**
      * Gets query to be used for spell check.
      *
-     * @return string
+     * @return \Netgen\EzPlatformSearchExtra\API\Values\Content\SpellcheckQuery
      */
-    public function getSpellCheckQuery();
+    public function getSpellcheckQuery();
 }
