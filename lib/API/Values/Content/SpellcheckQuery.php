@@ -35,5 +35,5 @@ class SpellcheckQuery
      *
      * @var array
      */
-    public $parameters;
+    public $parameters = [];
 }
