@@ -103,7 +103,7 @@ configure() {
 
     files=${SOLR_CONFIG}
     files+=("${config_dir}/currency.xml")
-    files+=("${config_dir}/solrconfig.xml")
+    files+=("tests/lib/Resources/config/search/solr/solrconfig.xml")
     files+=("${config_dir}/stopwords.txt")
     files+=("${config_dir}/synonyms.txt")
     files+=("${config_dir}/elevate.xml")
