@@ -209,7 +209,7 @@ final class LoadingResultExtractor Extends ResultExtractor
                 $wordSuggestions[] = new WordSuggestion([
                     'originalWord' => (string) $originalWord,
                     'suggestedWord' => (string) $suggestion->word,
-                    'frequency' => (string) $suggestion->freq,
+                    'frequency' => (int) $suggestion->freq,
                 ]);
             }
         }
