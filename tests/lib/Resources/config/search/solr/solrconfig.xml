@@ -933,7 +933,7 @@
       <!-- decide between dictionary based vs index based spelling suggestion, in most cases it makes sense to use index based spell checker as it only generates terms which are actually present in your search corpus -->
       <str name="classname">solr.IndexBasedSpellChecker</str>
       <!-- field to use -->
-      <str name="field">meta_content__text_t</str>
+      <str name="field">spellcheck</str>
       <!-- the spellcheck distance measure used, the default is the internal levenshtein -->
       <str name="distanceMeasure">org.apache.lucene.search.spell.LevensteinDistance</str>
       <!-- buildOnCommit|buildOnOptimize -->
