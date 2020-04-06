@@ -10,7 +10,6 @@ use EzSystems\EzPlatformSolrSearchEngine\Query\FacetFieldVisitor;
 use EzSystems\EzPlatformSolrSearchEngine\ResultExtractor as BaseResultExtractor;
 use eZ\Publish\SPI\Persistence\Content\Handler as ContentHandler;
 use eZ\Publish\SPI\Persistence\Content\Location\Handler as LocationHandler;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Search\SpellCheckSuggestion;
 use Netgen\EzPlatformSearchExtra\API\Values\Content\Search\Suggestion;
 use Netgen\EzPlatformSearchExtra\API\Values\Content\Search\WordSuggestion;
 use Netgen\EzPlatformSearchExtra\Core\Search\Solr\ResultExtractor;
@@ -66,7 +65,7 @@ final class LoadingResultExtractor Extends ResultExtractor
     }
 
     /**
-     * @param \eZ\Publish\API\Repository\Values\Content\Search\SearchResult $searchResult
+     * @param \Netgen\EzPlatformSearchExtra\API\Values\Content\Search\SearchResult $searchResult
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Search\SearchResult
      */
@@ -89,7 +88,7 @@ final class LoadingResultExtractor Extends ResultExtractor
     }
 
     /**
-     * @param \eZ\Publish\API\Repository\Values\Content\Search\SearchResult $searchResult
+     * @param \Netgen\EzPlatformSearchExtra\API\Values\Content\Search\SearchResult $searchResult
      *
      * @return array|\eZ\Publish\SPI\Persistence\Content\ContentInfo[]
      */

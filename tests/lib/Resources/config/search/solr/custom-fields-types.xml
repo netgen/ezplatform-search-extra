@@ -27,6 +27,5 @@
         </analyzer>
     </fieldType>
 
-     <field name="spellcheck" type="text_suggest" indexed="true" stored="true" multiValued="true" omitNorms="true" />
-
-     <copyField source="*_t" dest="spellcheck" />
+    <field name="spellcheck" type="text_suggest" indexed="true" stored="true" multiValued="true" omitNorms="true" />
+    <copyField source="*_t" dest="spellcheck" />
