@@ -177,7 +177,7 @@ class FulltextSpellcheckCriterionTest extends BaseTest
         $this->assertEquals($expectedWordSuggestions, $searchResult->suggestion->getSuggestions());
     }
 
-    protected function getSearchService(bool $initialInitializeFromScratch = true)
+    protected function getSearchService($initialInitializeFromScratch = true)
     {
         return $this->getRepository($initialInitializeFromScratch)->getSearchService();
     }

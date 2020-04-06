@@ -1,6 +1,6 @@
 services:
     ezpublish.fieldType.indexable.ezrichtext:
-        class: eZ\Publish\Core\FieldType\RichText\SearchField
+        class: EzSystems\EzPlatformRichText\eZ\FieldType\RichText\SearchField
         tags:
             - { name: ezpublish.fieldType.indexable, alias: ezrichtext }
 

@@ -53,6 +53,8 @@ before_script:
       fi
     - if [ "$REGRESSION" = "yes" ]; then
           sed -i.bak s/EzSystems\\\\EzPlatformSolrSearchEngine\\\\Tests\\\\SetupFactory\\\\LegacySetupFactory/Netgen\\\\EzPlatformSearchExtra\\\\Tests\\\\Integration\\\\SetupFactory\\\\Solr/g $TEST_CONFIG;
+          sed -i.bak "s/eZ\/Publish\/API\/Repository\/Tests\/SearchServiceTest.php/..\/..\/..\/tests\/lib\/Kernel\/SearchServiceTest.php/g" $TEST_CONFIG;
+          sed -i.bak "s/eZ\/Publish\/API\/Repository\/Tests\/SearchServiceLocationTest.php/..\/..\/..\/tests\/lib\/Kernel\/SearchServiceLocationTest.php/g" $TEST_CONFIG;
       fi
 
 script:

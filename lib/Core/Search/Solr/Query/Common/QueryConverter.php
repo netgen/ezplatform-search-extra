@@ -2,7 +2,6 @@
 
 namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common;
 
-use ArrayObject;
 use eZ\Publish\API\Repository\Values\Content\Query;
 use EzSystems\EzPlatformSolrSearchEngine\Query\CriterionVisitor;
 use EzSystems\EzPlatformSolrSearchEngine\Query\FacetFieldVisitor;
