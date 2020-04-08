@@ -7,7 +7,7 @@ use InvalidArgumentException;
 class Suggestion
 {
     /**
-     * @var \Netgen\EzPlatformSearchExtra\API\Values\Content\Search\WordSuggestion[]
+     * @var \Netgen\EzPlatformSearchExtra\API\Values\Content\Search\WordSuggestion[][]
      */
     private $suggestionsByOriginalWords = [];
 
@@ -44,7 +44,7 @@ class Suggestion
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getOriginalWords()
     {
@@ -61,7 +61,7 @@ class Suggestion
     public function getSuggestionsByOriginalWord(string $originalWord)
     {
         if (!array_key_exists($originalWord, $this->suggestionsByOriginalWords)) {
-            throw new InvalidArgumentException();
+            throw new InvalidArgumentException('No suggestions found for the given word');
         }
 
         return $this->suggestionsByOriginalWords[$originalWord];
