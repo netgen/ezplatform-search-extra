@@ -56,7 +56,7 @@ final class Indexable implements IndexableInterface
     {
         $text = '';
 
-        if ($node->childNodes) {
+        if ($node->childNodes !== null && $node->childNodes->length > 0) {
             foreach ($node->childNodes as $child) {
                 $text .= $this->extractText($child);
             }
