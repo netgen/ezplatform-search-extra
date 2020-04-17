@@ -64,4 +64,29 @@ class Suggestion
 
         return $this->suggestionsByOriginalWords[$originalWord];
     }
+
+    /**
+     * Get suggested search text based on returned spell check suggestions.
+     *
+     * @param string $originalSearchText
+     *
+     * @return string|null
+     */
+    public function getSuggestedSearchText(string $originalSearchText)
+    {
+        $originalWords = $this->getOriginalWords();
+        $suggestedWords = [];
+
+        foreach ($originalWords as $originalWord) {
+            $suggestedWords[] = $this->getSuggestionsByOriginalWord($originalWord)[0]->suggestedWord;
+        }
+
+        $suggestedSearchText = \str_replace($originalWords, $suggestedWords, $originalSearchText);
+
+        if ($originalSearchText === $suggestedSearchText) {
+            return null;
+        }
+
+        return $suggestedSearchText;
+    }
 }
