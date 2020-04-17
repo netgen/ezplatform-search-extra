@@ -8,21 +8,28 @@ namespace Netgen\EzPlatformSearchExtra\Core\Pagination;
 interface SearchResultExtras
 {
     /**
-     * The facets for the search query.
+     * Return facets for the search query.
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Search\Facet[]
      */
     public function getFacets();
 
     /**
-     * The maximum score for the search query.
+     * Return maximum score for the search query.
      *
      * @return float
      */
     public function getMaxScore();
 
     /**
-     * The duration of the search processing in ms.
+     * Return suggestion object for the search query.
+     *
+     * @return \Netgen\EzPlatformSearchExtra\API\Values\Content\Search\Suggestion
+     */
+    public function getSuggestion();
+
+    /**
+     * Return duration of the search query processing in milliseconds.
      *
      * Note: this will be available only if the query is executed.
      *
