@@ -12,11 +12,9 @@ class Suggestion
     private $suggestionsByOriginalWords = [];
 
     /**
-     * Suggestion constructor.
-     *
      * @param \Netgen\EzPlatformSearchExtra\API\Values\Content\Search\WordSuggestion[] $wordSuggestions
      */
-    public function __construct(array $wordSuggestions)
+    public function __construct(array $wordSuggestions = [])
     {
         foreach ($wordSuggestions as $suggestion) {
             if (!array_key_exists($suggestion->originalWord, $this->suggestionsByOriginalWords)) {
@@ -54,9 +52,9 @@ class Suggestion
     /**
      * @param string $originalWord
      *
-     * @return \Netgen\EzPlatformSearchExtra\API\Values\Content\Search\WordSuggestion[]
-     *
      * @throws \InvalidArgumentException
+     *
+     * @return \Netgen\EzPlatformSearchExtra\API\Values\Content\Search\WordSuggestion[]
      */
     public function getSuggestionsByOriginalWord(string $originalWord)
     {
