@@ -4,6 +4,8 @@ namespace Netgen\EzPlatformSearchExtra\Core\Pagination\Pagerfanta;
 
 use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Search\SearchResult;
+use Netgen\EzPlatformSearchExtra\API\Values\Content\Search\SearchResult as ExtraSearchResult;
+use Netgen\EzPlatformSearchExtra\API\Values\Content\Search\Suggestion;
 use Netgen\EzPlatformSearchExtra\Core\Pagination\SearchResultExtras;
 use Pagerfanta\Adapter\AdapterInterface;
 
@@ -31,6 +33,11 @@ abstract class BaseAdapter implements AdapterInterface, SearchResultExtras
      * @var float
      */
     private $maxScore;
+
+    /**
+     * @var \Netgen\EzPlatformSearchExtra\API\Values\Content\Search\Suggestion
+     */
+    private $suggestion;
 
     /**
      * @var int
@@ -69,6 +76,13 @@ abstract class BaseAdapter implements AdapterInterface, SearchResultExtras
         $this->initializeExtraInfo();
 
         return $this->maxScore;
+    }
+
+    public function getSuggestion()
+    {
+        $this->initializeExtraInfo();
+
+        return $this->suggestion;
     }
 
     public function getTime()
@@ -121,6 +135,7 @@ abstract class BaseAdapter implements AdapterInterface, SearchResultExtras
         $this->facets = $searchResult->facets;
         $this->maxScore = $searchResult->maxScore;
         $this->nbResults = $searchResult->totalCount;
+        $this->suggestion = $searchResult instanceof ExtraSearchResult ? $searchResult->suggestion : new Suggestion([]);
 
         $this->isExtraInfoInitialized = true;
     }
