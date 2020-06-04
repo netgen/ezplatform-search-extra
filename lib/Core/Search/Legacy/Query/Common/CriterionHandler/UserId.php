@@ -2,8 +2,9 @@
 
 namespace Netgen\EzPlatformSearchExtra\Core\Search\Legacy\Query\Common\CriterionHandler;
 
+use Doctrine\DBAL\Connection;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use eZ\Publish\Core\Persistence\Database\SelectQuery;
+use Doctrine\DBAL\Query\QueryBuilder;
 use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\UserId as UserIdCriterion;
@@ -22,25 +23,25 @@ final class UserId extends CriterionHandler
 
     public function handle(
         CriteriaConverter $converter,
-        SelectQuery $query,
+        QueryBuilder $queryBuilder,
         Criterion $criterion,
         array $languageSettings
     ) {
-        $subQuery = $query->subSelect();
+        $subQuery = $this->connection->createQueryBuilder();
 
         $subQuery
-            ->select($this->dbHandler->quoteColumn('contentobject_id'))
-            ->from($this->dbHandler->quoteTable('ezuser'))
+            ->select('t1.contentobject_id')
+            ->from('ezuser', 't1')
             ->where(
-                $query->expr->in(
-                    $this->dbHandler->quoteColumn('contentobject_id'),
-                    $criterion->value
+                $subQuery->expr()->in(
+                    't1.contentobject_id',
+                    $queryBuilder->createNamedParameter($criterion->value, Connection::PARAM_INT_ARRAY)
                 )
             );
 
-        return $query->expr->in(
-            $this->dbHandler->quoteColumn('id', 'ezcontentobject'),
-            $subQuery
+        return $queryBuilder->expr()->in(
+            'c.id',
+            $subQuery->getSQL()
         );
     }
 }

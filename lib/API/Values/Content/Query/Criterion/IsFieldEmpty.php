@@ -5,13 +5,12 @@ namespace Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator\Specifications;
-use eZ\Publish\API\Repository\Values\Content\Query\CriterionInterface;
 use InvalidArgumentException;
 
 /**
  * IsFieldEmpty criterion matches Content field based on if its value is empty or not.
  */
-class IsFieldEmpty extends Criterion implements CriterionInterface
+class IsFieldEmpty extends Criterion
 {
     /**
      * Indicates that the field value should be empty.
@@ -44,7 +43,7 @@ class IsFieldEmpty extends Criterion implements CriterionInterface
         parent::__construct($fieldDefinitionIdentifier, null, $value);
     }
 
-    public function getSpecifications()
+    public function getSpecifications(): array
     {
         return [
             new Specifications(
@@ -53,10 +52,5 @@ class IsFieldEmpty extends Criterion implements CriterionInterface
                 Specifications::TYPE_INTEGER
             ),
         ];
-    }
-
-    public static function createFromQueryBuilder($target, $operator, $value)
-    {
-        return new self($target, $value);
     }
 }

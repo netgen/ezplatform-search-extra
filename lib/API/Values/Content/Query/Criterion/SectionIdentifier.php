@@ -5,14 +5,13 @@ namespace Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator\Specifications;
-use eZ\Publish\API\Repository\Values\Content\Query\CriterionInterface;
 
 /**
  * SectionIdentifier Criterion.
  *
  * Will match content that belongs to one of the given sections.
  */
-class SectionIdentifier extends Criterion implements CriterionInterface
+class SectionIdentifier extends Criterion
 {
     /**
      * Create new SectionIdentifier criterion.
@@ -29,7 +28,7 @@ class SectionIdentifier extends Criterion implements CriterionInterface
         parent::__construct(null, null, $value);
     }
 
-    public function getSpecifications()
+    public function getSpecifications(): array
     {
         return [
             new Specifications(
@@ -43,10 +42,5 @@ class SectionIdentifier extends Criterion implements CriterionInterface
                 Specifications::TYPE_STRING
             ),
         ];
-    }
-
-    public static function createFromQueryBuilder($target, $operator, $value)
-    {
-        return new self($value);
     }
 }

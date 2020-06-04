@@ -3,7 +3,7 @@
 namespace Netgen\EzPlatformSearchExtra\Core\Search\Legacy\Query\Common\CriterionHandler;
 
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use eZ\Publish\Core\Persistence\Database\SelectQuery;
+use Doctrine\DBAL\Query\QueryBuilder;
 use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\HasUser as HasUserCriterion;
@@ -22,32 +22,30 @@ final class HasUser extends CriterionHandler
 
     public function handle(
         CriteriaConverter $converter,
-        SelectQuery $query,
+        QueryBuilder $queryBuilder,
         Criterion $criterion,
         array $languageSettings
     ) {
-        $subQuery = $query->subSelect();
+        $subQuery = $this->connection->createQueryBuilder();
         $hasUser = reset($criterion->value);
 
         $subQuery
-            ->select($this->dbHandler->quoteColumn('contentobject_id'))
-            ->from($this->dbHandler->quoteTable('ezuser'))
+            ->select('t1.contentobject_id')
+            ->from('ezuser', 't1')
             ->where(
-                $query->expr->eq(
-                    $this->dbHandler->quoteColumn('contentobject_id', 'ezuser'),
-                    $this->dbHandler->quoteColumn('id', 'ezcontentobject')
-                )
+                $subQuery->expr()->eq('t1.contentobject_id', 'c.contentobject_id')
             );
 
-        $expression = $query->expr->in(
-            $this->dbHandler->quoteColumn('id', 'ezcontentobject'),
-            $subQuery
-        );
-
         if ($hasUser === true) {
-            return $expression;
+            return $queryBuilder->expr()->in(
+                'c.id',
+                $subQuery->getSQL()
+            );
         }
 
-        return $query->expr->not($expression);
+        return $queryBuilder->expr()->notIn(
+            'c.id',
+            $subQuery->getSQL()
+        );
     }
 }
