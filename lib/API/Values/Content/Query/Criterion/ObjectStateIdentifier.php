@@ -5,14 +5,13 @@ namespace Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator\Specifications;
-use eZ\Publish\API\Repository\Values\Content\Query\CriterionInterface;
 
 /**
  * ObjectStateIdentifier Criterion.
  *
  * Will match content that belongs to the ObjectState by identifier.
  */
-class ObjectStateIdentifier extends Criterion implements CriterionInterface
+class ObjectStateIdentifier extends Criterion
 {
     /**
      * Create new ObjectStateIdentifier criterion.
@@ -30,7 +29,7 @@ class ObjectStateIdentifier extends Criterion implements CriterionInterface
         parent::__construct($target, null, $value);
     }
 
-    public function getSpecifications()
+    public function getSpecifications(): array
     {
         return [
             new Specifications(
@@ -39,10 +38,5 @@ class ObjectStateIdentifier extends Criterion implements CriterionInterface
                 Specifications::TYPE_STRING
             ),
         ];
-    }
-
-    public static function createFromQueryBuilder($target, $operator, $value)
-    {
-        return new self($target, $value);
     }
 }

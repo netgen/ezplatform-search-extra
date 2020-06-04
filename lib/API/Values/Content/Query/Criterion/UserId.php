@@ -5,12 +5,11 @@ namespace Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator\Specifications;
-use eZ\Publish\API\Repository\Values\Content\Query\CriterionInterface;
 
 /**
  * UserId criterion matches Content based on matching User ID.
  */
-class UserId extends Criterion implements CriterionInterface
+class UserId extends Criterion
 {
     /**
      * @param string|int|string[]|int[] $id
@@ -20,7 +19,7 @@ class UserId extends Criterion implements CriterionInterface
         parent::__construct(null, null, $id);
     }
 
-    public function getSpecifications()
+    public function getSpecifications(): array
     {
         return array(
             new Specifications(

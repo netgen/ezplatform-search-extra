@@ -5,12 +5,11 @@ namespace Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator\Specifications;
-use eZ\Publish\API\Repository\Values\Content\Query\CriterionInterface;
 
 /**
  * LocationQuery criterion is used to query Location subdocuments in Content search.
  */
-class LocationQuery extends Criterion implements CriterionInterface
+class LocationQuery extends Criterion
 {
     /**
      * @param \eZ\Publish\API\Repository\Values\Content\Query\Criterion $filter
@@ -22,14 +21,10 @@ class LocationQuery extends Criterion implements CriterionInterface
         parent::__construct(null, null, $filter);
     }
 
-    public function getSpecifications()
+    public function getSpecifications(): array
     {
         return [
             new Specifications(Operator::EQ, Specifications::FORMAT_SINGLE),
         ];
-    }
-
-    public static function createFromQueryBuilder($target, $operator, $value)
-    {
     }
 }

@@ -10,16 +10,16 @@
         }
     ],
     "require": {
-        "ezsystems/ezpublish-kernel": "^5.4.11||^6.0||^7.0||^8.0",
+        "ezsystems/ezplatform-kernel": "^1.0",
         "ext-json": "*",
         "ext-dom": "*"
     },
     "require-dev": {
-        "ezsystems/ezplatform-solr-search-engine": "^1.4",
-        "ezsystems/ezplatform-xmltext-fieldtype": "^1.7",
+        "ezsystems/ezplatform-solr-search-engine": "^3.0",
+        "ezsystems/ezplatform-xmltext-fieldtype": "^2.0",
         "roave/security-advisories": "dev-master",
-        "phpunit/phpunit": "^5.7||^6.0||^7.0",
-        "matthiasnoback/symfony-dependency-injection-test": "~1.0||~3.0"
+        "phpunit/phpunit": "^9.0",
+        "matthiasnoback/symfony-dependency-injection-test": "^4.1"
     },
     "suggest": {
         "netgen/ezplatform-site-api": "Boost your site-building productivity with eZ Platform",
@@ -39,7 +39,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.11-dev"
+            "dev-master": "2.0-dev"
         }
     },
     "scripts": {

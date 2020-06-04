@@ -2,9 +2,10 @@
 
 namespace Netgen\EzPlatformSearchExtra\Core\Search\Legacy\Query\Common\CriterionHandler;
 
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Types\Types;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use eZ\Publish\Core\Persistence\Database\DatabaseHandler;
-use eZ\Publish\Core\Persistence\Database\SelectQuery;
+use Doctrine\DBAL\Query\QueryBuilder;
 use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 use eZ\Publish\SPI\Persistence\Content\ObjectState\Handler as ObjectStateHandler;
@@ -22,15 +23,9 @@ final class ObjectStateIdentifier extends CriterionHandler
      */
     protected $objectStateHandler;
 
-    /**
-     * @param \eZ\Publish\Core\Persistence\Database\DatabaseHandler $dbHandler
-     * @param \eZ\Publish\SPI\Persistence\Content\ObjectState\Handler $objectStateHandler
-     */
-    public function __construct(
-        DatabaseHandler $dbHandler,
-        ObjectStateHandler $objectStateHandler
-    ) {
-        parent::__construct($dbHandler);
+    public function __construct(Connection $connection, ObjectStateHandler $objectStateHandler)
+    {
+        parent::__construct($connection);
 
         $this->objectStateHandler = $objectStateHandler;
     }
@@ -40,35 +35,30 @@ final class ObjectStateIdentifier extends CriterionHandler
         return $criterion instanceof ObjectStateIdentifierCriterion;
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
-     */
     public function handle(
         CriteriaConverter $converter,
-        SelectQuery $query,
+        QueryBuilder $queryBuilder,
         Criterion $criterion,
         array $languageSettings
     ) {
         $stateIdentifier = $criterion->value[0];
         $groupId = $this->objectStateHandler->loadGroupByIdentifier($criterion->target)->id;
         $stateId = $this->objectStateHandler->loadByIdentifier($stateIdentifier, $groupId)->id;
-        $subQuery = $query->subSelect();
+        $subQuery = $this->connection->createQueryBuilder();
 
         $subQuery
-            ->select($this->dbHandler->quoteColumn('contentobject_id'))
-            ->from($this->dbHandler->quoteTable('ezcobj_state_link'))
+            ->select('t1.contentobject_id')
+            ->from('ezcobj_state_link', 't1')
             ->where(
-                $query->expr->eq(
-                    $this->dbHandler->quoteColumn('contentobject_state_id'),
-                    $stateId
+                $subQuery->expr()->eq(
+                    't1.contentobject_state_id',
+                    $queryBuilder->createNamedParameter($stateId, Types::INTEGER)
                 )
             );
 
-        return $query->expr->in(
-            $this->dbHandler->quoteColumn('id', 'ezcontentobject'),
-            $subQuery
+        return $queryBuilder->expr()->in(
+            'c.id',
+            $subQuery->getSQL()
         );
     }
 }

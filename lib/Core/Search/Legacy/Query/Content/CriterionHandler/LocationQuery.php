@@ -2,13 +2,15 @@
 
 namespace Netgen\EzPlatformSearchExtra\Core\Search\Legacy\Query\Content\CriterionHandler;
 
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Types\Types;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use eZ\Publish\Core\Persistence\Database\DatabaseHandler;
-use eZ\Publish\Core\Persistence\Database\SelectQuery;
+use Doctrine\DBAL\Query\QueryBuilder;
 use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
+use eZ\Publish\SPI\Persistence\Content\ContentInfo;
+use eZ\Publish\SPI\Persistence\Content\VersionInfo;
 use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\LocationQuery as LocationQueryCriterion;
-use PDO;
 
 /**
  * Handles the LocationQuery criterion.
@@ -22,17 +24,11 @@ final class LocationQuery extends CriterionHandler
      */
     private $locationCriteriaConverter;
 
-    /**
-     * LocationQuery constructor.
-     *
-     * @param \eZ\Publish\Core\Persistence\Database\DatabaseHandler $dbHandler
-     * @param \eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter $locationCriteriaConverter
-     */
-    public function __construct(DatabaseHandler $dbHandler, CriteriaConverter $locationCriteriaConverter)
+    public function __construct(Connection $connection, CriteriaConverter $locationCriteriaConverter)
     {
-        $this->locationCriteriaConverter = $locationCriteriaConverter;
+        parent::__construct($connection);
 
-        parent::__construct($dbHandler);
+        $this->locationCriteriaConverter = $locationCriteriaConverter;
     }
 
     public function accept(Criterion $criterion)
@@ -40,53 +36,50 @@ final class LocationQuery extends CriterionHandler
         return $criterion instanceof LocationQueryCriterion;
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
-     */
     public function handle(
         CriteriaConverter $converter,
-        SelectQuery $query,
+        QueryBuilder $queryBuilder,
         Criterion $criterion,
         array $languageSettings
     )
     {
         /** @var \eZ\Publish\API\Repository\Values\Content\Query\Criterion $filter */
         $filter = $criterion->value;
-        $subSelect = $query->subSelect();
+        $subSelect = $this->connection->createQueryBuilder();
         $condition = $this->locationCriteriaConverter->convertCriteria($subSelect, $filter, []);
 
         $subSelect
-            ->select('ezcontentobject_tree.contentobject_id')
-            ->from($this->dbHandler->quoteTable('ezcontentobject_tree'))
+            ->select('t1.contentobject_id')
+            ->from('ezcontentobject_tree', 't1')
             ->innerJoin(
-                $this->dbHandler->quoteTable('ezcontentobject'),
-                $this->dbHandler->quoteColumn('contentobject_id', 'ezcontentobject_tree'),
-                $this->dbHandler->quoteColumn('id', 'ezcontentobject')
+                't1',
+                'ezcontentobject',
+                't2',
+                't1.contentobject_id = t2.id'
             )
             ->innerJoin(
-                $this->dbHandler->quoteTable('ezcontentobject_version'),
-                $this->dbHandler->quoteColumn('id', 'ezcontentobject'),
-                $this->dbHandler->quoteColumn('contentobject_id', 'ezcontentobject_version')
+                't2',
+                'ezcontentobject_version',
+                't3',
+                't2.id = t3.contentobject_id'
             )
             ->where(
-                $condition,
-                //ContentInfo::STATUS_PUBLISHED
-                $subSelect->expr->eq(
-                    'ezcontentobject.status',
-                    $subSelect->bindValue(1, null, PDO::PARAM_INT)
-                ),
-                //VersionInfo::STATUS_PUBLISHED
-                $subSelect->expr->eq(
-                    'ezcontentobject_version.status',
-                    $subSelect->bindValue(1, null, PDO::PARAM_INT)
+                $subSelect->expr()->andX(
+                    $condition,
+                    $subSelect->expr()->eq(
+                        't2.status',
+                        $queryBuilder->createNamedParameter(ContentInfo::STATUS_PUBLISHED, Types::INTEGER)
+                    ),
+                    $subSelect->expr()->eq(
+                        't3.status',
+                        $queryBuilder->createNamedParameter(VersionInfo::STATUS_PUBLISHED, Types::INTEGER)
+                    )
                 )
             );
 
-        return $query->expr->in(
-            $this->dbHandler->quoteColumn('id', 'ezcontentobject'),
-            $subSelect
+        return $queryBuilder->expr()->in(
+            'c.id',
+            $subSelect->getSQL()
         );
     }
 }

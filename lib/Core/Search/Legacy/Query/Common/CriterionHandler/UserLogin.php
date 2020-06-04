@@ -2,10 +2,11 @@
 
 namespace Netgen\EzPlatformSearchExtra\Core\Search\Legacy\Query\Common\CriterionHandler;
 
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Types\Types;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator;
-use eZ\Publish\Core\Persistence\Database\DatabaseHandler;
-use eZ\Publish\Core\Persistence\Database\SelectQuery;
+use Doctrine\DBAL\Query\QueryBuilder;
 use eZ\Publish\Core\Persistence\TransformationProcessor;
 use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
@@ -24,15 +25,11 @@ final class UserLogin extends CriterionHandler
      */
     protected $transformationProcessor;
 
-    /**
-     * @param \eZ\Publish\Core\Persistence\Database\DatabaseHandler $dbHandler
-     * @param \eZ\Publish\Core\Persistence\TransformationProcessor $transformationProcessor
-     */
-    public function __construct(DatabaseHandler $dbHandler, TransformationProcessor $transformationProcessor)
+    public function __construct(Connection $connection, TransformationProcessor $transformationProcessor)
     {
-        $this->transformationProcessor = $transformationProcessor;
+        parent::__construct($connection);
 
-        parent::__construct($dbHandler);
+        $this->transformationProcessor = $transformationProcessor;
     }
 
     public function accept(Criterion $criterion)
@@ -42,25 +39,25 @@ final class UserLogin extends CriterionHandler
 
     public function handle(
         CriteriaConverter $converter,
-        SelectQuery $query,
+        QueryBuilder $queryBuilder,
         Criterion $criterion,
         array $languageSettings
     ) {
-        $subQuery = $query->subSelect();
+        $subQuery = $this->connection->createQueryBuilder();
 
         switch ($criterion->operator) {
             case Operator::EQ:
             case Operator::IN:
-                $expression = $query->expr->in(
-                    $this->dbHandler->quoteColumn('login'),
-                    $criterion->value
+                $expression = $subQuery->expr()->in(
+                    't1.login',
+                    $queryBuilder->createNamedParameter($criterion->value, Connection::PARAM_STR_ARRAY)
                 );
                 break;
             case Operator::LIKE:
                 $string = $this->prepareLikeString($criterion->value);
-                $expression = $query->expr->like(
-                    $this->dbHandler->quoteColumn('login'),
-                    $query->bindValue($string)
+                $expression = $subQuery->expr()->like(
+                    't1.login',
+                    $queryBuilder->createNamedParameter($string, Types::STRING)
                 );
                 break;
             default:
@@ -70,13 +67,13 @@ final class UserLogin extends CriterionHandler
         }
 
         $subQuery
-            ->select($this->dbHandler->quoteColumn('contentobject_id'))
-            ->from($this->dbHandler->quoteTable('ezuser'))
+            ->select('t1.contentobject_id')
+            ->from('ezuser', 't1')
             ->where($expression);
 
-        return $query->expr->in(
-            $this->dbHandler->quoteColumn('id', 'ezcontentobject'),
-            $subQuery
+        return $queryBuilder->expr()->in(
+            'c.id',
+            $subQuery->getSQL()
         );
     }
 

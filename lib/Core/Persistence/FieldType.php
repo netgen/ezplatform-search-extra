@@ -12,7 +12,7 @@ final class FieldType extends CorePersistenceFieldType
      *
      * @return bool
      */
-    public function isEmptyValue(FieldValue $fieldValue)
+    public function isEmptyValue(FieldValue $fieldValue): bool
     {
         return $this->internalFieldType->isEmptyValue(
             $this->internalFieldType->fromPersistenceValue($fieldValue)

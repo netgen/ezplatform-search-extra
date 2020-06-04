@@ -2,9 +2,9 @@
 
 namespace Netgen\EzPlatformSearchExtra\Core\Search\Legacy\Query\Common\CriterionHandler;
 
+use Doctrine\DBAL\Connection;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use eZ\Publish\Core\Persistence\Database\DatabaseHandler;
-use eZ\Publish\Core\Persistence\Database\SelectQuery;
+use Doctrine\DBAL\Query\QueryBuilder;
 use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 use eZ\Publish\SPI\Persistence\Content\Section\Handler as SectionHandler;
@@ -22,39 +22,21 @@ final class SectionIdentifier extends CriterionHandler
      */
     protected $sectionHandler;
 
-    /**
-     * @param \eZ\Publish\Core\Persistence\Database\DatabaseHandler $dbHandler
-     * @param \eZ\Publish\SPI\Persistence\Content\Section\Handler $sectionHandler
-     */
-    public function __construct(
-        DatabaseHandler $dbHandler,
-        SectionHandler $sectionHandler
-    ) {
-        parent::__construct($dbHandler);
+    public function __construct(Connection $connection, SectionHandler $sectionHandler)
+    {
+        parent::__construct($connection);
 
         $this->sectionHandler = $sectionHandler;
     }
 
-    /**
-     * Check if this criterion handler accepts to handle the given criterion.
-     *
-     * @param \eZ\Publish\API\Repository\Values\Content\Query\Criterion $criterion
-     *
-     * @return bool
-     */
     public function accept(Criterion $criterion)
     {
         return $criterion instanceof SectionIdentifierCriterion;
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
-     */
     public function handle(
         CriteriaConverter $converter,
-        SelectQuery $query,
+        QueryBuilder $queryBuilder,
         Criterion $criterion,
         array $languageSettings
     ) {
@@ -64,9 +46,9 @@ final class SectionIdentifier extends CriterionHandler
             $ids[] = $this->sectionHandler->loadByIdentifier($identifier)->id;
         }
 
-        return $query->expr->in(
-            $this->dbHandler->quoteColumn('section_id', 'ezcontentobject'),
-            $ids
+        return $queryBuilder->expr()->in(
+            'c.section_id',
+            $queryBuilder->createNamedParameter($ids, Connection::PARAM_INT_ARRAY)
         );
     }
 }

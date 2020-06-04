@@ -1,8 +1,9 @@
 services:
     netgen.search.legacy.query.common.criterion_visitor.object_state_identifier:
         class: Netgen\EzPlatformSearchExtra\Core\Search\Legacy\Query\Common\CriterionHandler\ObjectStateIdentifier
+        parent: eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
         arguments:
-            - '@ezpublish.api.storage_engine.legacy.dbhandler'
+            - '@ezpublish.persistence.connection'
             - '@ezpublish.spi.persistence.object_state_handler'
         tags:
             - {name: ezpublish.search.legacy.gateway.criterion_handler.content}
@@ -10,8 +11,9 @@ services:
 
     netgen.search.legacy.query.common.criterion_visitor.section_identifier:
         class: Netgen\EzPlatformSearchExtra\Core\Search\Legacy\Query\Common\CriterionHandler\SectionIdentifier
+        parent: eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
         arguments:
-            - '@ezpublish.api.storage_engine.legacy.dbhandler'
+            - '@ezpublish.persistence.connection'
             - '@ezpublish.spi.persistence.section_handler'
         tags:
             - {name: ezpublish.search.legacy.gateway.criterion_handler.content}
@@ -19,48 +21,54 @@ services:
 
     netgen.search.legacy.query.content.criterion_visitor.location_query:
         class: Netgen\EzPlatformSearchExtra\Core\Search\Legacy\Query\Content\CriterionHandler\LocationQuery
+        parent: eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
         arguments:
-            - '@ezpublish.api.storage_engine.legacy.dbhandler'
+            - '@ezpublish.persistence.connection'
             - '@ezpublish.search.legacy.gateway.criteria_converter.location'
         tags:
             - {name: ezpublish.search.legacy.gateway.criterion_handler.content}
 
     netgen.search.legacy.query.common.criterion_visitor.has_user:
         class: Netgen\EzPlatformSearchExtra\Core\Search\Legacy\Query\Common\CriterionHandler\HasUser
+        parent: eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
         arguments:
-            - '@ezpublish.api.storage_engine.legacy.dbhandler'
+            - '@ezpublish.persistence.connection'
         tags:
             - {name: ezpublish.search.legacy.gateway.criterion_handler.content}
             - {name: ezpublish.search.legacy.gateway.criterion_handler.location}
 
     netgen.search.legacy.query.common.criterion_visitor.user_email:
         class: Netgen\EzPlatformSearchExtra\Core\Search\Legacy\Query\Common\CriterionHandler\UserEmail
+        parent: eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
         arguments:
-            - '@ezpublish.api.storage_engine.legacy.dbhandler'
+            - '@ezpublish.persistence.connection'
         tags:
             - {name: ezpublish.search.legacy.gateway.criterion_handler.content}
             - {name: ezpublish.search.legacy.gateway.criterion_handler.location}
 
     netgen.search.legacy.query.common.criterion_visitor.user_enabled:
         class: Netgen\EzPlatformSearchExtra\Core\Search\Legacy\Query\Common\CriterionHandler\UserEnabled
+        parent: eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
         arguments:
-            - '@ezpublish.api.storage_engine.legacy.dbhandler'
+            - '@ezpublish.persistence.connection'
         tags:
             - {name: ezpublish.search.legacy.gateway.criterion_handler.content}
             - {name: ezpublish.search.legacy.gateway.criterion_handler.location}
 
     netgen.search.legacy.query.common.criterion_visitor.user_id:
         class: Netgen\EzPlatformSearchExtra\Core\Search\Legacy\Query\Common\CriterionHandler\UserId
+        parent: eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
         arguments:
-            - '@ezpublish.api.storage_engine.legacy.dbhandler'
+            - '@ezpublish.persistence.connection'
         tags:
             - {name: ezpublish.search.legacy.gateway.criterion_handler.content}
             - {name: ezpublish.search.legacy.gateway.criterion_handler.location}
 
     netgen.search.legacy.query.common.criterion_visitor.user_login:
         class: Netgen\EzPlatformSearchExtra\Core\Search\Legacy\Query\Common\CriterionHandler\UserLogin
+        parent: eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
         arguments:
-            - '@ezpublish.api.storage_engine.legacy.dbhandler'
+            - '@ezpublish.persistence.connection'
             - '@ezpublish.api.storage_engine.transformation_processor'
         tags:
             - {name: ezpublish.search.legacy.gateway.criterion_handler.content}

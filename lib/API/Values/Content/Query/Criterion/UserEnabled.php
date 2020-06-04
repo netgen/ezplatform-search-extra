@@ -5,12 +5,11 @@ namespace Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator\Specifications;
-use eZ\Publish\API\Repository\Values\Content\Query\CriterionInterface;
 
 /**
  * UserEnabled criterion matches Content based on matching User that is enabled or not.
  */
-class UserEnabled extends Criterion implements CriterionInterface
+class UserEnabled extends Criterion
 {
     /**
      * @param bool $enabled
@@ -20,7 +19,7 @@ class UserEnabled extends Criterion implements CriterionInterface
         parent::__construct(null, null, $enabled);
     }
 
-    public function getSpecifications()
+    public function getSpecifications(): array
     {
         return [
             new Specifications(
