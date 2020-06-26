@@ -4,8 +4,6 @@ namespace Netgen\EzPlatformSearchExtraBundle\Tests\DependencyInjection;
 
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 use Netgen\Bundle\EzPlatformSearchExtraBundle\DependencyInjection\NetgenEzPlatformSearchExtraExtension;
-use Netgen\EzPlatformSearchExtra\Core\FieldType\RichText\Indexable as RichTextIndexable;
-use Netgen\EzPlatformSearchExtra\Core\FieldType\XmlText\Indexable as XmlTextIndexable;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
@@ -14,7 +12,7 @@ class NetgenEzPlatformSearchExtraExtensionTest extends AbstractExtensionTestCase
     /**
      * @throws \Exception
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -28,7 +26,7 @@ class NetgenEzPlatformSearchExtraExtensionTest extends AbstractExtensionTestCase
         $this->setParameter('kernel.bundles', []);
     }
 
-    protected function getContainerExtensions()
+    protected function getContainerExtensions(): array
     {
         return [
             new NetgenEzPlatformSearchExtraExtension(),

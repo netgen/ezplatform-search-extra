@@ -3,9 +3,9 @@
 namespace Netgen\EzPlatformSearchExtra\Core\Search\Legacy\Query\Content\CriterionHandler;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Types\Types;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use Doctrine\DBAL\Query\QueryBuilder;
 use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 use eZ\Publish\SPI\Persistence\Content\ContentInfo;
@@ -41,21 +41,20 @@ final class LocationQuery extends CriterionHandler
         QueryBuilder $queryBuilder,
         Criterion $criterion,
         array $languageSettings
-    )
-    {
+    ) {
         /** @var \eZ\Publish\API\Repository\Values\Content\Query\Criterion $filter */
         $filter = $criterion->value;
-        $subSelect = $this->connection->createQueryBuilder();
+        $subSelect = new SubSelectQueryBuilder($this->connection, $queryBuilder);
         $condition = $this->locationCriteriaConverter->convertCriteria($subSelect, $filter, []);
 
         $subSelect
-            ->select('t1.contentobject_id')
-            ->from('ezcontentobject_tree', 't1')
+            ->select('t.contentobject_id')
+            ->from('ezcontentobject_tree', 't')
             ->innerJoin(
-                't1',
+                't',
                 'ezcontentobject',
                 't2',
-                't1.contentobject_id = t2.id'
+                't.contentobject_id = t2.id'
             )
             ->innerJoin(
                 't2',

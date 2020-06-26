@@ -35,7 +35,7 @@ final class UserId extends CriterionHandler
             ->where(
                 $subQuery->expr()->in(
                     't1.contentobject_id',
-                    $queryBuilder->createNamedParameter($criterion->value, Connection::PARAM_INT_ARRAY)
+                    $queryBuilder->createNamedParameter((array)$criterion->value, Connection::PARAM_INT_ARRAY)
                 )
             );
 
