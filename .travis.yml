@@ -11,30 +11,24 @@ cache:
 matrix:
     fast_finish: true
     include:
-        - php: 7.1
-          env: TEST_CONFIG="phpunit.xml"
-        - php: 7.2
-          env: TEST_CONFIG="phpunit.xml"
         - php: 7.3
           env: TEST_CONFIG="phpunit.xml"
-        - php: 7.1
-          env: TEST_CONFIG="phpunit-integration-legacy.xml"
-        - php: 7.2
-          env: TEST_CONFIG="phpunit-integration-legacy.xml"
+        - php: 7.4
+          env: TEST_CONFIG="phpunit.xml"
         - php: 7.3
           env: TEST_CONFIG="phpunit-integration-legacy.xml"
-        - php: 7.1
+        - php: 7.4
+          env: TEST_CONFIG="phpunit-integration-legacy.xml"
+        - php: 7.3
           env: TEST_CONFIG="phpunit-integration-solr.xml" SOLR_VERSION="6.6.5" CORES_SETUP="single" SOLR_CORES="collection1"
-        - php: 7.1
-          env: TEST_CONFIG="phpunit-integration-solr.xml" SOLR_VERSION="6.6.5" CORES_SETUP="shared" COMPOSER_REQUIRE="ezsystems/ezpublish-kernel:~6.13.6@dev"
-        - php: 7.2
-          env: TEST_CONFIG="phpunit-integration-solr.xml" SOLR_VERSION="6.6.5" CORES_SETUP="dedicated"
-        - php: 7.2
-          env: TEST_CONFIG="vendor/ezsystems/ezpublish-kernel/phpunit-integration-legacy-solr.xml" SOLR_VERSION="6.6.5" CORES_SETUP="shared" REGRESSION="yes"
         - php: 7.3
           env: TEST_CONFIG="phpunit-integration-solr.xml" SOLR_VERSION="6.6.5" CORES_SETUP="dedicated"
         - php: 7.3
-          env: TEST_CONFIG="vendor/ezsystems/ezpublish-kernel/phpunit-integration-legacy-solr.xml" SOLR_VERSION="6.6.5" CORES_SETUP="shared" REGRESSION="yes"
+          env: TEST_CONFIG="vendor/ezsystems/ezplatform-kernel/phpunit-integration-legacy-solr.xml" SOLR_VERSION="6.6.5" CORES_SETUP="shared" REGRESSION="yes"
+        - php: 7.4
+          env: TEST_CONFIG="phpunit-integration-solr.xml" SOLR_VERSION="6.6.5" CORES_SETUP="dedicated"
+        - php: 7.4
+          env: TEST_CONFIG="vendor/ezsystems/ezplatform-kernel/phpunit-integration-legacy-solr.xml" SOLR_VERSION="6.6.5" CORES_SETUP="shared" REGRESSION="yes"
 
 branches:
     only:
