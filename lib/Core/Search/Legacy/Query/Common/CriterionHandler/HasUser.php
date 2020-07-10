@@ -33,7 +33,7 @@ final class HasUser extends CriterionHandler
             ->select('t1.contentobject_id')
             ->from('ezuser', 't1')
             ->where(
-                $subQuery->expr()->eq('t1.contentobject_id', 'c.contentobject_id')
+                $subQuery->expr()->eq('t1.contentobject_id', 'c.id')
             );
 
         if ($hasUser === true) {

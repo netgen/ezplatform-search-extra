@@ -50,7 +50,7 @@ final class UserLogin extends CriterionHandler
             case Operator::IN:
                 $expression = $subQuery->expr()->in(
                     't1.login',
-                    $queryBuilder->createNamedParameter($criterion->value, Connection::PARAM_STR_ARRAY)
+                    $queryBuilder->createNamedParameter((array)$criterion->value, Connection::PARAM_STR_ARRAY)
                 );
                 break;
             case Operator::LIKE:

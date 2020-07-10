@@ -37,7 +37,7 @@ final class UserEmail extends CriterionHandler
             case Operator::IN:
                 $expression = $subQuery->expr()->in(
                     't1.email',
-                    $queryBuilder->createNamedParameter($criterion->value, Connection::PARAM_STR_ARRAY)
+                    $queryBuilder->createNamedParameter((array)$criterion->value, Connection::PARAM_STR_ARRAY)
                 );
                 break;
             case Operator::LIKE:

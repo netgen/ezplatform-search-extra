@@ -48,21 +48,19 @@ class SliceTest extends TestCase
         $this->assertFalse(isset($slice[2]));
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
     public function testArrayAccessSet()
     {
+        $this->expectException(\RuntimeException::class);
+
         $slice = $this->getSlice();
 
         $slice[0] = 1;
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
     public function testArrayAccessUnset()
     {
+        $this->expectException(\RuntimeException::class);
+
         $slice = $this->getSlice();
 
         unset($slice[0]);
