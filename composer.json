@@ -17,7 +17,7 @@
     "require-dev": {
         "ezsystems/ezplatform-solr-search-engine": "^3.0",
         "ezsystems/ezplatform-xmltext-fieldtype": "^2.0",
-        "phpunit/phpunit": "^9.0",
+        "phpunit/phpunit": "~9.0.0",
         "matthiasnoback/symfony-dependency-injection-test": "^4.1"
     },
     "suggest": {
