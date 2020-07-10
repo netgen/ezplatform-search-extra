@@ -5,6 +5,7 @@ namespace Netgen\EzPlatformSearchExtra\Tests\Unit\Core\Pagination\Pagerfanta;
 use eZ\Publish\API\Repository\Values\Content\Search\SearchHit;
 use Netgen\EzPlatformSearchExtra\Core\Pagination\Pagerfanta\Slice;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 
 /**
  * @group pager
@@ -50,7 +51,7 @@ class SliceTest extends TestCase
 
     public function testArrayAccessSet()
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
 
         $slice = $this->getSlice();
 
@@ -59,7 +60,7 @@ class SliceTest extends TestCase
 
     public function testArrayAccessUnset()
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
 
         $slice = $this->getSlice();
 
