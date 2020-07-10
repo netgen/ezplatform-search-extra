@@ -8,7 +8,6 @@ use Doctrine\DBAL\Query\QueryBuilder;
 
 class SubSelectQueryBuilder extends QueryBuilder
 {
-
     /**
      * @var \Doctrine\DBAL\Query\QueryBuilder
      */
@@ -17,7 +16,8 @@ class SubSelectQueryBuilder extends QueryBuilder
     public function __construct(Connection $connection, QueryBuilder $outerQueryBuilder)
     {
         parent::__construct($connection);
-        $this->outerQueryBuilder = $outerQueryBuilder;
+
+$this->outerQueryBuilder = $outerQueryBuilder;
     }
 
     public function createNamedParameter($value, $type = ParameterType::STRING, $placeHolder = null)
