@@ -33,7 +33,6 @@ matrix:
 branches:
     only:
         - master
-        - ezp3
         - /^\d.\d+$/
 
 before_script:
