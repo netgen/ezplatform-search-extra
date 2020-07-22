@@ -35,6 +35,11 @@ final class ObjectStateIdentifier extends CriterionHandler
         return $criterion instanceof ObjectStateIdentifierCriterion;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     */
     public function handle(
         CriteriaConverter $converter,
         QueryBuilder $queryBuilder,

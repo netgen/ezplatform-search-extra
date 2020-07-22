@@ -34,6 +34,11 @@ final class SectionIdentifier extends CriterionHandler
         return $criterion instanceof SectionIdentifierCriterion;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     */
     public function handle(
         CriteriaConverter $converter,
         QueryBuilder $queryBuilder,
