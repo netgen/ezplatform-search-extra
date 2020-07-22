@@ -17,7 +17,7 @@ class SubSelectQueryBuilder extends QueryBuilder
     {
         parent::__construct($connection);
 
-$this->outerQueryBuilder = $outerQueryBuilder;
+        $this->outerQueryBuilder = $outerQueryBuilder;
     }
 
     public function createNamedParameter($value, $type = ParameterType::STRING, $placeHolder = null)
