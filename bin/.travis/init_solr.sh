@@ -12,7 +12,7 @@ default_cores[4]='core4'
 default_cores[5]='core5'
 
 SOLR_PORT=${SOLR_PORT:-8983}
-SOLR_VERSION=${SOLR_VERSION:-6.6.5}
+SOLR_VERSION=${SOLR_VERSION:-7.7.3}
 SOLR_DEBUG=${SOLR_DEBUG:-false}
 SOLR_HOME=${SOLR_HOME:-ez}
 SOLR_CONFIG=${SOLR_CONFIG:-${default_config_files[*]}}
@@ -22,7 +22,7 @@ SOLR_INSTALL_DIR="${SOLR_DIR}/${SOLR_VERSION}"
 
 download() {
     case ${SOLR_VERSION} in
-        6.6.5 )
+        7.7.3 )
             url="http://archive.apache.org/dist/lucene/solr/${SOLR_VERSION}/solr-${SOLR_VERSION}.tgz"
             ;;
         *)
@@ -120,7 +120,7 @@ run() {
     echo "Running with version ${SOLR_VERSION} in standalone mode"
     echo "Starting solr on port ${SOLR_PORT}..."
 
-    ./${SOLR_INSTALL_DIR}/bin/solr -p ${SOLR_PORT} -s ${SOLR_HOME} || exit_on_error "Can't start Solr"
+    ./${SOLR_INSTALL_DIR}/bin/solr -p ${SOLR_PORT} -s ${SOLR_HOME} -Dsolr.disable.shardsWhitelist=true || exit_on_error "Can't start Solr"
 
     echo "Started"
 
