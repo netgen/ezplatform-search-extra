@@ -56,19 +56,14 @@ class QueryConverter extends BaseQueryConverter
     public function convert(Query $query)
     {
         $params = [
-            'defType' => 'edismax',
             'q' => '{!lucene}' . $this->criterionVisitor->visit($query->query),
             'fq' => '{!lucene}' . $this->criterionVisitor->visit($query->filter),
+            'sort' => $this->getSortParams($query->sortClauses),
             'start' => $query->offset,
             'rows' => $query->limit,
             'fl' => '*,score,[shard]',
             'wt' => 'json',
         ];
-
-        $sortParams = $this->getSortParams($query->sortClauses);
-        if (!empty($sortParams)) {
-            $params['sort'] = $sortParams;
-        }
 
         $facetParams = $this->getFacetParams($query->facetBuilders);
         if (!empty($facetParams)) {
