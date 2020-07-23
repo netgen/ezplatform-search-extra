@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 default_config_files[1]='lib/Resources/config/solr/schema.xml'
-default_config_files[2]='lib/Resources/config/solr/custom-fields-types.xml'
+default_config_files[2]='tests/lib/Resources/config/search/solr/custom-fields-types.xml'
 default_config_files[3]='lib/Resources/config/solr/language-fieldtypes.xml'
 
 default_cores[0]='core0'
