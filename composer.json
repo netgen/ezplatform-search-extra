@@ -15,7 +15,7 @@
         "ext-dom": "*"
     },
     "require-dev": {
-        "ezsystems/ezplatform-solr-search-engine": "^3.0",
+        "ezsystems/ezplatform-solr-search-engine": "3.1.x-dev",
         "ezsystems/ezplatform-xmltext-fieldtype": "^2.0",
         "phpunit/phpunit": "~9.0.0",
         "matthiasnoback/symfony-dependency-injection-test": "^4.1"
