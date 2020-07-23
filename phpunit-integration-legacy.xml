@@ -13,6 +13,7 @@
             <directory suffix="Test.php">./tests/lib/Integration/</directory>
             <!-- Exclude tests not supported with Legacy search engine -->
             <exclude>tests/lib/Integration/API/CustomFieldFacetTest.php</exclude>
+            <exclude>tests/lib/Integration/API/FulltextSpellcheckCriterionTest.php</exclude>
             <exclude>tests/lib/Integration/API/IsFieldEmptyCriterionTest.php</exclude>
             <exclude>tests/lib/Integration/API/SubdocumentFieldSortClauseTest.php</exclude>
             <exclude>tests/lib/Integration/API/SubdocumentQueryCriterionTest.php</exclude>
