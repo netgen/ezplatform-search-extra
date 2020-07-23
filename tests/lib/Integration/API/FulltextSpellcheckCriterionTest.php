@@ -1,6 +1,6 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Tests\Solr;
+namespace Netgen\EzPlatformSearchExtra\Tests\Integration\API;
 
 use eZ\Publish\API\Repository\Tests\BaseTest;
 use eZ\Publish\API\Repository\Values\Content\LocationQuery;
@@ -24,7 +24,7 @@ class FulltextSpellcheckCriterionTest extends BaseTest
                         new WordSuggestion([
                             'originalWord' => 'sucess',
                             'suggestedWord' => 'success',
-                            'frequency' => 6,
+                            'frequency' => 3,
                         ]),
                     ],
                 ],
@@ -39,12 +39,12 @@ class FulltextSpellcheckCriterionTest extends BaseTest
                         new WordSuggestion([
                             'originalWord' => 'sucessful',
                             'suggestedWord' => 'successful',
-                            'frequency' => 2,
+                            'frequency' => 1,
                         ]),
                         new WordSuggestion([
                             'originalWord' => 'sucessful',
                             'suggestedWord' => 'successfully',
-                            'frequency' => 4,
+                            'frequency' => 2,
                         ]),
                     ],
                 ],
@@ -59,7 +59,7 @@ class FulltextSpellcheckCriterionTest extends BaseTest
                         new WordSuggestion([
                             'originalWord' => 'success',
                             'suggestedWord' => 'successful',
-                            'frequency' => 2,
+                            'frequency' => 1,
                         ])
                     ]
                 ],
@@ -74,7 +74,7 @@ class FulltextSpellcheckCriterionTest extends BaseTest
                         new WordSuggestion([
                             'originalWord' => 'medioccre',
                             'suggestedWord' => 'mediocre',
-                            'frequency' => 2,
+                            'frequency' => 1,
                         ])
                     ]
                 ],
