@@ -318,7 +318,7 @@
       -->
 
     <autoSoftCommit>
-      <maxTime>${solr.autoSoftCommit.maxTime:20}</maxTime>
+      <maxTime>${solr.autoSoftCommit.maxTime:-1}</maxTime>
     </autoSoftCommit>
 
     <!-- Update Related Event Listeners
@@ -1143,7 +1143,7 @@
 
        See http://wiki.apache.org/solr/GuessingFieldTypes
     -->
-  <updateProcessor class="solr.UUIDUpdateProcessorFactory" name="uuid"/>
+  <!--updateProcessor class="solr.UUIDUpdateProcessorFactory" name="uuid"/>
   <updateProcessor class="solr.RemoveBlankFieldUpdateProcessorFactory" name="remove-blank"/>
   <updateProcessor class="solr.FieldNameMutatingUpdateProcessorFactory" name="field-name-mutating">
     <str name="pattern">[^\w-\.]</str>
@@ -1180,9 +1180,9 @@
       <lst name="copyField">
         <str name="dest">*_str</str>
         <int name="maxChars">256</int>
-      </lst>
+      </lst-->
       <!-- Use as default mapping instead of defaultFieldType -->
-      <bool name="default">true</bool>
+      <!--bool name="default">true</bool>
     </lst>
     <lst name="typeMapping">
       <str name="valueClass">java.lang.Boolean</str>
@@ -1201,7 +1201,7 @@
       <str name="valueClass">java.lang.Number</str>
       <str name="fieldType">pdoubles</str>
     </lst>
-  </updateProcessor>
+  </updateProcessor-->
 
   <!-- The update.autoCreateFields property can be turned to false to disable schemaless mode -->
 
