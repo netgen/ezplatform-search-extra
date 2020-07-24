@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-default_config_files[1]='lib/Resources/config/solr/schema.xml'
-default_config_files[2]='lib/Resources/config/solr/language-fieldtypes.xml'
+default_config_files[1]='vendor/ezsystems/ezplatform-solr-search-engine/lib/Resources/config/solr/schema.xml'
+default_config_files[2]='vendor/ezsystems/ezplatform-solr-search-engine/lib/Resources/config/solr/language-fieldtypes.xml'
 default_config_files[3]='tests/lib/Resources/config/search/solr/solrconfig.xml'
 default_config_files[4]='tests/lib/Resources/config/search/solr/custom-fields-types.xml'
 
@@ -277,13 +277,22 @@ solr_cloud_create_collection() {
     curl ${url} || exit_on_error "Couldn't create collection"
 }
 
+solr_adapt_config_template() {
+    local config_template_dir=$1
+    local files=("${SOLR_CONFIG[@]}")
+
+    copy_files "${config_template_dir}" "${files[*]}"
+}
+
 download
 
 if [ "$SOLR_CLOUD" = "no" ]; then
-    $SCRIPT_DIR/../../vendor/ezsystems/ezplatform-solr-search-engine/bin/generate-solr-config.sh \
+    config_template_dir="${SOLR_INSTALL_DIR}/server/${SOLR_HOME}/template"
+    "$SCRIPT_DIR"/../../vendor/ezsystems/ezplatform-solr-search-engine/bin/generate-solr-config.sh \
             --solr-install-dir="${SOLR_INSTALL_DIR}" \
             --solr-version="${SOLR_VERSION}" \
-            --destination-dir="${SOLR_INSTALL_DIR}/server/${SOLR_HOME}/template"
+            --destination-dir="${config_template_dir}"
+    solr_adapt_config_template "${config_template_dir}"
     solr_run
 else
     solr_cloud_configure_nodes
