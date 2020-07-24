@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
 default_config_files[1]='lib/Resources/config/solr/schema.xml'
-default_config_files[2]='tests/lib/Resources/config/search/solr/custom-fields-types.xml'
-default_config_files[3]='lib/Resources/config/solr/language-fieldtypes.xml'
+default_config_files[2]='lib/Resources/config/solr/language-fieldtypes.xml'
+default_config_files[3]='tests/lib/Resources/config/search/solr/solrconfig.xml'
+default_config_files[4]='tests/lib/Resources/config/search/solr/custom-fields-types.xml'
 
 default_cores[0]='core0'
 default_cores[1]='core1'
@@ -223,7 +224,6 @@ solr_cloud_configure_collection() {
 
     echo $config_dir;
 
-    files+=("${config_dir}/solrconfig.xml")
     files+=("${config_dir}/stopwords.txt")
     files+=("${config_dir}/synonyms.txt")
 
