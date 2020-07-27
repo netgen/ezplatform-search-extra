@@ -90,7 +90,7 @@ final class IsFieldEmpty extends CriterionVisitor
 
             $fieldNames[] = $this->fieldNameGenerator->getTypedName(
                 $this->fieldNameGenerator->getName(
-                    'is_empty',
+                    'ng_is_empty',
                     $fieldDefinitionIdentifier,
                     $contentTypeIdentifier
                 ),
