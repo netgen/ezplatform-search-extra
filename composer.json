@@ -10,12 +10,12 @@
         }
     ],
     "require": {
-        "ezsystems/ezplatform-kernel": "^1.0",
+        "ezsystems/ezplatform-kernel": "dev-master as 1.1.x-dev",
         "ext-json": "*",
         "ext-dom": "*"
     },
     "require-dev": {
-        "ezsystems/ezplatform-solr-search-engine": "^3.0",
+        "ezsystems/ezplatform-solr-search-engine": "^3.1.1",
         "ezsystems/ezplatform-xmltext-fieldtype": "^2.0",
         "phpunit/phpunit": "~9.0.0",
         "matthiasnoback/symfony-dependency-injection-test": "^4.1"
