@@ -89,7 +89,7 @@ class IsFieldEmptyFieldMapper extends ContentTranslationFieldMapper
 
             $fields[] = new Field(
                 $name = $this->fieldNameGenerator->getName(
-                    'is_empty',
+                    'ng_is_empty',
                     $fieldDefinition->identifier,
                     $contentType->identifier
                 ),
