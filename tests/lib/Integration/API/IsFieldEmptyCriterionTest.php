@@ -126,34 +126,38 @@ class IsFieldEmptyCriterionTest extends BaseTest
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
+        $languageCode = 'ger-DE';
 
         $contentInfo = $contentService->loadContentInfo(4);
         $draft = $contentService->createContentDraft($contentInfo);
         $updateStruct = $contentService->newContentUpdateStruct();
-        $updateStruct->setField('name', 'not empty', 'ger-DE');
-        $updateStruct->setField('description', '', 'ger-DE');
+        $updateStruct->initialLanguageCode = $languageCode;
+        $updateStruct->setField('name', 'not empty', $languageCode);
+        $updateStruct->setField('description', '', $languageCode);
         $contentService->updateContent($draft->versionInfo, $updateStruct);
         $contentService->publishVersion($draft->versionInfo);
 
         $contentInfo = $contentService->loadContentInfo(11);
         $draft = $contentService->createContentDraft($contentInfo);
         $updateStruct = $contentService->newContentUpdateStruct();
-        $updateStruct->setField('name', 'not empty', 'ger-DE');
-        $updateStruct->setField('description', 'not empty', 'ger-DE');
+        $updateStruct->initialLanguageCode = $languageCode;
+        $updateStruct->setField('name', 'not empty', $languageCode);
+        $updateStruct->setField('description', 'not empty', $languageCode);
         $contentService->updateContent($draft->versionInfo, $updateStruct);
         $contentService->publishVersion($draft->versionInfo);
 
         $contentInfo = $contentService->loadContentInfo(42);
         $draft = $contentService->createContentDraft($contentInfo);
         $updateStruct = $contentService->newContentUpdateStruct();
-        $updateStruct->setField('name', 'not empty', 'ger-DE');
-        $updateStruct->setField('description', '', 'ger-DE');
+        $updateStruct->initialLanguageCode = $languageCode;
+        $updateStruct->setField('name', 'not empty', $languageCode);
+        $updateStruct->setField('description', '', $languageCode);
         $contentService->updateContent($draft->versionInfo, $updateStruct);
         $contentService->publishVersion($draft->versionInfo);
 
         $this->refreshSearch($repository);
 
-        $this->assertTrue(true);
+        $this->addToAssertionCount(1);
     }
 
     /**
