@@ -27,12 +27,12 @@ matrix:
           env: TEST_CONFIG="vendor/ezsystems/ezplatform-kernel/phpunit-integration-legacy-solr.xml" SOLR_VERSION="7.7.3" CORES_SETUP="shared" REGRESSION="yes"
         - php: 7.3
           env: TEST_CONFIG="vendor/ezsystems/ezplatform-kernel/phpunit-integration-legacy-solr.xml" SOLR_VERSION="7.7.3" CORES_SETUP="cloud" SOLR_CLOUD="yes" REGRESSION="yes"
+        - php: 7.3
+          env: TEST_CONFIG="vendor/ezsystems/ezplatform-kernel/phpunit-integration-legacy-solr.xml" SOLR_VERSION="8.5.2" CORES_SETUP="cloud" SOLR_CLOUD="yes" REGRESSION="yes"
         - php: 7.4
           env: TEST_CONFIG="phpunit-integration-solr.xml" SOLR_VERSION="7.7.3" CORES_SETUP="dedicated"
         - php: 7.4
           env: TEST_CONFIG="vendor/ezsystems/ezplatform-kernel/phpunit-integration-legacy-solr.xml" SOLR_VERSION="7.7.3" CORES_SETUP="shared" REGRESSION="yes"
-        - php: 7.4
-          env: TEST_CONFIG="vendor/ezsystems/ezplatform-kernel/phpunit-integration-legacy-solr.xml" SOLR_VERSION="8.5.2" CORES_SETUP="cloud" SOLR_CLOUD="yes" REGRESSION="yes"
 
 branches:
     only:
