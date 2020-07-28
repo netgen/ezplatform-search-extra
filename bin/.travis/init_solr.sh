@@ -2,7 +2,7 @@
 
 default_config_files[1]='vendor/ezsystems/ezplatform-solr-search-engine/lib/Resources/config/solr/schema.xml'
 default_config_files[2]='vendor/ezsystems/ezplatform-solr-search-engine/lib/Resources/config/solr/language-fieldtypes.xml'
-default_config_files[3]='tests/lib/Resources/config/search/solr/solrconfig.xml'
+default_config_files[3]='tests/lib/Resources/config/search/solr/7.7/solrconfig.xml'
 default_config_files[4]='tests/lib/Resources/config/search/solr/custom-fields-types.xml'
 
 default_cores[0]='core0'
@@ -46,7 +46,7 @@ fi
 download() {
     case ${SOLR_VERSION} in
         # PS!!: Append versions and don't remove old once, kernel uses this script!
-        7.7.3|8.5.2 )
+        7.7.3|8.6.0 )
             url="http://archive.apache.org/dist/lucene/solr/${SOLR_VERSION}/solr-${SOLR_VERSION}.tgz"
             ;;
         *)
