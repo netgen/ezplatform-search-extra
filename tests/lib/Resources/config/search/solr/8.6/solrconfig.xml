@@ -701,13 +701,26 @@
     <lst name="defaults">
       <str name="echoParams">explicit</str>
       <int name="rows">10</int>
+      <str name="spellcheck.dictionary">default</str>
+      <str name="spellcheck">on</str>
+      <str name="spellcheck.extendedResults">true</str>
+      <str name="spellcheck.count">10</str>
+      <str name="spellcheck.alternativeTermCount">5</str>
+      <str name="spellcheck.maxResultsForSuggest">5</str>
+      <str name="spellcheck.collate">true</str>
+      <str name="spellcheck.collateExtendedResults">true</str>
+      <str name="spellcheck.maxCollationTries">10</str>
+      <str name="spellcheck.maxCollations">5</str>
       <!-- Default search field
-         <str name="df">text</str> 
+         <str name="df">text</str>
         -->
       <!-- Change from JSON to XML format (the default prior to Solr 7.0)
-         <str name="wt">xml</str> 
+         <str name="wt">xml</str>
         -->
     </lst>
+    <arr name="last-components">
+      <str>spellcheck</str>
+    </arr>
     <!-- In addition to defaults, "appends" params can be specified
          to identify values which should be appended to the list of
          multi-val params from the query (or the existing "defaults").
@@ -838,25 +851,29 @@
     <!-- a spellchecker built from a field of the main index -->
     <lst name="spellchecker">
       <str name="name">default</str>
-      <str name="field">_text_</str>
-      <str name="classname">solr.DirectSolrSpellChecker</str>
+      <!-- decide between dictionary based vs index based spelling suggestion, in most cases it makes sense to use index based spell checker as it only generates terms which are actually present in your search corpus -->
+      <str name="classname">solr.IndexBasedSpellChecker</str>
+      <!-- field to use -->
+      <str name="field">spellcheck</str>
       <!-- the spellcheck distance measure used, the default is the internal levenshtein -->
-      <str name="distanceMeasure">internal</str>
+      <str name="distanceMeasure">org.apache.lucene.search.spell.LevensteinDistance</str>
+      <!-- buildOnCommit|buildOnOptimize -->
+      <str name="buildOnCommit">true</str>
+      <!-- $solr.solr.home/data/spellchecker-->
+      <str name="spellcheckIndexDir">./spellchecker</str>
       <!-- minimum accuracy needed to be considered a valid spellcheck suggestion -->
-      <float name="accuracy">0.5</float>
+      <float name="accuracy">0.7</float>
       <!-- the maximum #edits we consider when enumerating terms: can be 1 or 2 -->
-      <int name="maxEdits">2</int>
+      <!-- int name="maxEdits">2</int -->
       <!-- the minimum shared prefix when enumerating terms -->
-      <int name="minPrefix">1</int>
+      <!-- int name="minPrefix">1</int -->
       <!-- maximum number of inspections per result. -->
-      <int name="maxInspections">5</int>
+      <!-- int name="maxInspections">5</int -->
       <!-- minimum length of a query term to be considered for correction -->
-      <int name="minQueryLength">4</int>
+      <!-- int name="minQueryLength">4</int -->
       <!-- maximum threshold of documents a query term can appear to be considered for correction -->
-      <float name="maxQueryFrequency">0.01</float>
-      <!-- uncomment this to require suggestions to occur in 1% of the documents
-        <float name="thresholdTokenFrequency">.01</float>
-      -->
+      <!-- float name="maxQueryFrequency">0.01</float -->
+      <float name="thresholdTokenFrequency">.0001</float>
     </lst>
 
     <!-- a spellchecker that can break or combine words.  See "/spell" handler below for usage -->
