@@ -207,8 +207,10 @@ class FulltextSpellcheckCriterionTest extends BaseTest
             return;
         }
 
-        foreach ($wordSuggestions as $wordSuggestion) {
-            $wordSuggestion->frequency *= 2;
+        foreach ($wordSuggestions as $wordSuggestionsGroup) {
+            foreach ($wordSuggestionsGroup as $wordSuggestion) {
+                $wordSuggestion->frequency *= 2;
+            }
         }
     }
 }
