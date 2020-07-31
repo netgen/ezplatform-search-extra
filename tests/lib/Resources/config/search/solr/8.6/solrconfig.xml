@@ -862,7 +862,7 @@
       <!-- $solr.solr.home/data/spellchecker-->
       <str name="spellcheckIndexDir">./spellchecker</str>
       <!-- minimum accuracy needed to be considered a valid spellcheck suggestion -->
-      <float name="accuracy">0.7</float>
+      <str name="accuracy">0.7</str>
       <!-- the maximum #edits we consider when enumerating terms: can be 1 or 2 -->
       <!-- int name="maxEdits">2</int -->
       <!-- the minimum shared prefix when enumerating terms -->
