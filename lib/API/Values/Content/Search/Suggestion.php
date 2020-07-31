@@ -34,7 +34,7 @@ class Suggestion
     }
 
     /**
-     * @return \Netgen\EzPlatformSearchExtra\API\Values\Content\Search\WordSuggestion[]
+     * @return \Netgen\EzPlatformSearchExtra\API\Values\Content\Search\WordSuggestion[][]
      */
     public function getSuggestions()
     {
