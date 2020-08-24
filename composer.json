@@ -10,15 +10,18 @@
         }
     ],
     "require": {
-        "ezsystems/ezplatform-kernel": "dev-master as 1.1.x-dev",
+        "ezsystems/ezplatform-kernel": "1.1",
         "ext-json": "*",
         "ext-dom": "*"
     },
     "require-dev": {
-        "ezsystems/ezplatform-solr-search-engine": "^3.1.1",
+        "ezsystems/ezplatform-solr-search-engine": "^3.1",
         "ezsystems/ezplatform-xmltext-fieldtype": "^2.0",
         "phpunit/phpunit": "~9.0.0",
         "matthiasnoback/symfony-dependency-injection-test": "^4.1"
+    },
+    "conflict": {
+        "symfony/cache": "5.0.11 || 5.1.3"
     },
     "suggest": {
         "netgen/ezplatform-site-api": "Boost your site-building productivity with eZ Platform",
