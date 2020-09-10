@@ -73,3 +73,19 @@ services:
         tags:
             - {name: ezpublish.search.legacy.gateway.criterion_handler.content}
             - {name: ezpublish.search.legacy.gateway.criterion_handler.location}
+
+    netgen.search.legacy.query.content.criterion_visitor.visible:
+        class: Netgen\EzPlatformSearchExtra\Core\Search\Legacy\Query\Content\CriterionHandler\Visible
+        parent: eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
+        arguments:
+            - '@ezpublish.persistence.connection'
+        tags:
+            - {name: ezpublish.search.legacy.gateway.criterion_handler.content}
+
+    netgen.search.legacy.query.location.criterion_visitor.visible:
+        class: Netgen\EzPlatformSearchExtra\Core\Search\Legacy\Query\Location\CriterionHandler\Visible
+        parent: eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
+        arguments:
+            - '@ezpublish.persistence.connection'
+        tags:
+            - {name: ezpublish.search.legacy.gateway.criterion_handler.location}
