@@ -19,6 +19,6 @@ class Visible extends CriterionVisitor
     {
         $isVisible = $criterion->value[0];
 
-        return 'ng_location_visible:' . ($isVisible ? 'true' : 'false');
+        return 'ng_location_visible_b:' . ($isVisible ? 'true' : 'false');
     }
 }
