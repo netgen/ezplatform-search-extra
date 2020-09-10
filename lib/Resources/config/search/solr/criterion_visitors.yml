@@ -42,3 +42,13 @@ services:
             - '@ezpublish.search.solr.query.location.criterion_visitor.aggregate'
         tags:
             - {name: ezpublish.search.solr.query.content.criterion_visitor}
+
+    netgen.search.solr.query.content.criterion_visitor.visible:
+        class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Content\CriterionVisitor\Visible
+        tags:
+            - { name: ezpublish.search.solr.query.content.criterion_visitor }
+
+    netgen.search.solr.query.location.criterion_visitor.visible:
+        class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Location\CriterionVisitor\Visible
+        tags:
+            - { name: ezpublish.search.solr.query.location.criterion_visitor }
