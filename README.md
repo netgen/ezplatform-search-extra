@@ -15,6 +15,11 @@ Only a list of features is provided here, see
 [documentation](https://netgen-ezplatform-search-extra.readthedocs.io)
 for more details.
 
+- [`Visible`](https://github.com/netgen/ezplatform-search-extra/blob/master/lib/API/Values/Content/Query/Criterion/Visible.php) criterion (`solr`, `legacy`),
+  usable in both Content and Location search. The criterion works on compound visiblity of Content and Location objects:
+  the Content is visible if it's marked as visible; the Location is visible if it's marked as visible, is not hidden by
+  one of its ancestor Locations, and it's Content is visible.
+
 - [Spellcheck suggestions support](https://docs.netgen.io/projects/search-extra/en/latest/reference/spellcheck_suggestions.html) (`solr`)
 
 - [`CustomField`](https://github.com/netgen/ezplatform-search-extra/blob/master/lib/API/Values/Content/Query/SortClause/CustomField.php) sort clause (`solr`)
