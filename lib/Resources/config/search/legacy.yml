@@ -65,3 +65,25 @@ services:
         tags:
             - {name: ezpublish.search.legacy.gateway.criterion_handler.content}
             - {name: ezpublish.search.legacy.gateway.criterion_handler.location}
+
+    netgen.search.legacy.query.common.criterion_visitor.content_id:
+        class: Netgen\EzPlatformSearchExtra\Core\Search\Legacy\Query\Common\CriterionHandler\ContentId
+        arguments:
+            - '@ezpublish.api.storage_engine.legacy.dbhandler'
+        tags:
+            - {name: ezpublish.search.legacy.gateway.criterion_handler.content}
+            - {name: ezpublish.search.legacy.gateway.criterion_handler.location}
+
+    netgen.search.legacy.query.content.criterion_visitor.location_id:
+        class: Netgen\EzPlatformSearchExtra\Core\Search\Legacy\Query\Content\CriterionHandler\LocationId
+        arguments:
+            - '@ezpublish.api.storage_engine.legacy.dbhandler'
+        tags:
+            - {name: ezpublish.search.legacy.gateway.criterion_handler.content}
+
+    netgen.search.legacy.query.location.criterion_visitor.location_id:
+        class: Netgen\EzPlatformSearchExtra\Core\Search\Legacy\Query\Location\CriterionHandler\LocationId
+        arguments:
+            - '@ezpublish.api.storage_engine.legacy.dbhandler'
+        tags:
+            - {name: ezpublish.search.legacy.gateway.criterion_handler.location}

@@ -42,3 +42,33 @@ services:
             - '@ezpublish.search.solr.query.location.criterion_visitor.aggregate'
         tags:
             - {name: ezpublish.search.solr.query.content.criterion_visitor}
+
+    netgen.search.solr.query.common.criterion_visitor.content_id_in:
+        class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common\CriterionVisitor\ContentIdIn
+        tags:
+            - { name: ezpublish.search.solr.query.common.criterion_visitor }
+
+    netgen.search.solr.query.common.criterion_visitor.content_id_between:
+        class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common\CriterionVisitor\ContentIdBetween
+        tags:
+            - { name: ezpublish.search.solr.query.common.criterion_visitor }
+
+    netgen.search.solr.query.content.criterion_visitor.location_id_in:
+        class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Content\CriterionVisitor\LocationIdIn
+        tags:
+            - { name: ezpublish.search.solr.query.content.criterion_visitor }
+
+    netgen.search.solr.query.content.criterion_visitor.location_id_between:
+        class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Content\CriterionVisitor\LocationIdBetween
+        tags:
+            - { name: ezpublish.search.solr.query.content.criterion_visitor }
+
+    netgen.search.solr.query.location.criterion_visitor.location_id_in:
+        class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Location\CriterionVisitor\LocationIdIn
+        tags:
+            - { name: ezpublish.search.solr.query.location.criterion_visitor }
+
+    netgen.search.solr.query.location.criterion_visitor.location_id_between:
+        class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Location\CriterionVisitor\LocationIdBetween
+        tags:
+            - { name: ezpublish.search.solr.query.location.criterion_visitor }
