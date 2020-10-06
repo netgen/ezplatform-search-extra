@@ -15,12 +15,12 @@ class ContentId extends Criterion
      * @param string $operator One of the Operator constants
      * @param int|int[]|string|string[] $value One or more Content IDs that must be matched
      */
-    public function __construct(string $operator, $value)
+    public function __construct($operator, $value)
     {
         parent::__construct(null, $operator, $value);
     }
 
-    public function getSpecifications(): array
+    public function getSpecifications()
     {
         return [
             new Specifications(Operator::EQ, Specifications::FORMAT_SINGLE, Specifications::TYPE_INTEGER),
