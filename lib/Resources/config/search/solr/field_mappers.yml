@@ -1,9 +1,21 @@
 services:
-    netgen.search.solr.field_mapper.content.is_field_empty:
+    netgen.search.solr.field_mapper.content_translation.is_field_empty:
         class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation\IsFieldEmptyFieldMapper
         arguments:
             - '@ezpublish.spi.persistence.content_type_handler'
             - '@ezpublish.search.common.field_name_generator'
             - '@ezpublish.persistence.field_type_registry'
         tags:
-            - {name: ezpublish.search.solr.field_mapper.block_translation}
+            - { name: ezpublish.search.solr.field_mapper.block_translation }
+
+    netgen.search.solr.field_mapper.content.content_and_location_id:
+        class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\FieldMapper\Content\ContentAndLocationIdFieldMapper
+        arguments:
+            - '@ezpublish.spi.persistence.location_handler'
+        tags:
+            - { name: ezpublish.search.solr.field_mapper.block }
+
+    netgen.search.solr.field_mapper.location.location_id:
+        class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\FieldMapper\Location\LocationIdFieldMapper
+        tags:
+            - { name: ezpublish.search.solr.field_mapper.location }
