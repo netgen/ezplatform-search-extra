@@ -37,6 +37,6 @@ final class ContentIdBetween extends CriterionVisitor
             $start = null;
         }
 
-        return 'content_id_id:' . $this->getRange($criterion->operator, $start, $end);
+        return 'ng_content_id_i:' . $this->getRange($criterion->operator, $start, $end);
     }
 }

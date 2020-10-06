@@ -38,6 +38,6 @@ class LocationIdBetween extends CriterionVisitor
             $start = null;
         }
 
-        return 'location_id_mid:' . $this->getRange($criterion->operator, $start, $end);
+        return 'ng_location_id_mi:' . $this->getRange($criterion->operator, $start, $end);
     }
 }

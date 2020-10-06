@@ -30,7 +30,7 @@ class LocationIdIn extends CriterionVisitor
         $values = array();
 
         foreach ($criterion->value as $value) {
-            $values[] = 'location_id_mid:"' . $value . '"';
+            $values[] = 'ng_location_id_mi:"' . $value . '"';
         }
 
         return '(' . implode(' OR ', $values) . ')';

@@ -29,7 +29,7 @@ final class ContentIdIn extends CriterionVisitor
         $values = array();
 
         foreach ($criterion->value as $value) {
-            $values[] = 'content_id_id:"' . $value . '"';
+            $values[] = 'ng_content_id_i:"' . $value . '"';
         }
 
         return '(' . implode(' OR ', $values) . ')';
