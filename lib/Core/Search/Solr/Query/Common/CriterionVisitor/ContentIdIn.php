@@ -19,7 +19,7 @@ final class ContentIdIn extends CriterionVisitor
         return
             $criterion instanceof ContentIdCriterion
             && (
-                $criterion->operator  === Operator::IN
+                $criterion->operator === Operator::IN
                 || $criterion->operator === Operator::EQ
             );
     }
