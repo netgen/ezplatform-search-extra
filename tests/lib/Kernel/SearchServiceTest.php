@@ -9,16 +9,13 @@ use Netgen\EzPlatformSearchExtra\API\Values\Content\Search\SearchResult;
 
 class SearchServiceTest extends KernelSearchServiceTest
 {
-    /**
-     * @inheritDoc
-     */
     protected function assertQueryFixture(
         Query $query,
-        $fixture,
+        string $fixtureFilePath,
         ?callable $closure = null,
-        $ignoreScore = true,
-        $info = false,
-        $id = true
+        bool $ignoreScore = true,
+        bool $info = false,
+        bool $id = true
     ): void {
         $newClosure = function (&$data) use ($closure) {
             if ($data instanceof SearchResult) {
@@ -30,10 +27,10 @@ class SearchServiceTest extends KernelSearchServiceTest
             }
         };
 
-        parent::assertQueryFixture($query, $fixture, $newClosure, $ignoreScore, $info, $id);
+        parent::assertQueryFixture($query, $fixtureFilePath, $newClosure, $ignoreScore, $info, $id);
     }
 
-    private function mapToKernelSearchResult(SearchResult $data)
+    private function mapToKernelSearchResult(SearchResult $data): KernelSearchResult
     {
         return new KernelSearchResult([
             'facets' => $data->facets,
