@@ -12,7 +12,7 @@ Only a list of features is provided here, see
 [documentation](https://netgen-ezplatform-search-extra.readthedocs.io)
 for more details.
 
-- `ContentId` and `LocationId` criteria with support for range operators:
+- `ContentId` and `LocationId` criteria with support for range operators  (`solr`, `legacy`)
 
   Supported operators are: `EQ`, `IN`, `GT`, `GTE`, `LT`, `LTE`, `BETWEEN`.
 
