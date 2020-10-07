@@ -7,7 +7,7 @@
 [![eZ](https://img.shields.io/badge/eZ%20Platform-%E2%89%A5%203.1-orange.svg?style=flat-square)](https://ezplatform.com/)
 [![License](https://img.shields.io/github/license/netgen/ezplatform-search-extra.svg?style=flat-square)](https://packagist.org/packages/netgen/ezplatform-search-extra)
 
-### Note: release compatible with eZ Platform v2 is `1.11`.
+### Note: release compatible with eZ Platform v2 is `1.12`.
 
 ## Features
 
@@ -15,7 +15,7 @@ Only a list of features is provided here, see
 [documentation](https://netgen-ezplatform-search-extra.readthedocs.io)
 for more details.
 
-- `ContentId` and `LocationId` criteria with support for range operators  (`solr`, `legacy`)
+- [`ContentId`](https://github.com/netgen/ezplatform-search-extra/blob/master/lib/API/Values/Content/Query/Criterion/ContentId.php) and [`LocationId`](https://github.com/netgen/ezplatform-search-extra/blob/master/lib/API/Values/Content/Query/Criterion/LocationId.php) criteria with support for range operators  (`solr`, `legacy`)
 
   Supported operators are: `EQ`, `IN`, `GT`, `GTE`, `LT`, `LTE`, `BETWEEN`.
 
