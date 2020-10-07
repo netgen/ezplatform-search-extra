@@ -9,18 +9,14 @@ use Netgen\EzPlatformSearchExtra\API\Values\Content\Search\SearchResult;
 
 class SearchServiceTest extends KernelSearchServiceTest
 {
-    /**
-     * Assert that query result matches the given fixture.
-     *
-     * @param \eZ\Publish\API\Repository\Values\Content\Query $query
-     * @param string $fixture
-     * @param null|callable $closure
-     * @param bool $info
-     * @param bool $ignoreScore
-     * @param bool $id
-     */
-    protected function assertQueryFixture(Query $query, $fixture, $closure = null, $ignoreScore = true, $info = false, $id = true)
-    {
+    protected function assertQueryFixture(
+        Query $query,
+        string $fixtureFilePath,
+        ?callable $closure = null,
+        bool $ignoreScore = true,
+        bool $info = false,
+        bool $id = true
+    ): void {
         $newClosure = function (&$data) use ($closure) {
             if ($data instanceof SearchResult) {
                 $data = $this->mapToKernelSearchResult($data);
@@ -31,10 +27,10 @@ class SearchServiceTest extends KernelSearchServiceTest
             }
         };
 
-        return parent::assertQueryFixture($query, $fixture, $newClosure, $ignoreScore, $info, $id);
+        parent::assertQueryFixture($query, $fixtureFilePath, $newClosure, $ignoreScore, $info, $id);
     }
 
-    private function mapToKernelSearchResult(SearchResult $data)
+    private function mapToKernelSearchResult(SearchResult $data): KernelSearchResult
     {
         return new KernelSearchResult([
             'facets' => $data->facets,
