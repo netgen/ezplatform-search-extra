@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "ezsystems/ezpublish-kernel": "^5.4.11||^6.0||^7.0||^8.0",
+        "ezsystems/ezpublish-kernel": "^7.5.8||^8.0",
         "ext-json": "*",
         "ext-dom": "*"
     },
