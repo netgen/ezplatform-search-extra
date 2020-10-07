@@ -325,7 +325,7 @@ class SubdocumentFieldSortClauseTest extends BaseTest
                         new ContentIdSortClause(Query::SORT_ASC),
                     ],
                 ]),
-                [12, 4, 42, 59],
+                [4, 12, 42, 59],
             ],
             [
                 new Query([
@@ -341,7 +341,7 @@ class SubdocumentFieldSortClauseTest extends BaseTest
                         new ContentIdSortClause(Query::SORT_DESC),
                     ],
                 ]),
-                [59, 42, 4, 12],
+                [59, 42, 12, 4],
             ],
         ];
     }
