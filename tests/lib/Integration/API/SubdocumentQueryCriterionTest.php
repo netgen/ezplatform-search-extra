@@ -92,7 +92,7 @@ class SubdocumentQueryCriterionTest extends BaseTest
                     'sortClauses' => [new ContentIdSortClause()],
                 ]),
                 [],
-                [13, 4, 42, 59],
+                [4, 13, 42, 59],
             ],
             [
                 new Query([
@@ -111,7 +111,7 @@ class SubdocumentQueryCriterionTest extends BaseTest
                     'sortClauses' => [new ContentIdSortClause()],
                 ]),
                 [],
-                [13, 4, 59],
+                [4, 13, 59],
             ],
             [
                 new Query([
@@ -213,7 +213,7 @@ class SubdocumentQueryCriterionTest extends BaseTest
                     'sortClauses' => [new ContentIdSortClause()],
                 ]),
                 ['languages' => ['ger-DE']],
-                [12, 13, 4, 42],
+                [4, 12, 13, 42],
             ],
             [
                 new Query([
