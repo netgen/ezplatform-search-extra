@@ -16,7 +16,7 @@ abstract class BaseTest extends APIBaseTest
         $totalCount = null
     ) {
         $totalCount = $totalCount ?: count($expectedIds);
-        $this->assertEquals($totalCount, $searchResult->totalCount);
+        self::assertEquals($totalCount, $searchResult->totalCount);
 
         $foundIds = [];
 
@@ -34,7 +34,34 @@ abstract class BaseTest extends APIBaseTest
             }
         }
 
-        $this->assertEquals($expectedIds, $foundIds);
+        self::assertEquals($expectedIds, $foundIds);
+    }
+
+    protected function assertSearchResultLocationIds(
+        SearchResult $searchResult,
+        array $expectedIds,
+        $totalCount = null
+    ) {
+        $totalCount = $totalCount ?: count($expectedIds);
+        self::assertEquals($totalCount, $searchResult->totalCount);
+
+        $foundIds = [];
+
+        foreach ($searchResult->searchHits as $searchHit) {
+            $value = $searchHit->valueObject;
+
+            if ($value instanceof ContentInfo) {
+                $foundIds[] = $value->mainLocationId;
+            } elseif ($value instanceof Location) {
+                $foundIds[] = $value->id;
+            } else {
+                throw new RuntimeException(
+                    'Unknown value type: ' . get_class($value)
+                );
+            }
+        }
+
+        self::assertEquals($expectedIds, $foundIds);
     }
 
     protected function getSearchService($initialInitializeFromScratch = true)

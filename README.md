@@ -15,6 +15,10 @@ Only a list of features is provided here, see
 [documentation](https://netgen-ezplatform-search-extra.readthedocs.io)
 for more details.
 
+- `ContentId` and `LocationId` criteria with support for range operators  (`solr`, `legacy`)
+
+  Supported operators are: `EQ`, `IN`, `GT`, `GTE`, `LT`, `LTE`, `BETWEEN`.
+
 - [`Visible`](https://github.com/netgen/ezplatform-search-extra/blob/master/lib/API/Values/Content/Query/Criterion/Visible.php) criterion (`solr`, `legacy`),
   usable in both Content and Location search. The criterion works on compound visiblity of Content and Location objects:
   the Content is visible if it's marked as visible; the Location is visible if it's marked as visible, is not hidden by

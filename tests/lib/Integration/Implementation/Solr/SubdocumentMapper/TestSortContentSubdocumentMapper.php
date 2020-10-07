@@ -9,7 +9,7 @@ use eZ\Publish\SPI\Search\Document;
 use Netgen\EzPlatformSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentSubdocumentMapper;
 
 /**
- * Note: here we  are only simulating indexing children data.
+ * Note: here we are only simulating indexing children data.
  */
 class TestSortContentSubdocumentMapper extends ContentSubdocumentMapper
 {
