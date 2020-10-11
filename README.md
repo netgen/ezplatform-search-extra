@@ -1,4 +1,4 @@
-# Extra bits for eZ Platform search
+# Netgen's extra bits for eZ Platform search
 
 [![Build Status](https://img.shields.io/travis/netgen/ezplatform-search-extra.svg?style=flat-square)](https://travis-ci.com/netgen/ezplatform-search-extra)
 [![Read the Docs](https://img.shields.io/readthedocs/pip.svg?style=flat-square)](https://netgen-ezplatform-search-extra.readthedocs.io/en/latest/index.html)
