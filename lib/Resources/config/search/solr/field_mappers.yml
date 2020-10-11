@@ -8,6 +8,11 @@ services:
         tags:
             - { name: ezpublish.search.solr.field_mapper.block_translation }
 
+    netgen.search.solr.field_mapper.content_translation.content_name:
+        class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation\ContentNameFieldMapper
+        tags:
+            - { name: ezpublish.search.solr.field_mapper.block_translation }
+
     netgen.search.solr.field_mapper.content.content_and_location_id:
         class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\FieldMapper\Content\ContentAndLocationIdFieldMapper
         arguments:
