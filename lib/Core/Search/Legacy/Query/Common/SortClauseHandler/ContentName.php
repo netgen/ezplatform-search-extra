@@ -7,11 +7,11 @@ namespace Netgen\EzPlatformSearchExtra\Core\Search\Legacy\Query\Common\SortClaus
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
-use eZ\Publish\API\Repository\Values\Content\Query\SortClause\ContentName as ContentNameSortClause;
 use eZ\Publish\Core\Persistence\Legacy\Content\Gateway;
 use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler;
 use eZ\Publish\API\Repository\Values\Content\Query\SortClause;
 use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
+use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\SortClause\ContentName as ContentNameSortClause;
 
 class ContentName extends SortClauseHandler
 {
