@@ -115,7 +115,7 @@ services:
     netgen.search.legacy.query.common.sort_clause_handler.content_name:
         class: Netgen\EzPlatformSearchExtra\Core\Search\Legacy\Query\Common\SortClauseHandler\ContentName
         arguments:
-            - '@ezpublish.api.storage_engine.legacy.dbhandler'
+            - '@ezpublish.persistence.connection'
             - '@ezpublish.spi.persistence.language_handler'
         tags:
             - {name: ezpublish.search.legacy.gateway.sort_clause_handler.content}

@@ -4,21 +4,22 @@ declare(strict_types=1);
 
 namespace Netgen\EzPlatformSearchExtra\Core\Search\Legacy\Query\Common\SortClauseHandler;
 
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\SortClause\ContentName as ContentNameSortClause;
-use eZ\Publish\Core\Persistence\Database\DatabaseHandler;
-use eZ\Publish\Core\Persistence\Database\SelectQuery;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\Query\QueryBuilder;
+use eZ\Publish\API\Repository\Values\Content\Query\SortClause\ContentName as ContentNameSortClause;
+use eZ\Publish\Core\Persistence\Legacy\Content\Gateway;
 use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler;
 use eZ\Publish\API\Repository\Values\Content\Query\SortClause;
 use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
-use PDO;
 
 class ContentName extends SortClauseHandler
 {
     protected $languageHandler;
 
-    public function __construct(DatabaseHandler $dbHandler, LanguageHandler $languageHandler)
+    public function __construct(Connection $connection, LanguageHandler $languageHandler)
     {
-        parent::__construct($dbHandler);
+        parent::__construct($connection);
 
         $this->languageHandler = $languageHandler;
     }
@@ -28,24 +29,19 @@ class ContentName extends SortClauseHandler
         return $sortClause instanceof ContentNameSortClause;
     }
 
-    public function applySelect(SelectQuery $query, SortClause $sortClause, $number): array
+    public function applySelect(QueryBuilder $query, SortClause $sortClause, int $number): array
     {
         $tableAlias = $this->getSortTableName($number);
-        //$tableAlias = $this->dbHandler->quoteIdentifier($tableAlias);
+        $tableAlias = $this->connection->quoteIdentifier($tableAlias);
         $columnAlias = $this->getSortColumnName($number);
 
-        $query->select(
-            $query->alias(
-                $this->dbHandler->quoteColumn('name', $tableAlias),
-                $columnAlias
-            )
-        );
+        $query->addSelect(sprintf('%s.name AS %s', $tableAlias, $columnAlias));
 
         return [$columnAlias];
     }
 
     /**
-     * @param \eZ\Publish\Core\Persistence\Database\SelectQuery $query
+     * @param \Doctrine\DBAL\Query\QueryBuilder $query
      * @param \eZ\Publish\API\Repository\Values\Content\Query\SortClause $sortClause
      * @param int $number
      * @param array $languageSettings
@@ -53,72 +49,65 @@ class ContentName extends SortClauseHandler
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
      */
     public function applyJoin(
-        SelectQuery $query,
+        QueryBuilder $query,
         SortClause $sortClause,
-        $number,
+        int $number,
         array $languageSettings
     ): void {
         $tableAlias = $this->getSortTableName($number);
-        //$tableAlias = $this->dbHandler->quoteIdentifier($tableAlias);
+        $tableAlias = $this->connection->quoteIdentifier($tableAlias);
 
         $query->leftJoin(
-            $query->alias(
-                $this->dbHandler->quoteTable('ezcontentobject_name'),
-                $tableAlias
-            ),
-            $query->expr->lAnd(
-                $query->expr->eq(
-                    $this->dbHandler->quoteColumn('id', 'ezcontentobject'),
-                    $this->dbHandler->quoteColumn('contentobject_id', $tableAlias)
-                ),
-                $query->expr->eq(
-                    $this->dbHandler->quoteColumn('current_version', 'ezcontentobject'),
-                    $this->dbHandler->quoteColumn('content_version', $tableAlias)
-                ),
+            'c',
+            Gateway::CONTENT_NAME_TABLE,
+            $tableAlias,
+            $query->expr()->and(
+                $query->expr()->eq('c.id', $tableAlias . '.contentobject_id'),
+                $query->expr()->eq('c.current_version', $tableAlias . '.content_version'),
                 $this->getLanguageCondition($query, $languageSettings, $tableAlias)
             )
         );
     }
 
     /**
-     * @param \eZ\Publish\Core\Persistence\Database\SelectQuery $query
+     * @param \Doctrine\DBAL\Query\QueryBuilder $query
      * @param array $languageSettings
-     * @param string $contentNameTableAlias
+     * @param string $contentNameTableName
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
      *
      * @return \Doctrine\DBAL\Query\Expression\CompositeExpression|string
      */
     protected function getLanguageCondition(
-        SelectQuery $query,
+        QueryBuilder $query,
         array $languageSettings,
-        string $contentNameTableAlias
+        string $contentNameTableName
     ) {
         // 1. Use main language(s) by default
         if (empty($languageSettings['languages'])) {
-            return $query->expr->gt(
-                $query->expr->bitAnd(
-                    $this->dbHandler->quoteColumn('initial_language_id', 'ezcontentobject'),
-                    $this->dbHandler->quoteColumn('language_id', $contentNameTableAlias)
+            return $query->expr()->gt(
+                $this->dbPlatform->getBitAndComparisonExpression(
+                    'c.initial_language_id',
+                    $contentNameTableName . '.language_id'
                 ),
-                $query->bindValue(0, null, PDO::PARAM_INT)
+                $query->createNamedParameter(0, ParameterType::INTEGER)
             );
         }
 
         // 2. Otherwise use prioritized languages
-        $leftSide = $query->expr->bitAnd(
-            $query->expr->sub(
-                $this->dbHandler->quoteColumn('language_mask', 'ezcontentobject'),
-                $query->expr->bitAnd(
-                    $this->dbHandler->quoteColumn('language_mask', 'ezcontentobject'),
-                    $this->dbHandler->quoteColumn('language_id', $contentNameTableAlias)
+        $leftSide = $this->dbPlatform->getBitAndComparisonExpression(
+            sprintf(
+                'c.language_mask - %s',
+                $this->dbPlatform->getBitAndComparisonExpression(
+                    'c.language_mask',
+                    $contentNameTableName . '.language_id'
                 )
             ),
-            $query->bindValue(1, null, PDO::PARAM_INT)
+            $query->createNamedParameter(1, ParameterType::INTEGER)
         );
-        $rightSide = $query->expr->bitAnd(
-            $this->dbHandler->quoteColumn('language_id', $contentNameTableAlias),
-            $query->bindValue(1, null, PDO::PARAM_INT)
+        $rightSide = $this->dbPlatform->getBitAndComparisonExpression(
+            $contentNameTableName . '.language_id',
+            $query->createNamedParameter(1, ParameterType::INTEGER)
         );
 
         for (
@@ -129,19 +118,19 @@ class ContentName extends SortClauseHandler
             $languageCode = $languageSettings['languages'][$index];
             $languageId = $this->languageHandler->loadByLanguageCode($languageCode)->id;
 
-            $addToLeftSide = $query->expr->bitAnd(
-                $query->expr->sub(
-                    $this->dbHandler->quoteColumn('language_mask', 'ezcontentobject'),
-                    $query->expr->bitAnd(
-                        $this->dbHandler->quoteColumn('language_mask', 'ezcontentobject'),
-                        $this->dbHandler->quoteColumn('language_id', $contentNameTableAlias)
+            $addToLeftSide = $this->dbPlatform->getBitAndComparisonExpression(
+                sprintf(
+                    'c.language_mask - %s',
+                    $this->dbPlatform->getBitAndComparisonExpression(
+                        'c.language_mask',
+                        $contentNameTableName . '.language_id'
                     )
                 ),
-                $query->bindValue($languageId, null, PDO::PARAM_INT)
+                $query->createNamedParameter($languageId, ParameterType::INTEGER)
             );
-            $addToRightSide = $query->expr->bitAnd(
-                $this->dbHandler->quoteColumn('language_id', $contentNameTableAlias),
-                $query->bindValue($languageId, null, PDO::PARAM_INT)
+            $addToRightSide = $this->dbPlatform->getBitAndComparisonExpression(
+                $contentNameTableName . '.language_id',
+                $query->createNamedParameter($languageId, ParameterType::INTEGER)
             );
 
             if ($multiplier > $languageId) {
@@ -164,19 +153,19 @@ class ContentName extends SortClauseHandler
                 $addToRightSide .= $factorTerm;
             }
 
-            $leftSide = $query->expr->add($leftSide, "($addToLeftSide)");
-            $rightSide = $query->expr->add($rightSide, "($addToRightSide)");
+            $leftSide = "$leftSide + ($addToLeftSide)";
+            $rightSide = "$rightSide + ($addToRightSide)";
         }
 
-        return $query->expr->lAnd(
-            $query->expr->gt(
-                $query->expr->bitAnd(
-                    $this->dbHandler->quoteColumn('language_mask', 'ezcontentobject'),
-                    $this->dbHandler->quoteColumn('language_id', $contentNameTableAlias)
+        return $query->expr()->and(
+            $query->expr()->gt(
+                $this->dbPlatform->getBitAndComparisonExpression(
+                    'c.language_mask',
+                    $contentNameTableName . '.language_id'
                 ),
-                $query->bindValue(0, null, PDO::PARAM_INT)
+                $query->createNamedParameter(0, ParameterType::INTEGER)
             ),
-            $query->expr->lt($leftSide, $rightSide)
+            $query->expr()->lt($leftSide, $rightSide)
         );
     }
 }
