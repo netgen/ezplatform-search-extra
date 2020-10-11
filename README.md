@@ -12,7 +12,9 @@ Only a list of features is provided here, see
 [documentation](https://netgen-ezplatform-search-extra.readthedocs.io)
 for more details.
 
-- `ContentId` and `LocationId` criteria with support for range operators  (`solr`, `legacy`)
+- [`ContentName`](https://github.com/netgen/ezplatform-search-extra/blob/1.13/lib/API/Values/Content/Query/SortClause/ContentName.php) sort that works on matched translation's Content name  (`solr`, `legacy`)
+
+- [`ContentId`](https://github.com/netgen/ezplatform-search-extra/blob/1.13/lib/API/Values/Content/Query/Criterion/ContentId.php) and [`LocationId`](https://github.com/netgen/ezplatform-search-extra/blob/1.13/lib/API/Values/Content/Query/Criterion/LocationId.php) criteria with support for range operators  (`solr`, `legacy`)
 
   Supported operators are: `EQ`, `IN`, `GT`, `GTE`, `LT`, `LTE`, `BETWEEN`.
 
