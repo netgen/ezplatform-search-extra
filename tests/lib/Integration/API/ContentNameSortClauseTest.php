@@ -55,7 +55,7 @@ class ContentNameSortClauseTest extends BaseTest
                 ]),
                 ['eng-GB'],
                 true,
-                ['e1', 'e2', 'c3', 'e4', 'c5', 'e7'],
+                ['e1', 'e2', 'n3', 'e4', 'n5', 'e7'],
             ],
             [
                 new LocationQuery([
@@ -64,7 +64,7 @@ class ContentNameSortClauseTest extends BaseTest
                 ]),
                 ['eng-GB'],
                 true,
-                ['c3', 'c5', 'e1', 'e2', 'e4', 'e7'],
+                ['e1', 'e2', 'e4', 'e7', 'n3', 'n5'],
             ],
             [
                 new LocationQuery([
@@ -76,25 +76,25 @@ class ContentNameSortClauseTest extends BaseTest
                 ]),
                 ['eng-GB'],
                 true,
-                ['e7', 'e4', 'e2', 'e1', 'c5', 'c3'],
+                ['n5', 'n3', 'e7', 'e4', 'e2', 'e1'],
             ],
             [
                 new LocationQuery([
                     'filter' => new ContentTypeIdentifier('name_test'),
                     'sortClauses' => [new ContentName(Query::SORT_ASC)],
                 ]),
-                ['cro-HR'],
+                ['nor-NO'],
                 false,
-                ['c2', 'c3', 'c5', 'c7'],
+                ['n2', 'n3', 'n5', 'n7'],
             ],
             [
                 new LocationQuery([
                     'filter' => new ContentTypeIdentifier('name_test'),
                     'sortClauses' => [new ContentName(Query::SORT_DESC)],
                 ]),
-                ['cro-HR'],
+                ['nor-NO'],
                 false,
-                ['c7', 'c5', 'c3', 'c2'],
+                ['n7', 'n5', 'n3', 'n2'],
             ],
             [
                 new LocationQuery([
@@ -121,7 +121,7 @@ class ContentNameSortClauseTest extends BaseTest
                 ]),
                 ['ger-DE'],
                 true,
-                ['c2', 'c5', 'g1', 'g3', 'g6', 'g7'],
+                ['g1', 'g3', 'g6', 'g7', 'n2', 'n5'],
             ],
             [
                 new LocationQuery([
@@ -130,7 +130,7 @@ class ContentNameSortClauseTest extends BaseTest
                 ]),
                 ['ger-DE'],
                 true,
-                ['g7', 'g6', 'g3', 'g1', 'c5', 'c2'],
+                ['n5', 'n2', 'g7', 'g6', 'g3', 'g1'],
             ],
             [
                 new LocationQuery([
@@ -173,54 +173,54 @@ class ContentNameSortClauseTest extends BaseTest
                     'filter' => new ContentTypeIdentifier('name_test'),
                     'sortClauses' => [new ContentName(Query::SORT_ASC)],
                 ]),
-                ['ger-DE', 'eng-GB', 'cro-HR'],
+                ['ger-DE', 'eng-GB', 'nor-NO'],
                 false,
-                ['c5', 'e2', 'e4', 'g1', 'g3', 'g6', 'g7'],
+                ['e2', 'e4', 'g1', 'g3', 'g6', 'g7', 'n5'],
             ],
             [
                 new LocationQuery([
                     'filter' => new ContentTypeIdentifier('name_test'),
                     'sortClauses' => [new ContentName(Query::SORT_DESC)],
                 ]),
-                ['ger-DE', 'eng-GB', 'cro-HR'],
+                ['ger-DE', 'eng-GB', 'nor-NO'],
                 false,
-                ['g7', 'g6', 'g3', 'g1', 'e4', 'e2', 'c5'],
+                ['n5', 'g7', 'g6', 'g3', 'g1', 'e4', 'e2'],
             ],
             [
                 new LocationQuery([
                     'filter' => new ContentTypeIdentifier('name_test'),
                     'sortClauses' => [new ContentName(Query::SORT_ASC)],
                 ]),
-                ['ger-DE', 'cro-HR', 'eng-GB'],
+                ['ger-DE', 'nor-NO', 'eng-GB'],
                 false,
-                ['c2', 'c5', 'e4', 'g1', 'g3', 'g6', 'g7'],
+                ['e4', 'g1', 'g3', 'g6', 'g7', 'n2', 'n5'],
             ],
             [
                 new LocationQuery([
                     'filter' => new ContentTypeIdentifier('name_test'),
                     'sortClauses' => [new ContentName(Query::SORT_DESC)],
                 ]),
-                ['ger-DE', 'cro-HR', 'eng-GB'],
+                ['ger-DE', 'nor-NO', 'eng-GB'],
                 false,
-                ['g7', 'g6', 'g3', 'g1', 'e4', 'c5', 'c2'],
+                ['n5', 'n2', 'g7', 'g6', 'g3', 'g1', 'e4'],
             ],
             [
                 new LocationQuery([
                     'filter' => new ContentTypeIdentifier('name_test'),
                     'sortClauses' => [new ContentName(Query::SORT_ASC)],
                 ]),
-                ['cro-HR', 'ger-DE', 'eng-GB'],
+                ['nor-NO', 'ger-DE', 'eng-GB'],
                 false,
-                ['c2', 'c3', 'c5', 'c7', 'e4', 'g1', 'g6'],
+                ['e4', 'g1', 'g6', 'n2', 'n3', 'n5', 'n7'],
             ],
             [
                 new LocationQuery([
                     'filter' => new ContentTypeIdentifier('name_test'),
                     'sortClauses' => [new ContentName(Query::SORT_DESC)],
                 ]),
-                ['cro-HR', 'ger-DE', 'eng-GB'],
+                ['nor-NO', 'ger-DE', 'eng-GB'],
                 false,
-                ['g6', 'g1', 'e4', 'c7', 'c5', 'c3', 'c2'],
+                ['n7', 'n5', 'n3', 'n2', 'g6', 'g1', 'e4'],
             ],
         ];
     }
@@ -243,8 +243,8 @@ class ContentNameSortClauseTest extends BaseTest
         $languageService = $repository->getContentLanguageService();
 
         $languageCreateStruct = $languageService->newLanguageCreateStruct();
-        $languageCreateStruct->name = 'Croatian';
-        $languageCreateStruct->languageCode = 'cro-HR';
+        $languageCreateStruct->name = 'Norwegian';
+        $languageCreateStruct->languageCode = 'nor-NO';
         $languageService->createLanguage($languageCreateStruct);
 
         $contentTypeGroups = $contentTypeService->loadContentTypeGroups();
@@ -260,12 +260,12 @@ class ContentNameSortClauseTest extends BaseTest
 
         $valueGroups = [
             ['e1', 'g1'],
-            ['c2', 'e2'],
-            ['c3', 'g3'],
+            ['n2', 'e2'],
+            ['n3', 'g3'],
             ['e4'],
-            ['c5'],
+            ['n5'],
             ['g6'],
-            ['c7', 'e7', 'g7'],
+            ['n7', 'e7', 'g7'],
         ];
 
         $locationCreateStruct = $locationService->newLocationCreateStruct(2);
@@ -274,7 +274,7 @@ class ContentNameSortClauseTest extends BaseTest
             $mainValue = reset($values);
             $mainLanguageCode = $this->resolveLanguageCode($mainValue);
             $contentCreateStruct = $contentService->newContentCreateStruct($contentType, $mainLanguageCode);
-            $contentCreateStruct->alwaysAvailable = ($mainLanguageCode === 'cro-HR');
+            $contentCreateStruct->alwaysAvailable = ($mainLanguageCode === 'nor-NO');
 
             foreach ($values as $value) {
                 $languageCode = $this->resolveLanguageCode($value);
@@ -375,8 +375,8 @@ class ContentNameSortClauseTest extends BaseTest
     protected function resolveLanguageCode(string $value): string
     {
         switch ($value[0]) {
-            case 'c';
-                return 'cro-HR';
+            case 'n';
+                return 'nor-NO';
             case 'e';
                 return 'eng-GB';
             case 'g';
