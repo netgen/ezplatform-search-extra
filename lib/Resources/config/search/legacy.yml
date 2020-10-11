@@ -111,3 +111,12 @@ services:
             - '@ezpublish.persistence.connection'
         tags:
             - {name: ezpublish.search.legacy.gateway.criterion_handler.location}
+
+    netgen.search.legacy.query.common.sort_clause_handler.content_name:
+        class: Netgen\EzPlatformSearchExtra\Core\Search\Legacy\Query\Common\SortClauseHandler\ContentName
+        arguments:
+            - '@ezpublish.api.storage_engine.legacy.dbhandler'
+            - '@ezpublish.spi.persistence.language_handler'
+        tags:
+            - {name: ezpublish.search.legacy.gateway.sort_clause_handler.content}
+            - {name: ezpublish.search.legacy.gateway.sort_clause_handler.location}
