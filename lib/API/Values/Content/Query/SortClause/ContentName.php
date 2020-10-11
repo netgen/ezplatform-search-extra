@@ -8,7 +8,7 @@ use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Query\SortClause;
 
 /**
- * Sets sort direction on translated Content name for a content query.
+ * Sets sort direction on matched translation's Content name.
  */
 final class ContentName extends SortClause
 {
