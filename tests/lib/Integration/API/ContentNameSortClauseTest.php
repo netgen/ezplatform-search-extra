@@ -341,6 +341,8 @@ class ContentNameSortClauseTest extends BaseTest
     protected function assertSearchResult(SearchResult $searchResult, array $expectedValues): void
     {
         self::assertCount(count($expectedValues), $searchResult->searchHits);
+        $actualValues = [];
+        $actualNames = [];
 
         foreach ($expectedValues as $index => $value) {
             $searchHit = $searchResult->searchHits[$index];
@@ -349,10 +351,12 @@ class ContentNameSortClauseTest extends BaseTest
             /** @var \eZ\Publish\Core\FieldType\TextLine\Value $fieldValue */
             $fieldValue = $content->getFieldValue('title', $languageCode);
 
-            self::assertNotNull($fieldValue, 'Field value for language code "' . $languageCode . '" not found');
-            self::assertEquals($value, $fieldValue->text);
-            self::assertEquals($value, $content->getName($languageCode));
+            $actualValues[] = $fieldValue->text ?? null;
+            $actualNames[] = $content->getName($languageCode);
         }
+
+        self::assertEquals($expectedValues, $actualValues);
+        self::assertEquals($expectedValues, $actualNames);
     }
 
     protected function getContent(ValueObject $valueObject): Content
