@@ -17,6 +17,6 @@ class ContentName extends SortClauseVisitor
 
     public function visit(SortClause $sortClause): string
     {
-        return 'meta_content__name_s' . $this->getDirection($sortClause);
+        return 'ng_content_name_s' . $this->getDirection($sortClause);
     }
 }
