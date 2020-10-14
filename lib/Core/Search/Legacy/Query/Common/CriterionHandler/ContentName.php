@@ -2,17 +2,23 @@
 
 declare(strict_types=1);
 
-namespace Netgen\EzPlatformSearchExtra\Core\Search\Legacy\Query\Common\SortClauseHandler;
+namespace Netgen\EzPlatformSearchExtra\Core\Search\Legacy\Query\Common\CriterionHandler;
 
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\SortClause\ContentName as ContentNameSortClause;
+use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
+use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator;
 use eZ\Publish\Core\Persistence\Database\DatabaseHandler;
 use eZ\Publish\Core\Persistence\Database\SelectQuery;
-use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler;
-use eZ\Publish\API\Repository\Values\Content\Query\SortClause;
+use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
+use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
+use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\ContentName as ContentNameCriterion;
 use PDO;
+use RuntimeException;
 
-class ContentName extends SortClauseHandler
+/**
+ * @see \Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\ContentName
+ */
+final class ContentName extends CriterionHandler
 {
     protected $languageHandler;
 
@@ -23,81 +29,100 @@ class ContentName extends SortClauseHandler
         $this->languageHandler = $languageHandler;
     }
 
-    public function accept(SortClause $sortClause): bool
+    public function accept(Criterion $criterion): bool
     {
-        return $sortClause instanceof ContentNameSortClause;
-    }
-
-    public function applySelect(SelectQuery $query, SortClause $sortClause, $number): array
-    {
-        $tableAlias = $this->getSortTableName($number);
-        $columnAlias = $this->getSortColumnName($number);
-
-        $query->select(
-            $query->alias(
-                $this->dbHandler->quoteColumn('name', $tableAlias),
-                $columnAlias
-            )
-        );
-
-        return [$columnAlias];
+        return $criterion instanceof ContentNameCriterion;
     }
 
     /**
+     * @param \eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter $converter
      * @param \eZ\Publish\Core\Persistence\Database\SelectQuery $query
-     * @param \eZ\Publish\API\Repository\Values\Content\Query\SortClause $sortClause
-     * @param int $number
+     * @param \eZ\Publish\API\Repository\Values\Content\Query\Criterion $criterion
      * @param array $languageSettings
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     *
+     * @return string
      */
-    public function applyJoin(
+    public function handle(
+        CriteriaConverter $converter,
         SelectQuery $query,
-        SortClause $sortClause,
-        $number,
+        Criterion $criterion,
         array $languageSettings
-    ): void {
-        $tableAlias = $this->getSortTableName($number);
-
-        $query->leftJoin(
-            $query->alias(
-                $this->dbHandler->quoteTable('ezcontentobject_name'),
-                $tableAlias
-            ),
-            $query->expr->lAnd(
-                $query->expr->eq(
-                    $this->dbHandler->quoteColumn('id', 'ezcontentobject'),
-                    $this->dbHandler->quoteColumn('contentobject_id', $tableAlias)
-                ),
-                $query->expr->eq(
-                    $this->dbHandler->quoteColumn('current_version', 'ezcontentobject'),
-                    $this->dbHandler->quoteColumn('content_version', $tableAlias)
-                ),
-                $this->getLanguageCondition($query, $languageSettings, $tableAlias)
+    ): string {
+        $subSelect = $query->subSelect();
+        $subSelect->select($this->dbHandler->quoteColumn('contentobject_id'));
+        $subSelect->from($this->dbHandler->quoteTable('ezcontentobject_name'));
+        $subSelect->where(
+            $subSelect->expr->lAnd(
+                $this->getCriterionCondition($query, $criterion),
+                $this->getLanguageCondition($subSelect, $languageSettings)
             )
         );
+
+        return $query->expr->in(
+            $this->dbHandler->quoteColumn('id', 'ezcontentobject'),
+            $subSelect
+        );
+    }
+
+    private function getCriterionCondition(SelectQuery $query, Criterion $criterion): string
+    {
+        $column = $this->dbHandler->quoteColumn('name', 'ezcontentobject_name');
+
+        switch ($criterion->operator) {
+            case Criterion\Operator::EQ:
+            case Criterion\Operator::IN:
+                return $query->expr->in($column, $criterion->value);
+
+            case Criterion\Operator::GT:
+            case Criterion\Operator::GTE:
+            case Criterion\Operator::LT:
+            case Criterion\Operator::LTE:
+                $operatorFunction = $this->comparatorMap[$criterion->operator];
+
+                return $query->expr->$operatorFunction(
+                    $column,
+                    $query->bindValue(reset($criterion->value))
+                );
+
+            case Criterion\Operator::BETWEEN:
+                return $query->expr->between(
+                    $column,
+                    $query->bindValue($criterion->value[0]),
+                    $query->bindValue($criterion->value[1])
+                );
+
+            case Operator::LIKE:
+                $string = $this->prepareLikeString(reset($criterion->value));
+                return $query->expr->like(
+                    $column,
+                    $query->bindValue($string)
+                );
+
+            default:
+                throw new RuntimeException(
+                    "Unknown operator '{$criterion->operator}' for ContentId criterion handler."
+                );
+        }
     }
 
     /**
      * @param \eZ\Publish\Core\Persistence\Database\SelectQuery $query
      * @param array $languageSettings
-     * @param string $contentNameTableAlias
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
      *
-     * @return \Doctrine\DBAL\Query\Expression\CompositeExpression|string
+     * @return string
      */
-    protected function getLanguageCondition(
-        SelectQuery $query,
-        array $languageSettings,
-        string $contentNameTableAlias
-    ) {
+    protected function getLanguageCondition(SelectQuery $query, array $languageSettings): string
+    {
         // 1. Use main language(s) by default
         if (empty($languageSettings['languages'])) {
             return $query->expr->gt(
                 $query->expr->bitAnd(
                     $this->dbHandler->quoteColumn('initial_language_id', 'ezcontentobject'),
-                    $this->dbHandler->quoteColumn('language_id', $contentNameTableAlias)
+                    $this->dbHandler->quoteColumn('language_id', 'ezcontentobject_name')
                 ),
                 $query->bindValue(0, null, PDO::PARAM_INT)
             );
@@ -109,13 +134,13 @@ class ContentName extends SortClauseHandler
                 $this->dbHandler->quoteColumn('language_mask', 'ezcontentobject'),
                 $query->expr->bitAnd(
                     $this->dbHandler->quoteColumn('language_mask', 'ezcontentobject'),
-                    $this->dbHandler->quoteColumn('language_id', $contentNameTableAlias)
+                    $this->dbHandler->quoteColumn('language_id', 'ezcontentobject_name')
                 )
             ),
             $query->bindValue(1, null, PDO::PARAM_INT)
         );
         $rightSide = $query->expr->bitAnd(
-            $this->dbHandler->quoteColumn('language_id', $contentNameTableAlias),
+            $this->dbHandler->quoteColumn('language_id', 'ezcontentobject_name'),
             $query->bindValue(1, null, PDO::PARAM_INT)
         );
 
@@ -132,13 +157,13 @@ class ContentName extends SortClauseHandler
                     $this->dbHandler->quoteColumn('language_mask', 'ezcontentobject'),
                     $query->expr->bitAnd(
                         $this->dbHandler->quoteColumn('language_mask', 'ezcontentobject'),
-                        $this->dbHandler->quoteColumn('language_id', $contentNameTableAlias)
+                        $this->dbHandler->quoteColumn('language_id', 'ezcontentobject_name')
                     )
                 ),
                 $query->bindValue($languageId, null, PDO::PARAM_INT)
             );
             $addToRightSide = $query->expr->bitAnd(
-                $this->dbHandler->quoteColumn('language_id', $contentNameTableAlias),
+                $this->dbHandler->quoteColumn('language_id', 'ezcontentobject_name'),
                 $query->bindValue($languageId, null, PDO::PARAM_INT)
             );
 
@@ -170,11 +195,27 @@ class ContentName extends SortClauseHandler
             $query->expr->gt(
                 $query->expr->bitAnd(
                     $this->dbHandler->quoteColumn('language_mask', 'ezcontentobject'),
-                    $this->dbHandler->quoteColumn('language_id', $contentNameTableAlias)
+                    $this->dbHandler->quoteColumn('language_id', 'ezcontentobject_name')
                 ),
                 $query->bindValue(0, null, PDO::PARAM_INT)
             ),
             $query->expr->lt($leftSide, $rightSide)
         );
+    }
+
+    /**
+     * Returns the given $string prepared for use in SQL LIKE clause.
+     *
+     * LIKE clause wildcards '%' and '_' contained in the given $string will be escaped.
+     *
+     * @param $string
+     *
+     * @return string
+     */
+    protected function prepareLikeString($string): string
+    {
+        $string = addcslashes($string, '%_');
+
+        return str_replace('*', '%', $string);
     }
 }
