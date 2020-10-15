@@ -12,7 +12,9 @@ Only a list of features is provided here, see
 [documentation](https://netgen-ezplatform-search-extra.readthedocs.io)
 for more details.
 
-- [`ContentName`](https://github.com/netgen/ezplatform-search-extra/blob/1.13/lib/API/Values/Content/Query/SortClause/ContentName.php) sort that works on matched translation's Content name  (`solr`, `legacy`)
+- [`ContentName`](https://github.com/netgen/ezplatform-search-extra/blob/1.13/lib/API/Values/Content/Query/Criterion/ContentName.php) criterion that works on matched translation's Content name  (`solr`, `legacy`)
+
+- [`ContentName`](https://github.com/netgen/ezplatform-search-extra/blob/1.13/lib/API/Values/Content/Query/SortClause/ContentName.php) sort clause that works on matched translation's Content name  (`solr`, `legacy`)
 
 - [`ContentId`](https://github.com/netgen/ezplatform-search-extra/blob/1.13/lib/API/Values/Content/Query/Criterion/ContentId.php) and [`LocationId`](https://github.com/netgen/ezplatform-search-extra/blob/1.13/lib/API/Values/Content/Query/Criterion/LocationId.php) criteria with support for range operators  (`solr`, `legacy`)
 
@@ -115,7 +117,7 @@ for more details.
 To install eZ Platform Search Extra first add it as a dependency to your project:
 
 ```sh
-composer require netgen/ezplatform-search-extra:^1.8
+composer require netgen/ezplatform-search-extra:^1.14
 ```
 
 Once the added dependency is installed, activate the bundle in `app/AppKernel.php` file by adding it to the `$bundles` array in `registerBundles()` method, together with other required bundles:
