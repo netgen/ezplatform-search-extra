@@ -98,6 +98,15 @@ services:
             - {name: ezpublish.search.legacy.gateway.criterion_handler.content}
             - {name: ezpublish.search.legacy.gateway.criterion_handler.location}
 
+    netgen.search.legacy.query.common.criterion_handler.content_name:
+        class: Netgen\EzPlatformSearchExtra\Core\Search\Legacy\Query\Common\CriterionHandler\ContentName
+        arguments:
+            - '@ezpublish.persistence.connection'
+            - '@ezpublish.spi.persistence.language_handler'
+        tags:
+            - {name: ezpublish.search.legacy.gateway.criterion_handler.content}
+            - {name: ezpublish.search.legacy.gateway.criterion_handler.location}
+
     netgen.search.legacy.query.content.criterion_visitor.location_id:
         class: Netgen\EzPlatformSearchExtra\Core\Search\Legacy\Query\Content\CriterionHandler\LocationId
         arguments:
