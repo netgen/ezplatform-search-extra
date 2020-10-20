@@ -135,7 +135,11 @@ abstract class BaseAdapter implements AdapterInterface, SearchResultExtras
         $this->facets = $searchResult->facets;
         $this->maxScore = $searchResult->maxScore;
         $this->nbResults = $searchResult->totalCount;
-        $this->suggestion = $searchResult instanceof ExtraSearchResult ? $searchResult->suggestion : new Suggestion([]);
+        $this->suggestion = new Suggestion([]);
+
+        if ($searchResult instanceof ExtraSearchResult && $searchResult->suggestion instanceof Suggestion) {
+            $this->suggestion = $searchResult->suggestion;
+        }
 
         $this->isExtraInfoInitialized = true;
     }
