@@ -39,6 +39,7 @@ final class SearchResultExtractorPass implements CompilerPassInterface
             ->setArguments([
                 new Reference($serviceId . '.inner'),
                 new Reference('ezpublish.search.solr.query.content.facet_builder_visitor.aggregate'),
+                new Reference('ezpublish.search.solr.query.location.aggregation_result_extractor.dispatcher'),
                 new Reference('ezpublish.search.solr.gateway.endpoint_registry'),
             ]);
     }

@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr;
 
+use eZ\Publish\API\Repository\Values\Content\Search\SearchResult;
 use EzSystems\EzPlatformSolrSearchEngine\ResultExtractor as BaseResultExtractor;
 use Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder;
 
@@ -12,8 +15,12 @@ use Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuild
  */
 abstract class ResultExtractor Extends BaseResultExtractor
 {
-    public function extract($data, array $facetBuilders = [])
-    {
+    public function extract(
+        $data,
+        array $facetBuilders = [],
+        array $aggregations = [],
+        array $languageFilter = []
+    ): SearchResult {
         $searchResult = $this->extractSearchResult($data, $facetBuilders);
 
         if (!isset($data->facets) || $data->facets->count === 0) {
@@ -41,14 +48,14 @@ abstract class ResultExtractor Extends BaseResultExtractor
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Search\SearchResult
      */
-    abstract protected function extractSearchResult($data, array $facetBuilders = []);
+    abstract protected function extractSearchResult($data, array $facetBuilders = []): SearchResult;
 
     /**
      * @param \eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder[] $facetBuilders
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder[]
      */
-    private function filterNewFacetBuilders(array $facetBuilders)
+    private function filterNewFacetBuilders(array $facetBuilders): array
     {
         return array_filter(
             $facetBuilders,

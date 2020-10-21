@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr\ResultExtractor;
 
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
+use eZ\Publish\API\Repository\Values\Content\Search\SearchResult as APISearchResult;
 use eZ\Publish\SPI\Persistence\Content\ContentInfo;
 use eZ\Publish\SPI\Persistence\Content\Location;
 use EzSystems\EzPlatformSolrSearchEngine\Gateway\EndpointRegistry;
@@ -10,6 +13,7 @@ use EzSystems\EzPlatformSolrSearchEngine\Query\FacetFieldVisitor;
 use EzSystems\EzPlatformSolrSearchEngine\ResultExtractor as BaseResultExtractor;
 use eZ\Publish\SPI\Persistence\Content\Handler as ContentHandler;
 use eZ\Publish\SPI\Persistence\Content\Location\Handler as LocationHandler;
+use EzSystems\EzPlatformSolrSearchEngine\ResultExtractor\AggregationResultExtractor;
 use Netgen\EzPlatformSearchExtra\API\Values\Content\Search\Suggestion;
 use Netgen\EzPlatformSearchExtra\API\Values\Content\Search\WordSuggestion;
 use Netgen\EzPlatformSearchExtra\Core\Search\Solr\ResultExtractor;
@@ -42,16 +46,17 @@ final class LoadingResultExtractor Extends ResultExtractor
         LocationHandler $locationHandler,
         BaseResultExtractor $nativeResultExtractor,
         FacetFieldVisitor $facetBuilderVisitor,
+        AggregationResultExtractor $aggregationResultExtractor,
         EndpointRegistry $endpointRegistry
     ) {
         $this->contentHandler = $contentHandler;
         $this->locationHandler = $locationHandler;
         $this->nativeResultExtractor = $nativeResultExtractor;
 
-        parent::__construct($facetBuilderVisitor, $endpointRegistry);
+        parent::__construct($facetBuilderVisitor, $aggregationResultExtractor, $endpointRegistry);
     }
 
-    protected function extractSearchResult($data, array $facetBuilders = [])
+    protected function extractSearchResult($data, array $facetBuilders = []): APISearchResult
     {
         $searchResult = $this->nativeResultExtractor->extract($data, $facetBuilders);
         $searchResult = new SearchResult(get_object_vars($searchResult));
@@ -69,7 +74,7 @@ final class LoadingResultExtractor Extends ResultExtractor
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Search\SearchResult
      */
-    private function replaceExtractedValuesByLoadedValues(SearchResult $searchResult)
+    private function replaceExtractedValuesByLoadedValues(SearchResult $searchResult): APISearchResult
     {
         $valueObjectMapById = $this->loadValueObjectMapById($searchResult);
 
@@ -92,7 +97,7 @@ final class LoadingResultExtractor Extends ResultExtractor
      *
      * @return array|\eZ\Publish\SPI\Persistence\Content\ContentInfo[]
      */
-    private function loadValueObjectMapById(SearchResult $searchResult)
+    private function loadValueObjectMapById(SearchResult $searchResult): array
     {
         if (!isset($searchResult->searchHits[0])) {
             return [];
@@ -107,7 +112,7 @@ final class LoadingResultExtractor Extends ResultExtractor
         return $this->loadLocationMapByIdList($idList);
     }
 
-    private function extractIdList(SearchResult $searchResult)
+    private function extractIdList(SearchResult $searchResult): array
     {
         $idList = [];
 
@@ -131,7 +136,7 @@ final class LoadingResultExtractor Extends ResultExtractor
         throw new RuntimeException("Couldn't handle given value object.");
     }
 
-    private function loadContentInfoMapByIdList(array $contentIdList)
+    private function loadContentInfoMapByIdList(array $contentIdList): array
     {
         if (method_exists($this->contentHandler, 'loadContentInfoList')) {
             return $this->contentHandler->loadContentInfoList($contentIdList);
@@ -155,7 +160,7 @@ final class LoadingResultExtractor Extends ResultExtractor
      *
      * @return array|\eZ\Publish\SPI\Persistence\Content\ContentInfo[]
      */
-    private function loadLocationMapByIdList(array $locationIdList)
+    private function loadLocationMapByIdList(array $locationIdList): array
     {
         if (method_exists($this->locationHandler, 'loadList')) {
             return $this->locationHandler->loadList($locationIdList);
@@ -179,7 +184,7 @@ final class LoadingResultExtractor Extends ResultExtractor
      *
      * @return bool
      */
-    private function isSpellCheckAvailable($data)
+    private function isSpellCheckAvailable($data): bool
     {
         return property_exists($data, 'spellcheck') && property_exists($data->spellcheck, 'suggestions');
     }
@@ -191,7 +196,7 @@ final class LoadingResultExtractor Extends ResultExtractor
      *
      * @return \Netgen\EzPlatformSearchExtra\API\Values\Content\Search\Suggestion
      */
-    private function getSpellCheckSuggestion($data)
+    private function getSpellCheckSuggestion($data): Suggestion
     {
         $receivedSuggestions = (array) $data->spellcheck->suggestions;
         $wordSuggestions = [];
