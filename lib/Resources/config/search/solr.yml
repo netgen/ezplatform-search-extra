@@ -34,6 +34,7 @@ services:
             - '@ezpublish.search.solr.query.content.criterion_visitor.aggregate'
             - '@ezpublish.search.solr.query.content.sort_clause_visitor.aggregate'
             - '@ezpublish.search.solr.query.content.facet_builder_visitor.aggregate'
+            - "@ezpublish.search.solr.query.content.aggregation_visitor.dispatcher"
 
     netgen.search.solr.query.location.query_converter:
         class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common\QueryConverter
@@ -42,3 +43,4 @@ services:
             - '@ezpublish.search.solr.query.location.criterion_visitor.aggregate'
             - '@ezpublish.search.solr.query.location.sort_clause_visitor.aggregate'
             - '@ezpublish.search.solr.query.location.facet_builder_visitor.aggregate'
+            - "@ezpublish.search.solr.query.content.aggregation_visitor.dispatcher"

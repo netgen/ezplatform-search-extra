@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common;
 
 use eZ\Publish\API\Repository\Values\Content\Query;
+use EzSystems\EzPlatformSolrSearchEngine\Query\AggregationVisitor;
 use EzSystems\EzPlatformSolrSearchEngine\Query\CriterionVisitor;
 use EzSystems\EzPlatformSolrSearchEngine\Query\FacetFieldVisitor;
 use EzSystems\EzPlatformSolrSearchEngine\Query\QueryConverter as BaseQueryConverter;
@@ -15,45 +18,24 @@ use Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuild
  */
 class QueryConverter extends BaseQueryConverter
 {
-    /**
-     * Query visitor.
-     *
-     * @var \EzSystems\EzPlatformSolrSearchEngine\Query\CriterionVisitor
-     */
     protected $criterionVisitor;
-
-    /**
-     * Sort clause visitor.
-     *
-     * @var \EzSystems\EzPlatformSolrSearchEngine\Query\SortClauseVisitor
-     */
     protected $sortClauseVisitor;
-
-    /**
-     * Facet builder visitor.
-     *
-     * @var \EzSystems\EzPlatformSolrSearchEngine\Query\FacetFieldVisitor
-     */
     protected $facetBuilderVisitor;
+    private $aggregationVisitor;
 
-    /**
-     * Construct from visitors.
-     *
-     * @param \EzSystems\EzPlatformSolrSearchEngine\Query\CriterionVisitor $criterionVisitor
-     * @param \EzSystems\EzPlatformSolrSearchEngine\Query\SortClauseVisitor $sortClauseVisitor
-     * @param \EzSystems\EzPlatformSolrSearchEngine\Query\FacetFieldVisitor $facetBuilderVisitor
-     */
     public function __construct(
         CriterionVisitor $criterionVisitor,
         SortClauseVisitor $sortClauseVisitor,
-        FacetFieldVisitor $facetBuilderVisitor
+        FacetFieldVisitor $facetBuilderVisitor,
+        AggregationVisitor $aggregationVisitor
     ) {
         $this->criterionVisitor = $criterionVisitor;
         $this->sortClauseVisitor = $sortClauseVisitor;
         $this->facetBuilderVisitor = $facetBuilderVisitor;
+        $this->aggregationVisitor = $aggregationVisitor;
     }
 
-    public function convert(Query $query)
+    public function convert(Query $query, array $languageSettings = []): array
     {
         $params = [
             'q' => '{!lucene}' . $this->criterionVisitor->visit($query->query),
@@ -77,6 +59,24 @@ class QueryConverter extends BaseQueryConverter
             $params = array_merge($oldFacetParams, $params);
         }
 
+        if (!empty($query->aggregations)) {
+            $aggregations = [];
+
+            foreach ($query->aggregations as $aggregation) {
+                if ($this->aggregationVisitor->canVisit($aggregation, $languageSettings)) {
+                    $aggregations[$aggregation->getName()] = $this->aggregationVisitor->visit(
+                        $this->aggregationVisitor,
+                        $aggregation,
+                        $languageSettings
+                    );
+                }
+            }
+
+            if (!empty($aggregations)) {
+                $params['json.facet'] = json_encode($aggregations);
+            }
+        }
+
         if ($query->query instanceof FulltextSpellcheck) {
             $spellcheckQuery = $query->query->getSpellcheckQuery();
 
@@ -98,7 +98,7 @@ class QueryConverter extends BaseQueryConverter
      *
      * @return string
      */
-    private function getSortParams(array $sortClauses)
+    private function getSortParams(array $sortClauses): string
     {
         return implode(
             ', ',
@@ -114,7 +114,7 @@ class QueryConverter extends BaseQueryConverter
      *
      * @return array
      */
-    private function getFacetParams(array $facetBuilders)
+    private function getFacetParams(array $facetBuilders): array
     {
         $facetParams = [];
         $facetBuilders = $this->filterNewFacetBuilders($facetBuilders);
@@ -136,11 +136,11 @@ class QueryConverter extends BaseQueryConverter
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder[]
      */
-    private function filterNewFacetBuilders(array $facetBuilders)
+    private function filterNewFacetBuilders(array $facetBuilders): array
     {
         return array_filter(
             $facetBuilders,
-            function ($facetBuilder) {
+            static function ($facetBuilder) {
                 return $facetBuilder instanceof RawFacetBuilder;
             }
         );
@@ -156,7 +156,7 @@ class QueryConverter extends BaseQueryConverter
      *
      * @return array
      */
-    private function getOldFacetParams(array $facetBuilders)
+    private function getOldFacetParams(array $facetBuilders): array
     {
         $facetParamsGrouped = array_map(
             function ($facetBuilder) {
@@ -173,17 +173,17 @@ class QueryConverter extends BaseQueryConverter
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder[]
      */
-    private function filterOldFacetBuilders(array $facetBuilders)
+    private function filterOldFacetBuilders(array $facetBuilders): array
     {
         return array_filter(
             $facetBuilders,
-            function ($facetBuilder) {
+            static function ($facetBuilder) {
                 return !($facetBuilder instanceof RawFacetBuilder);
             }
         );
     }
 
-    private function formatOldFacetParams(array $facetParamsGrouped)
+    private function formatOldFacetParams(array $facetParamsGrouped): array
     {
         $params = [];
 
