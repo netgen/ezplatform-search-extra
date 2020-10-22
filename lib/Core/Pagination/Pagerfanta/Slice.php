@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\EzPlatformSearchExtra\Core\Pagination\Pagerfanta;
 
 use function array_key_exists;
@@ -42,7 +44,7 @@ final class Slice implements IteratorAggregate, ArrayAccess
         );
     }
 
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return array_key_exists($offset, $this->searchHits);
     }
@@ -52,12 +54,12 @@ final class Slice implements IteratorAggregate, ArrayAccess
         return $this->searchHits[$offset]->valueObject;
     }
 
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         throw new RuntimeException('Method ' . __METHOD__ . ' is not supported');
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         throw new RuntimeException('Method ' . __METHOD__ . ' is not supported');
     }

@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\EzPlatformSearchExtra\Core\Pagination\Pagerfanta;
 
 use eZ\Publish\API\Repository\Values\Content\Query;
+use eZ\Publish\API\Repository\Values\Content\Search\AggregationResultCollection;
 use eZ\Publish\API\Repository\Values\Content\Search\SearchResult;
 use Netgen\EzPlatformSearchExtra\API\Values\Content\Search\SearchResult as ExtraSearchResult;
 use Netgen\EzPlatformSearchExtra\API\Values\Content\Search\Suggestion;
@@ -14,9 +17,6 @@ use Pagerfanta\Adapter\AdapterInterface;
  */
 abstract class BaseAdapter implements AdapterInterface, SearchResultExtras
 {
-    /**
-     * @var \eZ\Publish\API\Repository\Values\Content\Query
-     */
     private $query;
 
     /**
@@ -28,6 +28,11 @@ abstract class BaseAdapter implements AdapterInterface, SearchResultExtras
      * @var \eZ\Publish\API\Repository\Values\Content\Search\Facet[]
      */
     private $facets;
+
+    /**
+     * @var \eZ\Publish\API\Repository\Values\Content\Search\AggregationResultCollection
+     */
+    private $aggregations;
 
     /**
      * @var float
@@ -57,35 +62,42 @@ abstract class BaseAdapter implements AdapterInterface, SearchResultExtras
         $this->query = $query;
     }
 
-    public function getNbResults()
+    public function getNbResults(): int
     {
         $this->initializeExtraInfo();
 
         return $this->nbResults;
     }
 
-    public function getFacets()
+    public function getFacets(): array
     {
         $this->initializeExtraInfo();
 
         return $this->facets;
     }
 
-    public function getMaxScore()
+    public function getAggregations(): AggregationResultCollection
+    {
+        $this->initializeExtraInfo();
+
+        return $this->aggregations;
+    }
+
+    public function getMaxScore(): float
     {
         $this->initializeExtraInfo();
 
         return $this->maxScore;
     }
 
-    public function getSuggestion()
+    public function getSuggestion(): Suggestion
     {
         $this->initializeExtraInfo();
 
         return $this->suggestion;
     }
 
-    public function getTime()
+    public function getTime(): ?int
     {
         return $this->time;
     }
@@ -115,9 +127,9 @@ abstract class BaseAdapter implements AdapterInterface, SearchResultExtras
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Search\SearchResult
      */
-    abstract protected function executeQuery(Query $query);
+    abstract protected function executeQuery(Query $query): SearchResult;
 
-    private function initializeExtraInfo()
+    private function initializeExtraInfo(): void
     {
         if ($this->isExtraInfoInitialized) {
             return;
@@ -130,9 +142,10 @@ abstract class BaseAdapter implements AdapterInterface, SearchResultExtras
         $this->setExtraInfo($searchResult);
     }
 
-    private function setExtraInfo(SearchResult $searchResult)
+    private function setExtraInfo(SearchResult $searchResult): void
     {
         $this->facets = $searchResult->facets;
+        $this->aggregations = $searchResult->aggregations;
         $this->maxScore = $searchResult->maxScore;
         $this->nbResults = $searchResult->totalCount;
         $this->suggestion = new Suggestion([]);

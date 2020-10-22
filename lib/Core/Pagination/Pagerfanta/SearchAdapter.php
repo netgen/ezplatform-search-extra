@@ -1,16 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\EzPlatformSearchExtra\Core\Pagination\Pagerfanta;
 
 use eZ\Publish\API\Repository\SearchService;
 use eZ\Publish\API\Repository\Values\Content\LocationQuery;
 use eZ\Publish\API\Repository\Values\Content\Query;
+use eZ\Publish\API\Repository\Values\Content\Search\SearchResult;
 
 class SearchAdapter extends BaseAdapter
 {
-    /**
-     * @var \eZ\Publish\API\Repository\SearchService
-     */
     private $searchService;
 
     public function __construct(Query $query, SearchService $searchService)
@@ -25,7 +25,7 @@ class SearchAdapter extends BaseAdapter
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
      */
-    protected function executeQuery(Query $query)
+    protected function executeQuery(Query $query): SearchResult
     {
         if ($query instanceof LocationQuery) {
             return $this->searchService->findLocations($query);

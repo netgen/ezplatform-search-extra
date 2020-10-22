@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\EzPlatformSearchExtra\Tests\Unit\Core\Pagination\Pagerfanta;
 
 use eZ\Publish\API\Repository\Values\Content\Search\SearchHit;
@@ -12,44 +14,44 @@ use RuntimeException;
  */
 class SliceTest extends TestCase
 {
-    public function testIteration()
+    public function testIteration(): void
     {
         $slice = $this->getSlice();
 
-        $this->assertCount(2, $slice);
+        self::assertCount(2, $slice);
 
         foreach ($slice as $searchHit) {
-            $this->assertIsString($searchHit);
+            self::assertIsString($searchHit);
         }
     }
 
-    public function testIteratorArrayAccess()
+    public function testIteratorArrayAccess(): void
     {
         $slice = $this->getSlice();
         $iterator = $slice->getIterator();
 
-        $this->assertEquals('one', $iterator[0]);
-        $this->assertEquals('two', $iterator[1]);
+        self::assertEquals('one', $iterator[0]);
+        self::assertEquals('two', $iterator[1]);
     }
 
-    public function testArrayAccessGet()
+    public function testArrayAccessGet(): void
     {
         $slice = $this->getSlice();
 
-        $this->assertEquals('one', $slice[0]);
-        $this->assertEquals('two', $slice[1]);
+        self::assertEquals('one', $slice[0]);
+        self::assertEquals('two', $slice[1]);
     }
 
-    public function testArrayAccessExists()
+    public function testArrayAccessExists(): void
     {
         $slice = $this->getSlice();
 
-        $this->assertTrue(isset($slice[0]));
-        $this->assertTrue(isset($slice[1]));
-        $this->assertFalse(isset($slice[2]));
+        self::assertTrue(isset($slice[0]));
+        self::assertTrue(isset($slice[1]));
+        self::assertFalse(isset($slice[2]));
     }
 
-    public function testArrayAccessSet()
+    public function testArrayAccessSet(): void
     {
         $this->expectException(RuntimeException::class);
 
@@ -58,7 +60,7 @@ class SliceTest extends TestCase
         $slice[0] = 1;
     }
 
-    public function testArrayAccessUnset()
+    public function testArrayAccessUnset(): void
     {
         $this->expectException(RuntimeException::class);
 
@@ -67,17 +69,17 @@ class SliceTest extends TestCase
         unset($slice[0]);
     }
 
-    public function testGetSearchHits()
+    public function testGetSearchHits(): void
     {
         $slice = $this->getSlice();
 
-        $this->assertEquals(
+        self::assertEquals(
             $this->getSearchHits(),
             $slice->getSearchHits()
         );
     }
 
-    protected function getSearchHits()
+    protected function getSearchHits(): array
     {
         return [
             new SearchHit(['valueObject' => 'one']),
@@ -85,7 +87,7 @@ class SliceTest extends TestCase
         ];
     }
 
-    protected function getSlice()
+    protected function getSlice(): Slice
     {
         return new Slice($this->getSearchHits());
     }

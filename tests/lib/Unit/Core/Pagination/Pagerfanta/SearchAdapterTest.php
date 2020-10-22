@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\EzPlatformSearchExtra\Tests\Unit\Core\Pagination\Pagerfanta;
 
 use eZ\Publish\API\Repository\SearchService;
 use eZ\Publish\API\Repository\Values\Content\LocationQuery;
 use eZ\Publish\API\Repository\Values\Content\Query;
+use eZ\Publish\API\Repository\Values\Content\Search\AggregationResultCollection;
 use eZ\Publish\API\Repository\Values\Content\Search\SearchHit;
 use eZ\Publish\API\Repository\Values\Content\Search\SearchResult;
 use Netgen\EzPlatformSearchExtra\Core\Pagination\Pagerfanta\SearchAdapter;
@@ -17,7 +20,7 @@ use PHPUnit\Framework\TestCase;
 class SearchAdapterTest extends TestCase
 {
     /**
-     * @var \eZ\Publish\API\Repository\SearchService|\PHPUnit_Framework_MockObject_MockObject
+     * @var \eZ\Publish\API\Repository\SearchService|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $searchService;
 
@@ -28,7 +31,7 @@ class SearchAdapterTest extends TestCase
         $this->searchService = $this->getMockBuilder(SearchService::class)->getMock();
     }
 
-    public function testGetNbResults()
+    public function testGetNbResults(): void
     {
         $nbResults = 123;
         $query = new Query(['limit' => 10]);
@@ -37,18 +40,18 @@ class SearchAdapterTest extends TestCase
         $searchResult = new SearchResult(['totalCount' => $nbResults]);
 
         $this->searchService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findContent')
-            ->with($this->equalTo($countQuery))
+            ->with(self::equalTo($countQuery))
             ->willReturn($searchResult);
 
         $adapter = $this->getAdapter($query);
 
-        $this->assertSame($nbResults, $adapter->getNbResults());
-        $this->assertSame($nbResults, $adapter->getNbResults());
+        self::assertSame($nbResults, $adapter->getNbResults());
+        self::assertSame($nbResults, $adapter->getNbResults());
     }
 
-    public function testGetFacets()
+    public function testGetFacets(): void
     {
         $facets = ['facet', 'facet'];
         $query = new Query(['limit' => 10]);
@@ -57,56 +60,76 @@ class SearchAdapterTest extends TestCase
         $searchResult = new SearchResult(['facets' => $facets]);
 
         $this->searchService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findContent')
-            ->with($this->equalTo($countQuery))
+            ->with(self::equalTo($countQuery))
             ->willReturn($searchResult);
 
         $adapter = $this->getAdapter($query);
 
-        $this->assertSame($facets, $adapter->getFacets());
-        $this->assertSame($facets, $adapter->getFacets());
+        self::assertSame($facets, $adapter->getFacets());
+        self::assertSame($facets, $adapter->getFacets());
     }
 
-    public function testMaxScore()
+    public function testGetAggregations(): void
     {
-        $maxScore = 100;
+        $aggregations = new AggregationResultCollection();
+        $query = new Query(['limit' => 10]);
+        $countQuery = clone $query;
+        $countQuery->limit = 0;
+        $searchResult = new SearchResult(['aggregations' => $aggregations]);
+
+        $this->searchService
+            ->expects(self::once())
+            ->method('findContent')
+            ->with(self::equalTo($countQuery))
+            ->willReturn($searchResult);
+
+        $adapter = $this->getAdapter($query);
+
+        self::assertSame($aggregations, $adapter->getAggregations());
+        self::assertSame($aggregations, $adapter->getAggregations());
+    }
+
+    public function testMaxScore(): void
+    {
+        $maxScore = 100.0;
         $query = new Query(['limit' => 10]);
         $countQuery = clone $query;
         $countQuery->limit = 0;
         $searchResult = new SearchResult(['maxScore' => $maxScore]);
 
         $this->searchService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findContent')
-            ->with($this->equalTo($countQuery))
+            ->with(self::equalTo($countQuery))
             ->willReturn($searchResult);
 
         $adapter = $this->getAdapter($query);
 
-        $this->assertSame($maxScore, $adapter->getMaxScore());
-        $this->assertSame($maxScore, $adapter->getMaxScore());
+        self::assertSame($maxScore, $adapter->getMaxScore());
+        self::assertSame($maxScore, $adapter->getMaxScore());
     }
 
-    public function testTimeIsNotSet()
+    public function testTimeIsNotSet(): void
     {
         $this->searchService
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('findContent');
 
         $adapter = $this->getAdapter(new Query());
 
-        $this->assertNull($adapter->getTime());
-        $this->assertNull($adapter->getTime());
+        self::assertNull($adapter->getTime());
+        self::assertNull($adapter->getTime());
     }
 
-    public function testGetSlice()
+    public function testGetSlice(): void
     {
         $offset = 20;
         $limit = 25;
         $nbResults = 123;
         $facets = ['facet', 'facet'];
-        $maxScore = 100;
+        $maxScore = 100.0;
         $time = 256;
         $query = new Query(['offset' => 5, 'limit' => 10]);
         $searchQuery = clone $query;
@@ -124,37 +147,37 @@ class SearchAdapterTest extends TestCase
         ]);
 
         $this->searchService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findContent')
-            ->with($this->equalTo($searchQuery))
+            ->with(self::equalTo($searchQuery))
             ->willReturn($searchResult);
 
         $adapter = $this->getAdapter($query);
         $slice = $adapter->getSlice($offset, $limit);
 
-        $this->assertInstanceOf(Slice::class, $slice);
-        $this->assertSame($hits, $slice->getSearchHits());
-        $this->assertSame($nbResults, $adapter->getNbResults());
-        $this->assertSame($facets, $adapter->getFacets());
-        $this->assertSame($maxScore, $adapter->getMaxScore());
-        $this->assertSame($time, $adapter->getTime());
+        self::assertInstanceOf(Slice::class, $slice);
+        self::assertSame($hits, $slice->getSearchHits());
+        self::assertSame($nbResults, $adapter->getNbResults());
+        self::assertSame($facets, $adapter->getFacets());
+        self::assertSame($maxScore, $adapter->getMaxScore());
+        self::assertSame($time, $adapter->getTime());
     }
 
-    public function testLocationQuery()
+    public function testLocationQuery(): void
     {
         $query = new LocationQuery(['performCount' => false]);
 
         $this->searchService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findLocations')
-            ->with($this->equalTo($query))
+            ->with(self::equalTo($query))
             ->willReturn(new SearchResult());
 
         $adapter = $this->getAdapter($query);
         $adapter->getSlice(0, 25);
     }
 
-    protected function getAdapter(Query $query)
+    protected function getAdapter(Query $query): SearchAdapter
     {
         return new SearchAdapter($query, $this->searchService);
     }
