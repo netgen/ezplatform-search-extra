@@ -55,4 +55,4 @@ services:
             - '@ezpublish.search.solr.query.location.criterion_visitor.aggregate'
             - '@ezpublish.search.solr.query.location.sort_clause_visitor.aggregate'
             - '@ezpublish.search.solr.query.location.facet_builder_visitor.aggregate'
-            - "@ezpublish.search.solr.query.content.aggregation_visitor.dispatcher"
+            - "@ezpublish.search.solr.query.location.aggregation_visitor.dispatcher"
