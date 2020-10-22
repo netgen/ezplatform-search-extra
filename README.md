@@ -13,9 +13,9 @@
 
 ## Features
 
-Only a list of features is provided here, see
+This only lists all implemented features, see the
 [documentation](https://netgen-ezplatform-search-extra.readthedocs.io)
-for more details.
+for more details on specific ones.
 
 - [`ContentName`](https://github.com/netgen/ezplatform-search-extra/blob/1.13/lib/API/Values/Content/Query/Criterion/ContentName.php) criterion that works on matched translation's Content name  (`solr`, `legacy`)
 
