@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\EzPlatformSearchExtra\Container\Compiler;
 
 use Netgen\EzPlatformSearchExtra\Core\Search\Solr\ResultExtractor\NativeResultExtractor;
-use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
@@ -20,7 +21,7 @@ final class SearchResultExtractorPass implements CompilerPassInterface
      *
      * @throws \Exception
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $useLoadingSearchResultExtractor = $container->getParameter(
             'netgen_ez_platform_search_extra.use_loading_search_result_extractor'
@@ -30,8 +31,8 @@ final class SearchResultExtractorPass implements CompilerPassInterface
             return;
         }
 
-        $serviceId = 'netgen.search.solr.result_extractor.native_override';
-        $decoratedServiceId = 'ezpublish.search.solr.result_extractor.native';
+        $serviceId = 'netgen.search.solr.result_extractor.content.native_override';
+        $decoratedServiceId = 'ezpublish.search.solr.result_extractor.content.native';
 
         $container
             ->register($serviceId, NativeResultExtractor::class)
@@ -39,6 +40,20 @@ final class SearchResultExtractorPass implements CompilerPassInterface
             ->setArguments([
                 new Reference($serviceId . '.inner'),
                 new Reference('ezpublish.search.solr.query.content.facet_builder_visitor.aggregate'),
+                new Reference('ezpublish.search.solr.query.content.aggregation_result_extractor.dispatcher'),
+                new Reference('ezpublish.search.solr.gateway.endpoint_registry'),
+            ]);
+
+        $serviceId = 'netgen.search.solr.result_extractor.location.native_override';
+        $decoratedServiceId = 'ezpublish.search.solr.result_extractor.location.native';
+
+        $container
+            ->register($serviceId, NativeResultExtractor::class)
+            ->setDecoratedService($decoratedServiceId)
+            ->setArguments([
+                new Reference($serviceId . '.inner'),
+                new Reference('ezpublish.search.solr.query.location.facet_builder_visitor.aggregate'),
+                new Reference('ezpublish.search.solr.query.location.aggregation_result_extractor.dispatcher'),
                 new Reference('ezpublish.search.solr.gateway.endpoint_registry'),
             ]);
     }

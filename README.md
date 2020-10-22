@@ -4,7 +4,7 @@
 [![Read the Docs](https://img.shields.io/readthedocs/pip.svg?style=flat-square)](https://netgen-ezplatform-search-extra.readthedocs.io/en/latest/index.html)
 [![Downloads](https://img.shields.io/packagist/dt/netgen/ezplatform-search-extra.svg?style=flat-square)](https://packagist.org/packages/netgen/ezplatform-search-extra)
 [![Latest stable](https://img.shields.io/github/release/netgen/ezplatform-search-extra.svg?style=flat-square)](https://packagist.org/packages/netgen/ezplatform-search-extra)
-[![eZ](https://img.shields.io/badge/eZ%20Platform-%E2%89%A5%203.1-orange.svg?style=flat-square)](https://ezplatform.com/)
+[![eZ](https://img.shields.io/badge/eZ%20Platform-%E2%89%A5%203.2-orange.svg?style=flat-square)](https://ezplatform.com/)
 [![License](https://img.shields.io/github/license/netgen/ezplatform-search-extra.svg?style=flat-square)](https://packagist.org/packages/netgen/ezplatform-search-extra)
 
 ### Note: release compatible with eZ Platform v2 is `1.14`.

@@ -1,9 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr;
 
+use eZ\Publish\API\Repository\Values\Content\Search\SearchResult;
 use EzSystems\EzPlatformSolrSearchEngine\ResultExtractor as BaseResultExtractor;
 use Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder;
+use function spl_object_hash;
 
 /**
  * This DocumentMapper implementation adds support for handling RawFacetBuilders.
@@ -12,16 +16,25 @@ use Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuild
  */
 abstract class ResultExtractor Extends BaseResultExtractor
 {
-    public function extract($data, array $facetBuilders = [])
-    {
-        $searchResult = $this->extractSearchResult($data, $facetBuilders);
+    public function extract(
+        $data,
+        array $facetBuilders = [],
+        array $aggregations = [],
+        array $languageFilter = []
+    ): SearchResult {
+        $searchResult = $this->extractSearchResult(
+            $data,
+            $facetBuilders,
+            $aggregations,
+            $languageFilter
+        );
 
         if (!isset($data->facets) || $data->facets->count === 0) {
             return $searchResult;
         }
 
         foreach ($this->filterNewFacetBuilders($facetBuilders) as $facetBuilder) {
-            $identifier = \spl_object_hash($facetBuilder);
+            $identifier = spl_object_hash($facetBuilder);
 
             $searchResult->facets[] = $this->facetBuilderVisitor->mapField(
                 $identifier,
@@ -38,21 +51,28 @@ abstract class ResultExtractor Extends BaseResultExtractor
      *
      * @param mixed $data
      * @param \eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder[] $facetBuilders
+     * @param \eZ\Publish\API\Repository\Values\Content\Query\Aggregation[] $aggregations
+     * @param array $languageFilter
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Search\SearchResult
      */
-    abstract protected function extractSearchResult($data, array $facetBuilders = []);
+    abstract protected function extractSearchResult(
+        $data,
+        array $facetBuilders = [],
+        array $aggregations = [],
+        array $languageFilter = []
+    ): SearchResult;
 
     /**
      * @param \eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder[] $facetBuilders
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder[]
      */
-    private function filterNewFacetBuilders(array $facetBuilders)
+    private function filterNewFacetBuilders(array $facetBuilders): array
     {
         return array_filter(
             $facetBuilders,
-            function ($facetBuilder) {
+            static function ($facetBuilder) {
                 return $facetBuilder instanceof RawFacetBuilder;
             }
         );

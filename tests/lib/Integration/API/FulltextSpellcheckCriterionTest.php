@@ -2,6 +2,7 @@
 
 namespace Netgen\EzPlatformSearchExtra\Tests\Integration\API;
 
+use eZ\Publish\API\Repository\SearchService;
 use eZ\Publish\API\Repository\Tests\BaseTest;
 use eZ\Publish\API\Repository\Values\Content\LocationQuery;
 use eZ\Publish\API\Repository\Values\Content\Query;
@@ -11,7 +12,7 @@ use Netgen\EzPlatformSearchExtra\Tests\API\FullTextCriterion;
 
 class FulltextSpellcheckCriterionTest extends BaseTest
 {
-    public function providerForTestFind()
+    public function providerForTestFind(): array
     {
         return [
             [
@@ -105,7 +106,7 @@ class FulltextSpellcheckCriterionTest extends BaseTest
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
      */
-    public function testPrepareTestFixtures()
+    public function testPrepareTestFixtures(): void
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
@@ -147,7 +148,7 @@ class FulltextSpellcheckCriterionTest extends BaseTest
 
         $this->refreshSearch($repository);
 
-        $this->assertTrue(true);
+        self::assertTrue(true);
     }
 
     /**
@@ -158,7 +159,7 @@ class FulltextSpellcheckCriterionTest extends BaseTest
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
      */
-    public function testFindContent(Query $query, array $expectedWordSuggestions)
+    public function testFindContent(Query $query, array $expectedWordSuggestions): void
     {
         $searchService = $this->getSearchService(false);
 
@@ -178,7 +179,7 @@ class FulltextSpellcheckCriterionTest extends BaseTest
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
      */
-    public function testFindLocations(LocationQuery $query, array $expectedWordSuggestions)
+    public function testFindLocations(LocationQuery $query, array $expectedWordSuggestions): void
     {
         $searchService = $this->getSearchService(false);
 
@@ -190,7 +191,7 @@ class FulltextSpellcheckCriterionTest extends BaseTest
         $this->assertEquals($expectedWordSuggestions, $searchResult->suggestion->getSuggestions());
     }
 
-    protected function getSearchService($initialInitializeFromScratch = true)
+    protected function getSearchService($initialInitializeFromScratch = true): SearchService
     {
         return $this->getRepository($initialInitializeFromScratch)->getSearchService();
     }
