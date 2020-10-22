@@ -59,7 +59,7 @@ abstract class ResultExtractor Extends BaseResultExtractor
     {
         return array_filter(
             $facetBuilders,
-            function ($facetBuilder) {
+            static function ($facetBuilder) {
                 return $facetBuilder instanceof RawFacetBuilder;
             }
         );
