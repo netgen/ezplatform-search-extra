@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "ezsystems/ezplatform-kernel": "~1.1",
+        "ezsystems/ezplatform-kernel": "~1.1.0",
         "ext-json": "*",
         "ext-dom": "*"
     },
