@@ -26,19 +26,8 @@ use RuntimeException;
  */
 final class LoadingResultExtractor Extends ResultExtractor
 {
-    /**
-     * @var \eZ\Publish\SPI\Persistence\Content\Handler
-     */
     protected $contentHandler;
-
-    /**
-     * @var \eZ\Publish\SPI\Persistence\Content\Location\Handler
-     */
     protected $locationHandler;
-
-    /**
-     * @var \EzSystems\EzPlatformSolrSearchEngine\ResultExtractor
-     */
     private $nativeResultExtractor;
 
     public function __construct(
@@ -56,9 +45,18 @@ final class LoadingResultExtractor Extends ResultExtractor
         parent::__construct($facetBuilderVisitor, $aggregationResultExtractor, $endpointRegistry);
     }
 
-    protected function extractSearchResult($data, array $facetBuilders = []): APISearchResult
-    {
-        $searchResult = $this->nativeResultExtractor->extract($data, $facetBuilders);
+    protected function extractSearchResult(
+        $data,
+        array $facetBuilders = [],
+        array $aggregations = [],
+        array $languageFilter = []
+    ): APISearchResult {
+        $searchResult = $this->nativeResultExtractor->extract(
+            $data,
+            $facetBuilders,
+            $aggregations,
+            $languageFilter
+        );
         $searchResult = new SearchResult(get_object_vars($searchResult));
         $this->replaceExtractedValuesByLoadedValues($searchResult);
 

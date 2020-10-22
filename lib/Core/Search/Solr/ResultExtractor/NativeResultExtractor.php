@@ -33,9 +33,18 @@ final class NativeResultExtractor Extends ResultExtractor
         parent::__construct($facetBuilderVisitor, $aggregationResultExtractor, $endpointRegistry);
     }
 
-    protected function extractSearchResult($data, array $facetBuilders = []): SearchResult
-    {
-        return $this->nativeResultExtractor->extract($data, $facetBuilders);
+    protected function extractSearchResult(
+        $data,
+        array $facetBuilders = [],
+        array $aggregations = [],
+        array $languageFilter = []
+    ): SearchResult {
+        return $this->nativeResultExtractor->extract(
+            $data,
+            $facetBuilders,
+            $aggregations,
+            $languageFilter
+        );
     }
 
     public function extractHit($hit): ValueObject
