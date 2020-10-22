@@ -7,7 +7,9 @@
 [![eZ](https://img.shields.io/badge/eZ%20Platform-%E2%89%A5%203.2-orange.svg?style=flat-square)](https://ezplatform.com/)
 [![License](https://img.shields.io/github/license/netgen/ezplatform-search-extra.svg?style=flat-square)](https://packagist.org/packages/netgen/ezplatform-search-extra)
 
-### Note: release compatible with eZ Platform v2 is `1.14`.
+### Other versions
+- release compatible with eZ Platform `3.1` is `2.4`
+- release compatible with eZ Platform `2.x` is `1.14`
 
 ## Features
 
