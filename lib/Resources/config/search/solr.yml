@@ -17,14 +17,25 @@ services:
             - '@netgen.search.solr.subdocument_mapper.content.aggregate'
             - '@netgen.search.solr.subdocument_mapper.content_translation.aggregate'
 
-    netgen.search.solr.result_extractor:
+    netgen.search.solr.result_extractor.content:
         class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\ResultExtractor\LoadingResultExtractor
-        decorates: ezpublish.search.solr.result_extractor.native
+        decorates: ezpublish.search.solr.result_extractor.content.native
         arguments:
             - '@ezpublish.spi.persistence.content_handler'
             - '@ezpublish.spi.persistence.location_handler'
-            - '@netgen.search.solr.result_extractor.inner'
+            - '@netgen.search.solr.result_extractor.content.inner'
             - '@ezpublish.search.solr.query.content.facet_builder_visitor.aggregate'
+            - "@ezpublish.search.solr.query.content.aggregation_result_extractor.dispatcher"
+            - '@ezpublish.search.solr.gateway.endpoint_registry'
+
+    netgen.search.solr.result_extractor.location:
+        class: Netgen\EzPlatformSearchExtra\Core\Search\Solr\ResultExtractor\LoadingResultExtractor
+        decorates: ezpublish.search.solr.result_extractor.location.native
+        arguments:
+            - '@ezpublish.spi.persistence.content_handler'
+            - '@ezpublish.spi.persistence.location_handler'
+            - '@netgen.search.solr.result_extractor.location.inner'
+            - '@ezpublish.search.solr.query.location.facet_builder_visitor.aggregate'
             - "@ezpublish.search.solr.query.location.aggregation_result_extractor.dispatcher"
             - '@ezpublish.search.solr.gateway.endpoint_registry'
 
