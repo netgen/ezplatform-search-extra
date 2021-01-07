@@ -2,19 +2,58 @@
 
 namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr;
 
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\LogicalAnd;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\LogicalNot;
+use eZ\Publish\API\Repository\Values\Content\LocationQuery;
+use eZ\Publish\API\Repository\Values\Content\Query;
+use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
+use EzSystems\EzPlatformSolrSearchEngine\DocumentMapper;
 use EzSystems\EzPlatformSolrSearchEngine\Handler as BaseHandler;
 use eZ\Publish\Core\Base\Exceptions\NotFoundException;
 
 class Handler extends BaseHandler
 {
+    public function findContent(Query $query, array $languageFilter = array())
+    {
+        $query = clone $query;
+        $query->filter = $query->filter ?: new Criterion\MatchAll();
+        $query->query = $query->query ?: new Criterion\MatchAll();
+
+        $this->coreFilter->apply(
+            $query,
+            $languageFilter,
+            DocumentMapper::DOCUMENT_TYPE_IDENTIFIER_CONTENT
+        );
+
+        return $this->resultExtractor->extract(
+            $this->gateway->findContent($query, $languageFilter),
+            $query->facetBuilders,
+            $query
+        );
+    }
+
+    public function findLocations(LocationQuery $query, array $languageFilter = array())
+    {
+        $query = clone $query;
+        $query->query = $query->query ?: new Criterion\MatchAll();
+
+        $this->coreFilter->apply(
+            $query,
+            $languageFilter,
+            DocumentMapper::DOCUMENT_TYPE_IDENTIFIER_LOCATION
+        );
+
+        return $this->resultExtractor->extract(
+            $this->gateway->findLocations($query, $languageFilter),
+            $query->facetBuilders,
+            $query
+        );
+    }
+
     protected function deleteAllItemsWithoutAdditionalLocation($locationId)
     {
         $query = $this->prepareQuery();
-        $query->filter = new LogicalAnd([
+        $query->filter = new Criterion\LogicalAnd([
             $this->allItemsWithinLocation($locationId),
-            new LogicalNot($this->allItemsWithinLocationWithAdditionalLocation($locationId)),
+            new Criterion\LogicalNot($this->allItemsWithinLocationWithAdditionalLocation($locationId)),
         ]);
 
         $contentIds = $this->extractContentIds(
@@ -30,7 +69,7 @@ class Handler extends BaseHandler
     protected function updateAllElementsWithAdditionalLocation($locationId)
     {
         $query = $this->prepareQuery();
-        $query->filter = new LogicalAnd([
+        $query->filter = new Criterion\LogicalAnd([
             $this->allItemsWithinLocation($locationId),
             $this->allItemsWithinLocationWithAdditionalLocation($locationId),
         ]);
