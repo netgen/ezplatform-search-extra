@@ -1,0 +1,132 @@
+name: Tests
+
+on:
+    push:
+        branches:
+            - 'master'
+            - '[0-9].[0-9]+'
+    pull_request: ~
+
+jobs:
+    tests:
+        name: ${{ matrix.php }} ${{ matrix.coverage }} ${{ matrix.engine }} ${{ matrix.solr_version }} ${{ matrix.regression }} ${{ matrix.core_setup }}
+        runs-on: ubuntu-latest
+
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                    - php: '7.3'
+                      coverage: 'unit'
+                      config: 'phpunit.xml'
+                    - php: '7.3'
+                      coverage: 'integration'
+                      engine: 'legacy'
+                      config: 'phpunit-integration-legacy.xml'
+                    - php: '7.3'
+                      coverage: 'integration'
+                      engine: 'solr'
+                      config: 'phpunit-integration-solr.xml'
+                      solr_version: '7.7.3'
+                      solr_cores: 'collection1'
+                      core_setup: 'single'
+                    - php: '7.3'
+                      coverage: 'integration'
+                      engine: 'solr'
+                      config: 'phpunit-integration-solr.xml'
+                      solr_version: '7.7.3'
+                      core_setup: 'dedicated'
+                    - php: '7.3'
+                      coverage: 'integration'
+                      engine: 'solr'
+                      config: 'phpunit-integration-solr.xml'
+                      solr_version: '7.7.3'
+                      core_setup: 'shared'
+
+                    - php: '7.3'
+                      coverage: 'integration'
+                      engine: 'solr'
+                      config: 'phpunit-integration-solr.xml'
+                      solr_version: '7.7.3'
+                      solr_cloud: 'yes'
+                      core_setup: 'cloud'
+                    - php: '7.3'
+                      coverage: 'integration'
+                      engine: 'solr'
+                      config: 'phpunit-integration-solr.xml'
+                      solr_version: '8.6.1'
+                      solr_cloud: 'yes'
+                      solr_config: 'vendor/ezsystems/ezplatform-solr-search-engine/lib/Resources/config/solr/schema.xml vendor/ezsystems/ezplatform-solr-search-engine/lib/Resources/config/solr/language-fieldtypes.xml tests/lib/Resources/config/search/solr/8.6/solrconfig.xml tests/lib/Resources/config/search/solr/custom-fields-types.xml'
+                      core_setup: 'cloud'
+
+                    - php: '7.3'
+                      coverage: 'integration'
+                      engine: 'solr'
+                      config: 'vendor/ezsystems/ezplatform-kernel/phpunit-integration-legacy-solr.xml'
+                      solr_version: '7.7.3'
+                      solr_cloud: 'yes'
+                      core_setup: 'cloud'
+                      regression: 'regression'
+                    - php: '7.3'
+                      coverage: 'integration'
+                      engine: 'solr'
+                      config: 'vendor/ezsystems/ezplatform-kernel/phpunit-integration-legacy-solr.xml'
+                      solr_version: '7.7.3'
+                      core_setup: 'shared'
+                      regression: 'regression'
+                    - php: '7.3'
+                      coverage: 'integration'
+                      engine: 'solr'
+                      config: 'vendor/ezsystems/ezplatform-kernel/phpunit-integration-legacy-solr.xml'
+                      solr_version: '8.6.1'
+                      solr_cloud: 'yes'
+                      solr_config: 'vendor/ezsystems/ezplatform-solr-search-engine/lib/Resources/config/solr/schema.xml vendor/ezsystems/ezplatform-solr-search-engine/lib/Resources/config/solr/language-fieldtypes.xml tests/lib/Resources/config/search/solr/8.6/solrconfig.xml tests/lib/Resources/config/search/solr/custom-fields-types.xml'
+                      core_setup: 'cloud'
+                      regression: 'regression'
+
+                    - php: '7.4'
+                      coverage: 'unit'
+                      config: 'phpunit.xml'
+                    - php: '7.4'
+                      coverage: 'integration'
+                      engine: 'legacy'
+                      config: 'phpunit-integration-legacy.xml'
+                    - php: '7.4'
+                      coverage: 'integration'
+                      engine: 'solr'
+                      config: 'phpunit-integration-solr.xml'
+                      solr_version: '7.7.3'
+                      core_setup: 'dedicated'
+
+                    - php: '7.4'
+                      coverage: 'integration'
+                      engine: 'solr'
+                      config: 'vendor/ezsystems/ezplatform-kernel/phpunit-integration-legacy-solr.xml'
+                      solr_version: '7.7.3'
+                      core_setup: 'shared'
+                      regression: 'regression'
+
+        steps:
+            - uses: actions/checkout@v2
+            - uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ matrix.php }}
+
+            - run: composer --version
+            - run: composer validate --strict
+            - run: composer update --prefer-dist
+            - run: ./bin/.travis/init_solr.sh
+              env:
+                  SOLR_VERSION: ${{ matrix.solr_version }}
+                  SOLR_CLOUD: ${{ matrix.solr_cloud }}
+                  SOLR_CONFIG: ${{ matrix.solr_config }}
+                  SOLR_CORES: ${{ matrix.solr_cores }}
+            - run: |
+                sed -i.bak s/EzSystems\\\\EzPlatformSolrSearchEngine\\\\Tests\\\\SetupFactory\\\\LegacySetupFactory/Netgen\\\\EzPlatformSearchExtra\\\\Tests\\\\Integration\\\\SetupFactory\\\\Solr/g ${{ matrix.config }}
+                sed -i.bak "s/eZ\/Publish\/API\/Repository\/Tests\/SearchServiceTest.php/..\/..\/..\/tests\/lib\/Kernel\/SearchServiceTest.php/g" ${{ matrix.config }}
+                sed -i.bak "s/eZ\/Publish\/API\/Repository\/Tests\/SearchServiceLocationTest.php/..\/..\/..\/tests\/lib\/Kernel\/SearchServiceLocationTest.php/g" ${{ matrix.config }}
+              if: matrix.regression
+            - run: CORES_SETUP=${{ matrix.core_setup }} vendor/bin/phpunit --bootstrap tests/bootstrap.php -c ${{ matrix.config }} --colors=always
+              env:
+                  CORES_SETUP: ${{ matrix.core_setup }}
+                  SOLR_CLOUD: ${{ matrix.solr_cloud }}
