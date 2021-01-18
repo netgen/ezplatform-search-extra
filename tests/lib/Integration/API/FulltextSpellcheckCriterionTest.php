@@ -197,20 +197,21 @@ class FulltextSpellcheckCriterionTest extends BaseTest
     }
 
     /**
-     * For some reason frequency is doubled in the cloud setup.
+     * For some reason frequency is doubled in the cloud and shared setups.
      * TODO: investigate why
      *
      * @param \Netgen\EzPlatformSearchExtra\API\Values\Content\Search\WordSuggestion[] $wordSuggestions
      */
     protected function correctFrequencyForCloudSetup(array $wordSuggestions): void
     {
-        if (getenv('SOLR_CLOUD') === false) {
-            return;
-        }
+        $coreSetup = getenv('CORES_SETUP');
+        $correctedSetups = ['cloud', 'shared'];
 
-        foreach ($wordSuggestions as $wordSuggestionsGroup) {
-            foreach ($wordSuggestionsGroup as $wordSuggestion) {
-                $wordSuggestion->frequency *= 2;
+        if (in_array($coreSetup, $correctedSetups, true)) {
+            foreach ($wordSuggestions as $wordSuggestionsGroup) {
+                foreach ($wordSuggestionsGroup as $wordSuggestion) {
+                    $wordSuggestion->frequency *= 2;
+                }
             }
         }
     }
