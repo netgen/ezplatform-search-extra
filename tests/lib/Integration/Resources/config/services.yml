@@ -20,6 +20,12 @@ services:
         tags:
             - {name: ezpublish.search.solr.slot, signal: ContentService\PublishVersionSignal}
 
+    netgen_test.search.solr.slot.child_updates_parent:
+        parent: ezpublish.search.solr.slot
+        class: Netgen\EzPlatformSearchExtra\Tests\Integration\Implementation\Common\Slot\TestChildUpdatesParent
+        tags:
+            - {name: ezpublish.search.solr.slot, signal: ContentService\PublishVersionSignal}
+
     netgen_test.search.solr.field_mapper.content:
         class: Netgen\EzPlatformSearchExtra\Tests\Integration\Implementation\Solr\FieldMapper\TestContentFieldMapper
         arguments:
