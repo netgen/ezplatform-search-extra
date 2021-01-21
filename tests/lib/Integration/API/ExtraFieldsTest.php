@@ -18,7 +18,7 @@ class ExtraFieldsTest extends BaseTest
         return [
             [
                 new LocationQuery([
-                    'query' => new FullTextCriterion('comments'),
+                    'query' => new FullTextCriterion('*comments*'),
                     'filter' => new Criterion\ContentTypeIdentifier('extra_fields_test'),
                     'extraFields' => [],
                 ]),
@@ -28,10 +28,11 @@ class ExtraFieldsTest extends BaseTest
                 new LocationQuery([
                     'query' => new FullTextCriterion('comments'),
                     'filter' => new Criterion\ContentTypeIdentifier('extra_fields_test'),
-                    'extraFields' => ['extra_prefixed_name_s'],
+                    'extraFields' => ['extra_prefixed_name_s', 'extra_content_type_identifier_s'],
                 ]),
                 [
                     'extra_prefixed_name_s' => 'prefix No comments article',
+                    'extra_content_type_identifier_s' => 'extra_fields_test',
                 ],
             ],
             [
@@ -73,12 +74,13 @@ class ExtraFieldsTest extends BaseTest
                 new LocationQuery([
                     'query' => new FullTextCriterion('another'),
                     'filter' => new Criterion\ContentTypeIdentifier('extra_fields_test'),
-                    'extraFields' => ['extra_prefixed_name_s', 'extra_comment_count_i', 'extra_has_comments_b'],
+                    'extraFields' => ['extra_prefixed_name_s', 'extra_comment_count_i', 'extra_has_comments_b', 'extra_content_type_identifier_s'],
                 ]),
                 [
                     'extra_prefixed_name_s' => 'prefix Just another article',
                     'extra_comment_count_i' => 2,
                     'extra_has_comments_b' => true,
+                    'extra_content_type_identifier_s' => 'extra_fields_test',
                 ],
             ],
         ];
@@ -176,6 +178,8 @@ class ExtraFieldsTest extends BaseTest
      *
      * @param \Netgen\EzPlatformSearchExtra\API\Values\Content\Search\LocationQuery $query
      * @param array $expectedExtraFields
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
      */
     public function testFindLocations(LocationQuery $query, array $expectedExtraFields)
     {
