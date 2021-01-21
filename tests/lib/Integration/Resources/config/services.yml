@@ -29,7 +29,17 @@ services:
     netgen_test.search.solr.field_mapper.content:
         class: Netgen\EzPlatformSearchExtra\Tests\Integration\Implementation\Solr\FieldMapper\TestContentFieldMapper
         arguments:
+            - '@ezpublish.spi.persistence.content_handler'
             - '@ezpublish.spi.persistence.content_type_handler'
             - '@ezpublish.spi.search.legacy'
         tags:
             - {name: ezpublish.search.solr.field_mapper.content}
+
+    netgen_test.search.solr.field_mapper.location:
+        class: Netgen\EzPlatformSearchExtra\Tests\Integration\Implementation\Solr\FieldMapper\TestLocationFieldMapper
+        arguments:
+            - '@ezpublish.spi.persistence.content_handler'
+            - '@ezpublish.spi.persistence.content_type_handler'
+            - '@ezpublish.spi.search.legacy'
+        tags:
+            - { name: ezpublish.search.solr.field_mapper.location }
