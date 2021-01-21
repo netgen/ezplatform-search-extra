@@ -41,7 +41,8 @@ class TestChildUpdatesParent extends Slot
             return;
         }
 
-        $parentLocation = $this->persistenceHandler->locationHandler()->load($contentInfo->mainLocationId);
+        $location = $this->persistenceHandler->locationHandler()->load($contentInfo->mainLocationId);
+        $parentLocation = $this->persistenceHandler->locationHandler()->load($location->parentId);
         $parentContentInfo = $contentHandler->loadContentInfo($parentLocation->contentId);
         $parentContentType = $this->persistenceHandler->contentTypeHandler()->load($parentContentInfo->contentTypeId);
 
