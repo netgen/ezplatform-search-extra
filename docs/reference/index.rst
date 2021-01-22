@@ -9,5 +9,6 @@ Reference
     random_sort
     subdocuments
     spellcheck_suggestions
+    extra_fields
 
 .. include:: /reference/map.rst.inc
