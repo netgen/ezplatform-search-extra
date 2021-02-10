@@ -114,6 +114,7 @@ final class SiblingRangeResolver
      */
     public function resolveCriterion(ValueObject $value, array $sortClauses, string $rangeType): CriterionInterface
     {
+        $this->validateRange($rangeType);
         $tieBreaker = $this->getTieBreakerCriterion($value, $rangeType);
 
         if (empty($sortClauses)) {
@@ -144,6 +145,7 @@ final class SiblingRangeResolver
      */
     public function resolveSortClauses(ValueObject $value, array $sortClauses, string $rangeType): array
     {
+        $this->validateRange($rangeType);
         $newSortClauses = [];
 
         foreach ($sortClauses as $sortClause) {
@@ -390,13 +392,7 @@ final class SiblingRangeResolver
             return $this->resolveOperatorForFollowing($sortClause, $inclusive);
         }
 
-        if ($rangeType === self::RangeTypePreceding) {
-            return $this->resolveOperatorForPreceding($sortClause, $inclusive);
-        }
-
-        throw new RuntimeException(
-            'Unknown range "' . $rangeType . '"'
-        );
+        return $this->resolveOperatorForPreceding($sortClause, $inclusive);
     }
 
     private function resolveOperatorForFollowing(SortClause $sortClause, bool $inclusive): string
@@ -430,7 +426,7 @@ final class SiblingRangeResolver
         }
 
         throw new RuntimeException(
-            'Unknown range "' . $rangeType . '"'
+            'Value "' . get_class($value) . '" is not supported'
         );
     }
 
@@ -440,13 +436,7 @@ final class SiblingRangeResolver
             return Operator::GT;
         }
 
-        if ($rangeType === self::RangeTypePreceding) {
-            return Operator::LT;
-        }
-
-        throw new RuntimeException(
-            'Unknown range "' . $rangeType . '"'
-        );
+        return Operator::LT;
     }
 
     private function reverseDirection(SortClause $sortClause): string
@@ -471,7 +461,7 @@ final class SiblingRangeResolver
         }
 
         throw new RuntimeException(
-            'Unknown range "' . $rangeType . '"'
+            'Value "' . get_class($value) . '" is not supported'
         );
     }
 
@@ -481,8 +471,17 @@ final class SiblingRangeResolver
             return Query::SORT_ASC;
         }
 
+        return Query::SORT_DESC;
+    }
+
+    private function validateRange(string $rangeType): void
+    {
+        if ($rangeType === self::RangeTypeFollowing) {
+            return;
+        }
+
         if ($rangeType === self::RangeTypePreceding) {
-            return Query::SORT_DESC;
+            return;
         }
 
         throw new RuntimeException(

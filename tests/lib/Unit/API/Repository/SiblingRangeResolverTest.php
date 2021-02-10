@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Netgen\EzPlatformSearchExtra\Tests\Unit\API\Repository;
 
 use DateTime;
@@ -25,6 +24,7 @@ use eZ\Publish\Core\FieldType\EmailAddress\Value as EmailAddressValue;
 use eZ\Publish\Core\FieldType\Float\Value as FloatValue;
 use eZ\Publish\Core\FieldType\Integer\Value as IntegerValue;
 use eZ\Publish\Core\FieldType\ISBN\Value as ISBNValue;
+use eZ\Publish\Core\FieldType\RelationList\Value as RelationListValue;
 use eZ\Publish\Core\FieldType\TextBlock\Value as TextBlockValue;
 use eZ\Publish\Core\FieldType\TextLine\Value as TextLineValue;
 use eZ\Publish\Core\FieldType\Time\Value as TimeValue;
@@ -37,6 +37,7 @@ use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\ContentName;
 use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\LocationId;
 use Netgen\EzPlatformSearchExtra\API\Repository\SiblingRangeResolver;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 
 /**
  * @group sibling-range
@@ -47,39 +48,31 @@ class SiblingRangeResolverTest extends TestCase
 
     public function providerForTestResolveCriterion(): array
     {
+        $field = new Field([
+            'fieldDefIdentifier' => 'field',
+            'fieldTypeIdentifier' => 'ezstring',
+            'languageCode' => 'cro-HR',
+            'value' => new TextLineValue('Zagreb'),
+        ]);
+
         return [
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezstring',
-                    'languageCode' => 'cro-HR',
-                    'value' => new TextLineValue('Zagreb'),
-                ]),
+                $field,
                 [],
                 SiblingRangeResolver::RangeTypeFollowing,
                 new ContentId(Operator::GT, 42),
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezstring',
-                    'languageCode' => 'cro-HR',
-                    'value' => new TextLineValue('Zagreb'),
-                ]),
+                $field,
                 [],
                 SiblingRangeResolver::RangeTypePreceding,
                 new ContentId(Operator::LT, 42),
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezstring',
-                    'languageCode' => 'cro-HR',
-                    'value' => new TextLineValue('Zagreb'),
-                ]),
+                $field,
                 [
                     new SortClause\ContentName(Query::SORT_ASC),
                 ],
@@ -94,12 +87,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezstring',
-                    'languageCode' => 'cro-HR',
-                    'value' => new TextLineValue('Zagreb'),
-                ]),
+                $field,
                 [
                     new SortClause\ContentName(Query::SORT_DESC),
                 ],
@@ -114,12 +102,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezstring',
-                    'languageCode' => 'cro-HR',
-                    'value' => new TextLineValue('Zagreb'),
-                ]),
+                $field,
                 [
                     new SortClause\ContentName(Query::SORT_ASC),
                 ],
@@ -134,12 +117,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezstring',
-                    'languageCode' => 'cro-HR',
-                    'value' => new TextLineValue('Zagreb'),
-                ]),
+                $field,
                 [
                     new SortClause\ContentName(Query::SORT_DESC),
                 ],
@@ -154,12 +132,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezstring',
-                    'languageCode' => 'cro-HR',
-                    'value' => new TextLineValue('Zagreb'),
-                ]),
+                $field,
                 [
                     new SortClause\ContentId(Query::SORT_ASC),
                 ],
@@ -174,12 +147,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezstring',
-                    'languageCode' => 'cro-HR',
-                    'value' => new TextLineValue('Zagreb'),
-                ]),
+                $field,
                 [
                     new SortClause\ContentId(Query::SORT_DESC),
                 ],
@@ -194,12 +162,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezstring',
-                    'languageCode' => 'cro-HR',
-                    'value' => new TextLineValue('Zagreb'),
-                ]),
+                $field,
                 [
                     new SortClause\ContentId(Query::SORT_ASC),
                 ],
@@ -214,12 +177,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezstring',
-                    'languageCode' => 'cro-HR',
-                    'value' => new TextLineValue('Zagreb'),
-                ]),
+                $field,
                 [
                     new SortClause\ContentId(Query::SORT_DESC),
                 ],
@@ -234,12 +192,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezstring',
-                    'languageCode' => 'cro-HR',
-                    'value' => new TextLineValue('Zagreb'),
-                ]),
+                $field,
                 [
                     new SortClause\DateModified(Query::SORT_ASC),
                 ],
@@ -254,12 +207,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezstring',
-                    'languageCode' => 'cro-HR',
-                    'value' => new TextLineValue('Zagreb'),
-                ]),
+                $field,
                 [
                     new SortClause\DateModified(Query::SORT_DESC),
                 ],
@@ -274,12 +222,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezstring',
-                    'languageCode' => 'cro-HR',
-                    'value' => new TextLineValue('Zagreb'),
-                ]),
+                $field,
                 [
                     new SortClause\DateModified(Query::SORT_ASC),
                 ],
@@ -294,12 +237,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezstring',
-                    'languageCode' => 'cro-HR',
-                    'value' => new TextLineValue('Zagreb'),
-                ]),
+                $field,
                 [
                     new SortClause\DateModified(Query::SORT_DESC),
                 ],
@@ -314,12 +252,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezstring',
-                    'languageCode' => 'cro-HR',
-                    'value' => new TextLineValue('Zagreb'),
-                ]),
+                $field,
                 [
                     new SortClause\DatePublished(Query::SORT_ASC),
                 ],
@@ -334,12 +267,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezstring',
-                    'languageCode' => 'cro-HR',
-                    'value' => new TextLineValue('Zagreb'),
-                ]),
+                $field,
                 [
                     new SortClause\DatePublished(Query::SORT_DESC),
                 ],
@@ -354,12 +282,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezstring',
-                    'languageCode' => 'cro-HR',
-                    'value' => new TextLineValue('Zagreb'),
-                ]),
+                $field,
                 [
                     new SortClause\DatePublished(Query::SORT_ASC),
                 ],
@@ -374,12 +297,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezstring',
-                    'languageCode' => 'cro-HR',
-                    'value' => new TextLineValue('Zagreb'),
-                ]),
+                $field,
                 [
                     new SortClause\DatePublished(Query::SORT_DESC),
                 ],
@@ -394,12 +312,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezstring',
-                    'languageCode' => 'cro-HR',
-                    'value' => new TextLineValue('Zagreb'),
-                ]),
+                $field,
                 [
                     new SortClause\Location\Depth(Query::SORT_ASC),
                 ],
@@ -414,12 +327,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezstring',
-                    'languageCode' => 'cro-HR',
-                    'value' => new TextLineValue('Zagreb'),
-                ]),
+                $field,
                 [
                     new SortClause\Location\Depth(Query::SORT_DESC),
                 ],
@@ -434,12 +342,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezstring',
-                    'languageCode' => 'cro-HR',
-                    'value' => new TextLineValue('Zagreb'),
-                ]),
+                $field,
                 [
                     new SortClause\Location\Depth(Query::SORT_ASC),
                 ],
@@ -454,12 +357,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezstring',
-                    'languageCode' => 'cro-HR',
-                    'value' => new TextLineValue('Zagreb'),
-                ]),
+                $field,
                 [
                     new SortClause\Location\Depth(Query::SORT_DESC),
                 ],
@@ -474,12 +372,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezstring',
-                    'languageCode' => 'cro-HR',
-                    'value' => new TextLineValue('Zagreb'),
-                ]),
+                $field,
                 [
                     new SortClause\Field('type', 'field', Query::SORT_ASC),
                 ],
@@ -494,12 +387,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezstring',
-                    'languageCode' => 'cro-HR',
-                    'value' => new TextLineValue('Zagreb'),
-                ]),
+                $field,
                 [
                     new SortClause\Field('type', 'field', Query::SORT_DESC),
                 ],
@@ -514,12 +402,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezstring',
-                    'languageCode' => 'cro-HR',
-                    'value' => new TextLineValue('Zagreb'),
-                ]),
+                $field,
                 [
                     new SortClause\Field('type', 'field', Query::SORT_ASC),
                 ],
@@ -534,12 +417,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezstring',
-                    'languageCode' => 'cro-HR',
-                    'value' => new TextLineValue('Zagreb'),
-                ]),
+                $field,
                 [
                     new SortClause\Field('type', 'field', Query::SORT_DESC),
                 ],
@@ -554,12 +432,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezstring',
-                    'languageCode' => 'cro-HR',
-                    'value' => new TextLineValue('Zagreb'),
-                ]),
+                $field,
                 [
                     new SortClause\Location\Id(Query::SORT_ASC),
                 ],
@@ -574,12 +447,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezstring',
-                    'languageCode' => 'cro-HR',
-                    'value' => new TextLineValue('Zagreb'),
-                ]),
+                $field,
                 [
                     new SortClause\Location\Id(Query::SORT_DESC),
                 ],
@@ -594,12 +462,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezstring',
-                    'languageCode' => 'cro-HR',
-                    'value' => new TextLineValue('Zagreb'),
-                ]),
+                $field,
                 [
                     new SortClause\Location\Id(Query::SORT_ASC),
                 ],
@@ -614,12 +477,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezstring',
-                    'languageCode' => 'cro-HR',
-                    'value' => new TextLineValue('Zagreb'),
-                ]),
+                $field,
                 [
                     new SortClause\Location\Id(Query::SORT_DESC),
                 ],
@@ -634,12 +492,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezstring',
-                    'languageCode' => 'cro-HR',
-                    'value' => new TextLineValue('Zagreb'),
-                ]),
+                $field,
                 [
                     new SortClause\Location\Priority(Query::SORT_ASC),
                 ],
@@ -654,12 +507,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezstring',
-                    'languageCode' => 'cro-HR',
-                    'value' => new TextLineValue('Zagreb'),
-                ]),
+                $field,
                 [
                     new SortClause\Location\Priority(Query::SORT_DESC),
                 ],
@@ -674,12 +522,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezstring',
-                    'languageCode' => 'cro-HR',
-                    'value' => new TextLineValue('Zagreb'),
-                ]),
+                $field,
                 [
                     new SortClause\Location\Priority(Query::SORT_ASC),
                 ],
@@ -694,12 +537,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezstring',
-                    'languageCode' => 'cro-HR',
-                    'value' => new TextLineValue('Zagreb'),
-                ]),
+                $field,
                 [
                     new SortClause\Location\Priority(Query::SORT_DESC),
                 ],
@@ -743,15 +581,71 @@ class SiblingRangeResolverTest extends TestCase
      */
     public function providerForTestResolveCriterionField(): array
     {
+        $textLineField = new Field([
+            'fieldDefIdentifier' => 'field',
+            'fieldTypeIdentifier' => 'ezstring',
+            'languageCode' => 'cro-HR',
+            'value' => new TextLineValue('Zagreb'),
+        ]);
+        $textBlockField = new Field([
+            'fieldDefIdentifier' => 'field',
+            'fieldTypeIdentifier' => 'eztext',
+            'languageCode' => 'cro-HR',
+            'value' => new TextBlockValue('Zagreb'),
+        ]);
+        $dateField = new Field([
+            'fieldDefIdentifier' => 'field',
+            'fieldTypeIdentifier' => 'ezdate',
+            'languageCode' => 'cro-HR',
+            'value' => new DateValue(new DateTime('@' . self::Timestamp)),
+        ]);
+        $dateAndTimeField = new Field([
+            'fieldDefIdentifier' => 'field',
+            'fieldTypeIdentifier' => 'ezdatetime',
+            'languageCode' => 'cro-HR',
+            'value' => new DateAndTimeValue(new DateTime('@' . self::Timestamp)),
+        ]);
+        $timeField = new Field([
+            'fieldDefIdentifier' => 'field',
+            'fieldTypeIdentifier' => 'eztime',
+            'languageCode' => 'cro-HR',
+            'value' => TimeValue::fromDateTime(new DateTime('@' . self::Timestamp)),
+        ]);
+        $mailAddressField = new Field([
+            'fieldDefIdentifier' => 'field',
+            'fieldTypeIdentifier' => 'ezemail',
+            'languageCode' => 'cro-HR',
+            'value' => new EmailAddressValue('test@netgen.io'),
+        ]);
+        $integerField = new Field([
+            'fieldDefIdentifier' => 'field',
+            'fieldTypeIdentifier' => 'ezinteger',
+            'languageCode' => 'cro-HR',
+            'value' => new IntegerValue(22),
+        ]);
+        $floatField = new Field([
+            'fieldDefIdentifier' => 'field',
+            'fieldTypeIdentifier' => 'ezfloat',
+            'languageCode' => 'cro-HR',
+            'value' => new FloatValue(3.14),
+        ]);
+        $checkboxField = new Field([
+            'fieldDefIdentifier' => 'field',
+            'fieldTypeIdentifier' => 'ezboolean',
+            'languageCode' => 'cro-HR',
+            'value' => new CheckboxValue(true),
+        ]);
+        $isbnField = new Field([
+            'fieldDefIdentifier' => 'field',
+            'fieldTypeIdentifier' => 'ezisbn',
+            'languageCode' => 'cro-HR',
+            'value' => new ISBNValue('9780061936456'),
+        ]);
+
         return [
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezstring',
-                    'languageCode' => 'cro-HR',
-                    'value' => new TextLineValue('Zagreb'),
-                ]),
+                $textLineField,
                 [
                     new SortClause\Field('type', 'field', Query::SORT_ASC),
                 ],
@@ -766,12 +660,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezstring',
-                    'languageCode' => 'cro-HR',
-                    'value' => new TextLineValue('Zagreb'),
-                ]),
+                $textLineField,
                 [
                     new SortClause\Field('type', 'field', Query::SORT_DESC),
                 ],
@@ -786,12 +675,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezstring',
-                    'languageCode' => 'cro-HR',
-                    'value' => new TextLineValue('Zagreb'),
-                ]),
+                $textLineField,
                 [
                     new SortClause\Field('type', 'field', Query::SORT_ASC),
                 ],
@@ -806,12 +690,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezstring',
-                    'languageCode' => 'cro-HR',
-                    'value' => new TextLineValue('Zagreb'),
-                ]),
+                $textLineField,
                 [
                     new SortClause\Field('type', 'field', Query::SORT_DESC),
                 ],
@@ -826,12 +705,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'eztext',
-                    'languageCode' => 'cro-HR',
-                    'value' => new TextBlockValue('Zagreb'),
-                ]),
+                $textBlockField,
                 [
                     new SortClause\Field('type', 'field', Query::SORT_ASC),
                 ],
@@ -846,12 +720,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'eztext',
-                    'languageCode' => 'cro-HR',
-                    'value' => new TextBlockValue('Zagreb'),
-                ]),
+                $textBlockField,
                 [
                     new SortClause\Field('type', 'field', Query::SORT_DESC),
                 ],
@@ -866,12 +735,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'eztext',
-                    'languageCode' => 'cro-HR',
-                    'value' => new TextBlockValue('Zagreb'),
-                ]),
+                $textBlockField,
                 [
                     new SortClause\Field('type', 'field', Query::SORT_ASC),
                 ],
@@ -886,12 +750,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'eztext',
-                    'languageCode' => 'cro-HR',
-                    'value' => new TextBlockValue('Zagreb'),
-                ]),
+                $textBlockField,
                 [
                     new SortClause\Field('type', 'field', Query::SORT_DESC),
                 ],
@@ -906,12 +765,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezdate',
-                    'languageCode' => 'cro-HR',
-                    'value' => new DateValue(new DateTime('@' . self::Timestamp)),
-                ]),
+                $dateField,
                 [
                     new SortClause\Field('type', 'field', Query::SORT_ASC),
                 ],
@@ -926,12 +780,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezdate',
-                    'languageCode' => 'cro-HR',
-                    'value' => new DateValue(new DateTime('@' . self::Timestamp)),
-                ]),
+                $dateField,
                 [
                     new SortClause\Field('type', 'field', Query::SORT_DESC),
                 ],
@@ -946,12 +795,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezdate',
-                    'languageCode' => 'cro-HR',
-                    'value' => new DateValue(new DateTime('@' . self::Timestamp)),
-                ]),
+                $dateField,
                 [
                     new SortClause\Field('type', 'field', Query::SORT_ASC),
                 ],
@@ -966,12 +810,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezdate',
-                    'languageCode' => 'cro-HR',
-                    'value' => new DateValue(new DateTime('@' . self::Timestamp)),
-                ]),
+                $dateField,
                 [
                     new SortClause\Field('type', 'field', Query::SORT_DESC),
                 ],
@@ -986,12 +825,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezdatetime',
-                    'languageCode' => 'cro-HR',
-                    'value' => new DateAndTimeValue(new DateTime('@' . self::Timestamp)),
-                ]),
+                $dateAndTimeField,
                 [
                     new SortClause\Field('type', 'field', Query::SORT_ASC),
                 ],
@@ -1006,12 +840,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezdatetime',
-                    'languageCode' => 'cro-HR',
-                    'value' => new DateAndTimeValue(new DateTime('@' . self::Timestamp)),
-                ]),
+                $dateAndTimeField,
                 [
                     new SortClause\Field('type', 'field', Query::SORT_DESC),
                 ],
@@ -1026,12 +855,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezdatetime',
-                    'languageCode' => 'cro-HR',
-                    'value' => new DateAndTimeValue(new DateTime('@' . self::Timestamp)),
-                ]),
+                $dateAndTimeField,
                 [
                     new SortClause\Field('type', 'field', Query::SORT_ASC),
                 ],
@@ -1046,12 +870,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezdatetime',
-                    'languageCode' => 'cro-HR',
-                    'value' => new DateAndTimeValue(new DateTime('@' . self::Timestamp)),
-                ]),
+                $dateAndTimeField,
                 [
                     new SortClause\Field('type', 'field', Query::SORT_DESC),
                 ],
@@ -1066,12 +885,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'eztime',
-                    'languageCode' => 'cro-HR',
-                    'value' => TimeValue::fromDateTime(new DateTime('@' . self::Timestamp)),
-                ]),
+                $timeField,
                 [
                     new SortClause\Field('type', 'field', Query::SORT_ASC),
                 ],
@@ -1086,12 +900,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'eztime',
-                    'languageCode' => 'cro-HR',
-                    'value' => TimeValue::fromDateTime(new DateTime('@' . self::Timestamp)),
-                ]),
+                $timeField,
                 [
                     new SortClause\Field('type', 'field', Query::SORT_DESC),
                 ],
@@ -1106,12 +915,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'eztime',
-                    'languageCode' => 'cro-HR',
-                    'value' => TimeValue::fromDateTime(new DateTime('@' . self::Timestamp)),
-                ]),
+                $timeField,
                 [
                     new SortClause\Field('type', 'field', Query::SORT_ASC),
                 ],
@@ -1126,12 +930,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'eztime',
-                    'languageCode' => 'cro-HR',
-                    'value' => TimeValue::fromDateTime(new DateTime('@' . self::Timestamp)),
-                ]),
+                $timeField,
                 [
                     new SortClause\Field('type', 'field', Query::SORT_DESC),
                 ],
@@ -1146,92 +945,67 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezemail',
-                    'languageCode' => 'cro-HR',
-                    'value' => new EmailAddressValue('spam@invalid.asdf'),
-                ]),
+                $mailAddressField,
                 [
                     new SortClause\Field('type', 'field', Query::SORT_ASC),
                 ],
                 SiblingRangeResolver::RangeTypeFollowing,
                 new LogicalOr([
                     new LogicalAnd([
-                        new Criterion\Field('field', Operator::GTE, 'spam@invalid.asdf'),
+                        new Criterion\Field('field', Operator::GTE, 'test@netgen.io'),
                         new ContentId(Operator::GT, 42),
                     ]),
-                    new Criterion\Field('field', Operator::GT, 'spam@invalid.asdf'),
+                    new Criterion\Field('field', Operator::GT, 'test@netgen.io'),
                 ]),
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezemail',
-                    'languageCode' => 'cro-HR',
-                    'value' => new EmailAddressValue('spam@invalid.asdf'),
-                ]),
+                $mailAddressField,
                 [
                     new SortClause\Field('type', 'field', Query::SORT_DESC),
                 ],
                 SiblingRangeResolver::RangeTypeFollowing,
                 new LogicalOr([
                     new LogicalAnd([
-                        new Criterion\Field('field', Operator::LTE, 'spam@invalid.asdf'),
+                        new Criterion\Field('field', Operator::LTE, 'test@netgen.io'),
                         new ContentId(Operator::GT, 42),
                     ]),
-                    new Criterion\Field('field', Operator::LT, 'spam@invalid.asdf'),
+                    new Criterion\Field('field', Operator::LT, 'test@netgen.io'),
                 ]),
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezemail',
-                    'languageCode' => 'cro-HR',
-                    'value' => new EmailAddressValue('spam@invalid.asdf'),
-                ]),
+                $mailAddressField,
                 [
                     new SortClause\Field('type', 'field', Query::SORT_ASC),
                 ],
                 SiblingRangeResolver::RangeTypePreceding,
                 new LogicalOr([
                     new LogicalAnd([
-                        new Criterion\Field('field', Operator::LTE, 'spam@invalid.asdf'),
+                        new Criterion\Field('field', Operator::LTE, 'test@netgen.io'),
                         new ContentId(Operator::LT, 42),
                     ]),
-                    new Criterion\Field('field', Operator::LT, 'spam@invalid.asdf'),
+                    new Criterion\Field('field', Operator::LT, 'test@netgen.io'),
                 ]),
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezemail',
-                    'languageCode' => 'cro-HR',
-                    'value' => new EmailAddressValue('spam@invalid.asdf'),
-                ]),
+                $mailAddressField,
                 [
                     new SortClause\Field('type', 'field', Query::SORT_DESC),
                 ],
                 SiblingRangeResolver::RangeTypePreceding,
                 new LogicalOr([
                     new LogicalAnd([
-                        new Criterion\Field('field', Operator::GTE, 'spam@invalid.asdf'),
+                        new Criterion\Field('field', Operator::GTE, 'test@netgen.io'),
                         new ContentId(Operator::LT, 42),
                     ]),
-                    new Criterion\Field('field', Operator::GT, 'spam@invalid.asdf'),
+                    new Criterion\Field('field', Operator::GT, 'test@netgen.io'),
                 ]),
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezinteger',
-                    'languageCode' => 'cro-HR',
-                    'value' => new IntegerValue(22),
-                ]),
+                $integerField,
                 [
                     new SortClause\Field('type', 'field', Query::SORT_ASC),
                 ],
@@ -1246,12 +1020,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezinteger',
-                    'languageCode' => 'cro-HR',
-                    'value' => new IntegerValue(22),
-                ]),
+                $integerField,
                 [
                     new SortClause\Field('type', 'field', Query::SORT_DESC),
                 ],
@@ -1266,12 +1035,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezinteger',
-                    'languageCode' => 'cro-HR',
-                    'value' => new IntegerValue(22),
-                ]),
+                $integerField,
                 [
                     new SortClause\Field('type', 'field', Query::SORT_ASC),
                 ],
@@ -1286,12 +1050,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezinteger',
-                    'languageCode' => 'cro-HR',
-                    'value' => new IntegerValue(22),
-                ]),
+                $integerField,
                 [
                     new SortClause\Field('type', 'field', Query::SORT_DESC),
                 ],
@@ -1306,12 +1065,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezfloat',
-                    'languageCode' => 'cro-HR',
-                    'value' => new FloatValue(3.14),
-                ]),
+                $floatField,
                 [
                     new SortClause\Field('type', 'field', Query::SORT_ASC),
                 ],
@@ -1326,12 +1080,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezfloat',
-                    'languageCode' => 'cro-HR',
-                    'value' => new FloatValue(3.14),
-                ]),
+                $floatField,
                 [
                     new SortClause\Field('type', 'field', Query::SORT_DESC),
                 ],
@@ -1346,12 +1095,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezfloat',
-                    'languageCode' => 'cro-HR',
-                    'value' => new FloatValue(3.14),
-                ]),
+                $floatField,
                 [
                     new SortClause\Field('type', 'field', Query::SORT_ASC),
                 ],
@@ -1366,12 +1110,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezfloat',
-                    'languageCode' => 'cro-HR',
-                    'value' => new FloatValue(3.14),
-                ]),
+                $floatField,
                 [
                     new SortClause\Field('type', 'field', Query::SORT_DESC),
                 ],
@@ -1386,12 +1125,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezboolean',
-                    'languageCode' => 'cro-HR',
-                    'value' => new CheckboxValue(true),
-                ]),
+                $checkboxField,
                 [
                     new SortClause\Field('type', 'field', Query::SORT_ASC),
                 ],
@@ -1406,12 +1140,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezboolean',
-                    'languageCode' => 'cro-HR',
-                    'value' => new CheckboxValue(true),
-                ]),
+                $checkboxField,
                 [
                     new SortClause\Field('type', 'field', Query::SORT_DESC),
                 ],
@@ -1426,12 +1155,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezboolean',
-                    'languageCode' => 'cro-HR',
-                    'value' => new CheckboxValue(true),
-                ]),
+                $checkboxField,
                 [
                     new SortClause\Field('type', 'field', Query::SORT_ASC),
                 ],
@@ -1446,12 +1170,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezboolean',
-                    'languageCode' => 'cro-HR',
-                    'value' => new CheckboxValue(true),
-                ]),
+                $checkboxField,
                 [
                     new SortClause\Field('type', 'field', Query::SORT_DESC),
                 ],
@@ -1466,12 +1185,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezisbn',
-                    'languageCode' => 'cro-HR',
-                    'value' => new ISBNValue('9780061936456'),
-                ]),
+                $isbnField,
                 [
                     new SortClause\Field('type', 'field', Query::SORT_ASC),
                 ],
@@ -1486,12 +1200,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezisbn',
-                    'languageCode' => 'cro-HR',
-                    'value' => new ISBNValue('9780061936456'),
-                ]),
+                $isbnField,
                 [
                     new SortClause\Field('type', 'field', Query::SORT_DESC),
                 ],
@@ -1506,12 +1215,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezisbn',
-                    'languageCode' => 'cro-HR',
-                    'value' => new ISBNValue('9780061936456'),
-                ]),
+                $isbnField,
                 [
                     new SortClause\Field('type', 'field', Query::SORT_ASC),
                 ],
@@ -1526,12 +1230,7 @@ class SiblingRangeResolverTest extends TestCase
             ],
             [
                 42,
-                new Field([
-                    'fieldDefIdentifier' => 'field',
-                    'fieldTypeIdentifier' => 'ezisbn',
-                    'languageCode' => 'cro-HR',
-                    'value' => new ISBNValue('9780061936456'),
-                ]),
+                $isbnField,
                 [
                     new SortClause\Field('type', 'field', Query::SORT_DESC),
                 ],
@@ -1570,9 +1269,514 @@ class SiblingRangeResolverTest extends TestCase
         self::assertEquals($expectedCriterion, $actualCriterion);
     }
 
-    public function testResolveSortClauses(): void
+    /**
+     * @throws \Exception
+     */
+    public function testResolveCriterionWithNonExistentField(): void
     {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Field "field" not found on the given Content');
 
+        $field = new Field([
+            'fieldDefIdentifier' => 'hill',
+            'fieldTypeIdentifier' => 'ezisbn',
+            'languageCode' => 'cro-HR',
+            'value' => new ISBNValue('9780061936456'),
+        ]);
+
+        $content = $this->getContent(42, $field);
+
+        $this->getServiceUnderTest()->resolveCriterion(
+            $content,
+            [
+                new SortClause\Field('type', 'field', Query::SORT_DESC),
+            ],
+            SiblingRangeResolver::RangeTypeFollowing
+        );
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function testResolveCriterionWithUnsupportedFieldType(): void
+    {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Field type "ezobjectrelationlist" is not supported');
+
+        $field = new Field([
+            'fieldDefIdentifier' => 'field',
+            'fieldTypeIdentifier' => 'ezobjectrelationlist',
+            'languageCode' => 'cro-HR',
+            'value' => new RelationListValue(),
+        ]);
+
+        $content = $this->getContent(42, $field);
+
+        $this->getServiceUnderTest()->resolveCriterion(
+            $content,
+            [
+                new SortClause\Field('type', 'field', Query::SORT_DESC),
+            ],
+            SiblingRangeResolver::RangeTypeFollowing
+        );
+    }
+
+    public function providerForTestResolveSortClauses(): array
+    {
+        $field = new Field([
+            'fieldDefIdentifier' => 'field',
+            'fieldTypeIdentifier' => 'ezstring',
+            'languageCode' => 'cro-HR',
+            'value' => new TextLineValue('Zagreb'),
+        ]);
+
+        return [
+            [
+                42,
+                $field,
+                [],
+                SiblingRangeResolver::RangeTypeFollowing,
+                [
+                    new SortClause\ContentId(Query::SORT_ASC),
+                ],
+            ],
+            [
+                42,
+                $field,
+                [],
+                SiblingRangeResolver::RangeTypePreceding,
+                [
+                    new SortClause\ContentId(Query::SORT_DESC),
+                ],
+            ],
+            [
+                42,
+                $field,
+                [
+                    new SortClause\ContentName(Query::SORT_ASC),
+                ],
+                SiblingRangeResolver::RangeTypeFollowing,
+                [
+                    new SortClause\ContentId(Query::SORT_ASC),
+                ],
+            ],
+            [
+                42,
+                $field,
+                [
+                    new SortClause\ContentName(Query::SORT_DESC),
+                ],
+                SiblingRangeResolver::RangeTypeFollowing,
+                [
+                    new SortClause\ContentId(Query::SORT_ASC),
+                ],
+            ],
+            [
+                42,
+                $field,
+                [
+                    new SortClause\ContentName(Query::SORT_ASC),
+                ],
+                SiblingRangeResolver::RangeTypePreceding,
+                [
+                    new SortClause\ContentId(Query::SORT_DESC),
+                ],
+            ],
+            [
+                42,
+                $field,
+                [
+                    new SortClause\ContentName(Query::SORT_DESC),
+                ],
+                SiblingRangeResolver::RangeTypePreceding,
+                [
+                    new SortClause\ContentId(Query::SORT_DESC),
+                ],
+            ],
+            [
+                42,
+                $field,
+                [
+                    new SortClause\ContentId(Query::SORT_ASC),
+                ],
+                SiblingRangeResolver::RangeTypeFollowing,
+                [
+                    new SortClause\ContentId(Query::SORT_ASC),
+                ],
+            ],
+            [
+                42,
+                $field,
+                [
+                    new SortClause\ContentId(Query::SORT_DESC),
+                ],
+                SiblingRangeResolver::RangeTypeFollowing,
+                [
+                    new SortClause\ContentId(Query::SORT_ASC),
+                ],
+            ],
+            [
+                42,
+                $field,
+                [
+                    new SortClause\ContentId(Query::SORT_ASC),
+                ],
+                SiblingRangeResolver::RangeTypeFollowing,
+                [
+                    new SortClause\ContentId(Query::SORT_ASC),
+                ],
+            ],
+            [
+                42,
+                $field,
+                [
+                    new SortClause\ContentId(Query::SORT_DESC),
+                ],
+                SiblingRangeResolver::RangeTypePreceding,
+                [
+                    new SortClause\ContentId(Query::SORT_DESC),
+                ],
+            ],
+            [
+                42,
+                $field,
+                [
+                    new SortClause\DateModified(Query::SORT_ASC),
+                ],
+                SiblingRangeResolver::RangeTypeFollowing,
+                [
+                    new SortClause\ContentId(Query::SORT_ASC),
+                ],
+            ],
+            [
+                42,
+                $field,
+                [
+                    new SortClause\DateModified(Query::SORT_DESC),
+                ],
+                SiblingRangeResolver::RangeTypeFollowing,
+                [
+                    new SortClause\ContentId(Query::SORT_ASC),
+                ],
+            ],
+            [
+                42,
+                $field,
+                [
+                    new SortClause\DateModified(Query::SORT_ASC),
+                ],
+                SiblingRangeResolver::RangeTypePreceding,
+                [
+                    new SortClause\ContentId(Query::SORT_DESC),
+                ],
+            ],
+            [
+                42,
+                $field,
+                [
+                    new SortClause\DateModified(Query::SORT_DESC),
+                ],
+                SiblingRangeResolver::RangeTypePreceding,
+                [
+                    new SortClause\ContentId(Query::SORT_DESC),
+                ],
+            ],
+            [
+                42,
+                $field,
+                [
+                    new SortClause\DatePublished(Query::SORT_ASC),
+                ],
+                SiblingRangeResolver::RangeTypeFollowing,
+                [
+                    new SortClause\ContentId(Query::SORT_ASC),
+                ],
+            ],
+            [
+                42,
+                $field,
+                [
+                    new SortClause\DatePublished(Query::SORT_DESC),
+                ],
+                SiblingRangeResolver::RangeTypeFollowing,
+                [
+                    new SortClause\ContentId(Query::SORT_ASC),
+                ],
+            ],
+            [
+                42,
+                $field,
+                [
+                    new SortClause\DatePublished(Query::SORT_ASC),
+                ],
+                SiblingRangeResolver::RangeTypePreceding,
+                [
+                    new SortClause\ContentId(Query::SORT_DESC),
+                ],
+            ],
+            [
+                42,
+                $field,
+                [
+                    new SortClause\DatePublished(Query::SORT_DESC),
+                ],
+                SiblingRangeResolver::RangeTypePreceding,
+                [
+                    new SortClause\ContentId(Query::SORT_DESC),
+                ],
+            ],
+            [
+                42,
+                $field,
+                [
+                    new SortClause\Location\Depth(Query::SORT_ASC),
+                ],
+                SiblingRangeResolver::RangeTypeFollowing,
+                [
+                    new SortClause\ContentId(Query::SORT_ASC),
+                ],
+            ],
+            [
+                42,
+                $field,
+                [
+                    new SortClause\Location\Depth(Query::SORT_DESC),
+                ],
+                SiblingRangeResolver::RangeTypeFollowing,
+                [
+                    new SortClause\ContentId(Query::SORT_ASC),
+                ],
+            ],
+            [
+                42,
+                $field,
+                [
+                    new SortClause\Location\Depth(Query::SORT_ASC),
+                ],
+                SiblingRangeResolver::RangeTypePreceding,
+                [
+                    new SortClause\ContentId(Query::SORT_DESC),
+                ],
+            ],
+            [
+                42,
+                $field,
+                [
+                    new SortClause\Location\Depth(Query::SORT_DESC),
+                ],
+                SiblingRangeResolver::RangeTypePreceding,
+                [
+                    new SortClause\ContentId(Query::SORT_DESC),
+                ],
+            ],
+            [
+                42,
+                $field,
+                [
+                    new SortClause\Field('type', 'field', Query::SORT_ASC),
+                ],
+                SiblingRangeResolver::RangeTypeFollowing,
+                [
+                    new SortClause\ContentId(Query::SORT_ASC),
+                ],
+            ],
+            [
+                42,
+                $field,
+                [
+                    new SortClause\Field('type', 'field', Query::SORT_DESC),
+                ],
+                SiblingRangeResolver::RangeTypeFollowing,
+                [
+                    new SortClause\ContentId(Query::SORT_ASC),
+                ],
+            ],
+            [
+                42,
+                $field,
+                [
+                    new SortClause\Field('type', 'field', Query::SORT_ASC),
+                ],
+                SiblingRangeResolver::RangeTypePreceding,
+                [
+                    new SortClause\ContentId(Query::SORT_DESC),
+                ],
+            ],
+            [
+                42,
+                $field,
+                [
+                    new SortClause\Field('type', 'field', Query::SORT_DESC),
+                ],
+                SiblingRangeResolver::RangeTypePreceding,
+                [
+                    new SortClause\ContentId(Query::SORT_DESC),
+                ],
+            ],
+            [
+                42,
+                $field,
+                [
+                    new SortClause\Location\Id(Query::SORT_ASC),
+                ],
+                SiblingRangeResolver::RangeTypeFollowing,
+                [
+                    new SortClause\ContentId(Query::SORT_ASC),
+                ],
+            ],
+            [
+                42,
+                $field,
+                [
+                    new SortClause\Location\Id(Query::SORT_DESC),
+                ],
+                SiblingRangeResolver::RangeTypeFollowing,
+                [
+                    new SortClause\ContentId(Query::SORT_ASC),
+                ],
+            ],
+            [
+                42,
+                $field,
+                [
+                    new SortClause\Location\Id(Query::SORT_ASC),
+                ],
+                SiblingRangeResolver::RangeTypePreceding,
+                [
+                    new SortClause\ContentId(Query::SORT_DESC),
+                ],
+            ],
+            [
+                42,
+                $field,
+                [
+                    new SortClause\Location\Id(Query::SORT_DESC),
+                ],
+                SiblingRangeResolver::RangeTypePreceding,
+                [
+                    new SortClause\ContentId(Query::SORT_DESC),
+                ],
+            ],
+            [
+                42,
+                $field,
+                [
+                    new SortClause\Location\Priority(Query::SORT_ASC),
+                ],
+                SiblingRangeResolver::RangeTypeFollowing,
+                [
+                    new SortClause\ContentId(Query::SORT_ASC),
+                ],
+            ],
+            [
+                42,
+                $field,
+                [
+                    new SortClause\Location\Priority(Query::SORT_DESC),
+                ],
+                SiblingRangeResolver::RangeTypeFollowing,
+                [
+                    new SortClause\ContentId(Query::SORT_ASC),
+                ],
+            ],
+            [
+                42,
+                $field,
+                [
+                    new SortClause\Location\Priority(Query::SORT_ASC),
+                ],
+                SiblingRangeResolver::RangeTypePreceding,
+                [
+                    new SortClause\ContentId(Query::SORT_DESC),
+                ],
+            ],
+            [
+                42,
+                $field,
+                [
+                    new SortClause\Location\Priority(Query::SORT_DESC),
+                ],
+                SiblingRangeResolver::RangeTypePreceding,
+                [
+                    new SortClause\ContentId(Query::SORT_DESC),
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider providerForTestResolveSortClauses
+     *
+     * @throws \Exception
+     */
+    public function testResolveSortClauses(
+        int $id,
+        Field $field,
+        array $sortClauses,
+        string $rangeType,
+        array $expectedSortClauses
+    ): void {
+        $content = $this->getContent($id, $field);
+
+        $actualSortClauses = $this->getServiceUnderTest()->resolveSortClauses(
+            $content,
+            $sortClauses,
+            $rangeType
+        );
+
+        self::assertEquals($expectedSortClauses, $actualSortClauses);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function testResolverCriterionWithUnsupportedSortClause(): void
+    {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Sort clause "' . SortClause\MapLocationDistance::class . '" is not supported');
+
+        $field = new Field([
+            'fieldDefIdentifier' => 'field',
+            'fieldTypeIdentifier' => 'ezstring',
+            'languageCode' => 'cro-HR',
+            'value' => new TextLineValue('Zagreb'),
+        ]);
+
+        $content = $this->getContent(42, $field);
+
+        $this->getServiceUnderTest()->resolveCriterion(
+            $content,
+            [
+                new SortClause\MapLocationDistance('type', 'field', 16, 42),
+            ],
+            SiblingRangeResolver::RangeTypeFollowing
+        );
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function testResolverCriterionWithUnsupportedRange(): void
+    {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Unknown range "SomeRange"');
+
+        $field = new Field([
+            'fieldDefIdentifier' => 'field',
+            'fieldTypeIdentifier' => 'ezstring',
+            'languageCode' => 'cro-HR',
+            'value' => new TextLineValue('Zagreb'),
+        ]);
+
+        $content = $this->getContent(42, $field);
+
+        $this->getServiceUnderTest()->resolveCriterion(
+            $content,
+            [
+                new SortClause\Field('type', 'field', Query::SORT_DESC),
+            ],
+            'SomeRange'
+        );
     }
 
     public function testModifyQuery(): void
