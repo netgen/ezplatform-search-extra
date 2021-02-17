@@ -1357,6 +1357,7 @@ class SiblingRangeResolverTest extends TestCase
                 ],
                 SiblingRangeResolver::RangeTypeFollowing,
                 [
+                    new SortClause\ContentName(Query::SORT_ASC),
                     new SortClause\ContentId(Query::SORT_ASC),
                 ],
             ],
@@ -1368,6 +1369,7 @@ class SiblingRangeResolverTest extends TestCase
                 ],
                 SiblingRangeResolver::RangeTypeFollowing,
                 [
+                    new SortClause\ContentName(Query::SORT_DESC),
                     new SortClause\ContentId(Query::SORT_ASC),
                 ],
             ],
@@ -1379,6 +1381,7 @@ class SiblingRangeResolverTest extends TestCase
                 ],
                 SiblingRangeResolver::RangeTypePreceding,
                 [
+                    new SortClause\ContentName(Query::SORT_DESC),
                     new SortClause\ContentId(Query::SORT_DESC),
                 ],
             ],
@@ -1390,6 +1393,7 @@ class SiblingRangeResolverTest extends TestCase
                 ],
                 SiblingRangeResolver::RangeTypePreceding,
                 [
+                    new SortClause\ContentName(Query::SORT_ASC),
                     new SortClause\ContentId(Query::SORT_DESC),
                 ],
             ],
@@ -1402,6 +1406,7 @@ class SiblingRangeResolverTest extends TestCase
                 SiblingRangeResolver::RangeTypeFollowing,
                 [
                     new SortClause\ContentId(Query::SORT_ASC),
+                    new SortClause\ContentId(Query::SORT_ASC),
                 ],
             ],
             [
@@ -1412,6 +1417,7 @@ class SiblingRangeResolverTest extends TestCase
                 ],
                 SiblingRangeResolver::RangeTypeFollowing,
                 [
+                    new SortClause\ContentId(Query::SORT_DESC),
                     new SortClause\ContentId(Query::SORT_ASC),
                 ],
             ],
@@ -1423,6 +1429,7 @@ class SiblingRangeResolverTest extends TestCase
                 ],
                 SiblingRangeResolver::RangeTypeFollowing,
                 [
+                    new SortClause\ContentId(Query::SORT_ASC),
                     new SortClause\ContentId(Query::SORT_ASC),
                 ],
             ],
@@ -1434,6 +1441,7 @@ class SiblingRangeResolverTest extends TestCase
                 ],
                 SiblingRangeResolver::RangeTypePreceding,
                 [
+                    new SortClause\ContentId(Query::SORT_ASC),
                     new SortClause\ContentId(Query::SORT_DESC),
                 ],
             ],
@@ -1445,6 +1453,7 @@ class SiblingRangeResolverTest extends TestCase
                 ],
                 SiblingRangeResolver::RangeTypeFollowing,
                 [
+                    new SortClause\DateModified(Query::SORT_ASC),
                     new SortClause\ContentId(Query::SORT_ASC),
                 ],
             ],
@@ -1456,6 +1465,7 @@ class SiblingRangeResolverTest extends TestCase
                 ],
                 SiblingRangeResolver::RangeTypeFollowing,
                 [
+                    new SortClause\DateModified(Query::SORT_DESC),
                     new SortClause\ContentId(Query::SORT_ASC),
                 ],
             ],
@@ -1467,6 +1477,7 @@ class SiblingRangeResolverTest extends TestCase
                 ],
                 SiblingRangeResolver::RangeTypePreceding,
                 [
+                    new SortClause\DateModified(Query::SORT_DESC),
                     new SortClause\ContentId(Query::SORT_DESC),
                 ],
             ],
@@ -1478,6 +1489,7 @@ class SiblingRangeResolverTest extends TestCase
                 ],
                 SiblingRangeResolver::RangeTypePreceding,
                 [
+                    new SortClause\DateModified(Query::SORT_ASC),
                     new SortClause\ContentId(Query::SORT_DESC),
                 ],
             ],
@@ -1489,6 +1501,7 @@ class SiblingRangeResolverTest extends TestCase
                 ],
                 SiblingRangeResolver::RangeTypeFollowing,
                 [
+                    new SortClause\DatePublished(Query::SORT_ASC),
                     new SortClause\ContentId(Query::SORT_ASC),
                 ],
             ],
@@ -1500,6 +1513,7 @@ class SiblingRangeResolverTest extends TestCase
                 ],
                 SiblingRangeResolver::RangeTypeFollowing,
                 [
+                    new SortClause\DatePublished(Query::SORT_DESC),
                     new SortClause\ContentId(Query::SORT_ASC),
                 ],
             ],
@@ -1511,6 +1525,7 @@ class SiblingRangeResolverTest extends TestCase
                 ],
                 SiblingRangeResolver::RangeTypePreceding,
                 [
+                    new SortClause\DatePublished(Query::SORT_DESC),
                     new SortClause\ContentId(Query::SORT_DESC),
                 ],
             ],
@@ -1522,6 +1537,7 @@ class SiblingRangeResolverTest extends TestCase
                 ],
                 SiblingRangeResolver::RangeTypePreceding,
                 [
+                    new SortClause\DatePublished(Query::SORT_ASC),
                     new SortClause\ContentId(Query::SORT_DESC),
                 ],
             ],
@@ -1533,6 +1549,7 @@ class SiblingRangeResolverTest extends TestCase
                 ],
                 SiblingRangeResolver::RangeTypeFollowing,
                 [
+                    new SortClause\Location\Depth(Query::SORT_ASC),
                     new SortClause\ContentId(Query::SORT_ASC),
                 ],
             ],
@@ -1544,6 +1561,7 @@ class SiblingRangeResolverTest extends TestCase
                 ],
                 SiblingRangeResolver::RangeTypeFollowing,
                 [
+                    new SortClause\Location\Depth(Query::SORT_DESC),
                     new SortClause\ContentId(Query::SORT_ASC),
                 ],
             ],
@@ -1555,6 +1573,7 @@ class SiblingRangeResolverTest extends TestCase
                 ],
                 SiblingRangeResolver::RangeTypePreceding,
                 [
+                    new SortClause\Location\Depth(Query::SORT_DESC),
                     new SortClause\ContentId(Query::SORT_DESC),
                 ],
             ],
@@ -1566,6 +1585,7 @@ class SiblingRangeResolverTest extends TestCase
                 ],
                 SiblingRangeResolver::RangeTypePreceding,
                 [
+                    new SortClause\Location\Depth(Query::SORT_ASC),
                     new SortClause\ContentId(Query::SORT_DESC),
                 ],
             ],
@@ -1577,6 +1597,7 @@ class SiblingRangeResolverTest extends TestCase
                 ],
                 SiblingRangeResolver::RangeTypeFollowing,
                 [
+                    new SortClause\Field('type', 'field', Query::SORT_ASC),
                     new SortClause\ContentId(Query::SORT_ASC),
                 ],
             ],
@@ -1588,6 +1609,7 @@ class SiblingRangeResolverTest extends TestCase
                 ],
                 SiblingRangeResolver::RangeTypeFollowing,
                 [
+                    new SortClause\Field('type', 'field', Query::SORT_DESC),
                     new SortClause\ContentId(Query::SORT_ASC),
                 ],
             ],
@@ -1599,6 +1621,7 @@ class SiblingRangeResolverTest extends TestCase
                 ],
                 SiblingRangeResolver::RangeTypePreceding,
                 [
+                    new SortClause\Field('type', 'field', Query::SORT_DESC),
                     new SortClause\ContentId(Query::SORT_DESC),
                 ],
             ],
@@ -1610,6 +1633,7 @@ class SiblingRangeResolverTest extends TestCase
                 ],
                 SiblingRangeResolver::RangeTypePreceding,
                 [
+                    new SortClause\Field('type', 'field', Query::SORT_ASC),
                     new SortClause\ContentId(Query::SORT_DESC),
                 ],
             ],
@@ -1621,6 +1645,7 @@ class SiblingRangeResolverTest extends TestCase
                 ],
                 SiblingRangeResolver::RangeTypeFollowing,
                 [
+                    new SortClause\Location\Id(Query::SORT_ASC),
                     new SortClause\ContentId(Query::SORT_ASC),
                 ],
             ],
@@ -1632,6 +1657,7 @@ class SiblingRangeResolverTest extends TestCase
                 ],
                 SiblingRangeResolver::RangeTypeFollowing,
                 [
+                    new SortClause\Location\Id(Query::SORT_DESC),
                     new SortClause\ContentId(Query::SORT_ASC),
                 ],
             ],
@@ -1643,6 +1669,7 @@ class SiblingRangeResolverTest extends TestCase
                 ],
                 SiblingRangeResolver::RangeTypePreceding,
                 [
+                    new SortClause\Location\Id(Query::SORT_DESC),
                     new SortClause\ContentId(Query::SORT_DESC),
                 ],
             ],
@@ -1654,6 +1681,7 @@ class SiblingRangeResolverTest extends TestCase
                 ],
                 SiblingRangeResolver::RangeTypePreceding,
                 [
+                    new SortClause\Location\Id(Query::SORT_ASC),
                     new SortClause\ContentId(Query::SORT_DESC),
                 ],
             ],
@@ -1665,6 +1693,7 @@ class SiblingRangeResolverTest extends TestCase
                 ],
                 SiblingRangeResolver::RangeTypeFollowing,
                 [
+                    new SortClause\Location\Priority(Query::SORT_ASC),
                     new SortClause\ContentId(Query::SORT_ASC),
                 ],
             ],
@@ -1676,6 +1705,7 @@ class SiblingRangeResolverTest extends TestCase
                 ],
                 SiblingRangeResolver::RangeTypeFollowing,
                 [
+                    new SortClause\Location\Priority(Query::SORT_DESC),
                     new SortClause\ContentId(Query::SORT_ASC),
                 ],
             ],
@@ -1687,6 +1717,7 @@ class SiblingRangeResolverTest extends TestCase
                 ],
                 SiblingRangeResolver::RangeTypePreceding,
                 [
+                    new SortClause\Location\Priority(Query::SORT_DESC),
                     new SortClause\ContentId(Query::SORT_DESC),
                 ],
             ],
@@ -1698,6 +1729,7 @@ class SiblingRangeResolverTest extends TestCase
                 ],
                 SiblingRangeResolver::RangeTypePreceding,
                 [
+                    new SortClause\Location\Priority(Query::SORT_ASC),
                     new SortClause\ContentId(Query::SORT_DESC),
                 ],
             ],
