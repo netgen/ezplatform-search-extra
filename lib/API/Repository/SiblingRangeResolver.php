@@ -155,7 +155,7 @@ final class SiblingRangeResolver
                 $newSortClause->direction = $this->reverseDirection($sortClause);
             }
 
-            $sortClauses[] = $newSortClause;
+            $newSortClauses[] = $newSortClause;
         }
 
         $newSortClauses[] = $this->getTieBreakerSortClause($value, $rangeType);
