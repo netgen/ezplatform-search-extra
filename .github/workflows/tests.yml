@@ -11,6 +11,8 @@ jobs:
     tests:
         name: ${{ matrix.php }} ${{ matrix.coverage }} ${{ matrix.engine }} ${{ matrix.solr_version }} ${{ matrix.regression }} ${{ matrix.core_setup }}
         runs-on: ubuntu-latest
+        env:
+            extensions: pdo_sqlite
 
         strategy:
             fail-fast: false
@@ -108,23 +110,28 @@ jobs:
 
         steps:
             - uses: actions/checkout@v2
+            - uses: actions/setup-java@v1
+              with:
+                  java-version: 8
             - uses: shivammathur/setup-php@v2
               with:
                   php-version: ${{ matrix.php }}
+                  extensions: ${{ env.extensions }}
 
             - run: composer --version
             - run: composer validate --strict
-            - run: composer update --prefer-dist
+            - run: COMPOSER_ROOT_VERSION=2.99 composer update --prefer-dist
             - run: ./bin/.travis/init_solr.sh
               env:
                   SOLR_VERSION: ${{ matrix.solr_version }}
                   SOLR_CLOUD: ${{ matrix.solr_cloud }}
                   SOLR_CONFIG: ${{ matrix.solr_config }}
                   SOLR_CORES: ${{ matrix.solr_cores }}
+              if: matrix.solr_version
             - run: |
-                sed -i.bak s/EzSystems\\\\EzPlatformSolrSearchEngine\\\\Tests\\\\SetupFactory\\\\LegacySetupFactory/Netgen\\\\EzPlatformSearchExtra\\\\Tests\\\\Integration\\\\SetupFactory\\\\Solr/g ${{ matrix.config }}
-                sed -i.bak "s/eZ\/Publish\/API\/Repository\/Tests\/SearchServiceTest.php/..\/..\/..\/tests\/lib\/Kernel\/SearchServiceTest.php/g" ${{ matrix.config }}
-                sed -i.bak "s/eZ\/Publish\/API\/Repository\/Tests\/SearchServiceLocationTest.php/..\/..\/..\/tests\/lib\/Kernel\/SearchServiceLocationTest.php/g" ${{ matrix.config }}
+                  sed -i.bak s/EzSystems\\\\EzPlatformSolrSearchEngine\\\\Tests\\\\SetupFactory\\\\LegacySetupFactory/Netgen\\\\EzPlatformSearchExtra\\\\Tests\\\\Integration\\\\SetupFactory\\\\Solr/g ${{ matrix.config }}
+                  sed -i.bak "s/eZ\/Publish\/API\/Repository\/Tests\/SearchServiceTest.php/..\/..\/..\/tests\/lib\/Kernel\/SearchServiceTest.php/g" ${{ matrix.config }}
+                  sed -i.bak "s/eZ\/Publish\/API\/Repository\/Tests\/SearchServiceLocationTest.php/..\/..\/..\/tests\/lib\/Kernel\/SearchServiceLocationTest.php/g" ${{ matrix.config }}
               if: matrix.regression
             - run: CORES_SETUP=${{ matrix.core_setup }} vendor/bin/phpunit --bootstrap tests/bootstrap.php -c ${{ matrix.config }} --colors=always
               env:
