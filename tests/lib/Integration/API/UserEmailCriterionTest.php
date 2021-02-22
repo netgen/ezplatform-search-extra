@@ -19,7 +19,7 @@ class UserEmailCriterionTest extends BaseTest
                 new LocationQuery([
                     'filter' => new LogicalAnd([
                         new ContentId([10, 14, 41]),
-                        new UserEmail(Operator::EQ, 'nospam@ez.no'),
+                        new UserEmail(Operator::EQ, 'anonymous@link.invalid'),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
                 ]),
@@ -29,7 +29,7 @@ class UserEmailCriterionTest extends BaseTest
                 new LocationQuery([
                     'filter' => new LogicalAnd([
                         new ContentId([10, 14, 41]),
-                        new UserEmail(Operator::EQ, 'spam@ez.no'),
+                        new UserEmail(Operator::EQ, 'admin@link.invalid'),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
                 ]),
@@ -52,7 +52,7 @@ class UserEmailCriterionTest extends BaseTest
                         new UserEmail(
                             Operator::IN,
                             [
-                                'nospam@ez.no',
+                                'anonymous@link.invalid',
                                 'jam@ez.no',
                             ]
                         ),
@@ -68,7 +68,7 @@ class UserEmailCriterionTest extends BaseTest
                         new UserEmail(
                             Operator::IN,
                             [
-                                'spam@ez.no',
+                                'admin@link.invalid',
                                 'jam@ez.no',
                             ]
                         ),
@@ -84,8 +84,8 @@ class UserEmailCriterionTest extends BaseTest
                         new UserEmail(
                             Operator::IN,
                             [
-                                'spam@ez.no',
-                                'nospam@ez.no',
+                                'admin@link.invalid',
+                                'anonymous@link.invalid',
                             ]
                         ),
                     ]),
@@ -99,7 +99,7 @@ class UserEmailCriterionTest extends BaseTest
                         new ContentId([10, 14, 41]),
                         new UserEmail(
                             Operator::LIKE,
-                            '*no'
+                            '*invalid'
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
@@ -112,7 +112,7 @@ class UserEmailCriterionTest extends BaseTest
                         new ContentId([10, 14, 41]),
                         new UserEmail(
                             Operator::LIKE,
-                            'spam*'
+                            'admin*'
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
@@ -125,7 +125,7 @@ class UserEmailCriterionTest extends BaseTest
                         new ContentId([10, 14, 41]),
                         new UserEmail(
                             Operator::LIKE,
-                            'nospam*'
+                            'anonymous*'
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
@@ -138,7 +138,7 @@ class UserEmailCriterionTest extends BaseTest
                         new ContentId([10, 14, 41]),
                         new UserEmail(
                             Operator::LIKE,
-                            '*ez*'
+                            '*link*'
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
