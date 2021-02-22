@@ -15,6 +15,7 @@
         "ext-dom": "*"
     },
     "require-dev": {
+        "netgen/ezplatform-site-api": "^3.7",
         "ezsystems/ezplatform-solr-search-engine": "^1.4",
         "ezsystems/ezplatform-xmltext-fieldtype": "^1.7",
         "roave/security-advisories": "dev-master",
