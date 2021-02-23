@@ -38,7 +38,7 @@ abstract class ResultExtractor Extends BaseResultExtractor
             $searchResult->searchHits[$key] = new SearchHit(get_object_vars($searchHit));
             $searchResult->searchHits[$key]->extraFields = [];
 
-            if ($query instanceof ExtraQuery || $query instanceof ExtraLocationQuery && is_array($query->extraFields)) {
+            if (($query instanceof ExtraQuery || $query instanceof ExtraLocationQuery) && is_array($query->extraFields)) {
                 $searchResult->searchHits[$key]->extraFields = $this->extractExtraFields(
                     $data,
                     $searchResult->searchHits[$key],
