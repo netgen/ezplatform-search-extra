@@ -16,6 +16,8 @@
             <exclude>tests/lib/Integration/API/IsFieldEmptyCriterionTest.php</exclude>
             <exclude>tests/lib/Integration/API/SubdocumentFieldSortClauseTest.php</exclude>
             <exclude>tests/lib/Integration/API/SubdocumentQueryCriterionTest.php</exclude>
+            <exclude>tests/lib/Integration/API/FulltextSpellcheckCriterionTest.php</exclude>
+            <exclude>tests/lib/Integration/API/ExtraFieldsTest.php</exclude>
             <exclude>tests/lib/Integration/Solr/RawFacetDomainTest.php</exclude>
             <exclude>tests/lib/Integration/Solr/RawFacetTest.php</exclude>
         </testsuite>

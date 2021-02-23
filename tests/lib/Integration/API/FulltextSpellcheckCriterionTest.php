@@ -1,6 +1,6 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Tests\Solr;
+namespace Netgen\EzPlatformSearchExtra\Tests\Integration\API;
 
 use eZ\Publish\API\Repository\Tests\BaseTest;
 use eZ\Publish\API\Repository\Values\Content\LocationQuery;
@@ -9,6 +9,9 @@ use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use Netgen\EzPlatformSearchExtra\API\Values\Content\Search\WordSuggestion;
 use Netgen\EzPlatformSearchExtra\Tests\API\FullTextCriterion;
 
+/**
+ * @group fulltext-spellcheck
+ */
 class FulltextSpellcheckCriterionTest extends BaseTest
 {
     public function providerForTestFind()
