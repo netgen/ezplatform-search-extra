@@ -16,9 +16,9 @@ abstract class ResultExtractor Extends BaseResultExtractor
     {
         $searchResult = $this->extractSearchResult($data, $facetBuilders);
 
-        if (!isset($data->facets) || $data->facets->count === 0) {
-            return $searchResult;
-        }
+//        if (!isset($data->facets) || $data->facets->count === 0) {
+//            return $searchResult;
+//        }
 
         foreach ($this->filterNewFacetBuilders($facetBuilders) as $facetBuilder) {
             $identifier = \spl_object_hash($facetBuilder);
