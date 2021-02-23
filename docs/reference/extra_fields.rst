@@ -10,7 +10,7 @@ This feature allows you to extract additionally indexed Solr fields from each Se
 1. Usage
 ~~~~~~~~
 
-In order for this functionality to work, you have to use overridden `Netgen\EzPlatformSearchExtra\API\Values\Content\Search\Query` or `Netgen\EzPlatformSearchExtra\API\Values\Content\Search\LocationQuery` queries and use it's property `extraFields` provide a list of additional fields that you want to extract from the Solr document. Those fields, if exist, and their values will appear in the `extraFields` property of each `SearchHit` object contained in the `SearchResult.`
+In order for this functionality to work, you have to use overridden `Netgen\EzPlatformSearchExtra\API\Values\Content\Search\Query` or `Netgen\EzPlatformSearchExtra\API\Values\Content\Search\LocationQuery` queries and use it's property `extraFields` to provide a list of additional fields that you want to extract from the Solr document. Those fields, if exist, and their values will appear in the `extraFields` property of each `SearchHit` object contained in the `SearchResult.`
 
 2. Example
 ~~~~~~~~~~
