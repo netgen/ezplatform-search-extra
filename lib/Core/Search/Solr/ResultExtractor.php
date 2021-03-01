@@ -98,15 +98,17 @@ abstract class ResultExtractor Extends BaseResultExtractor
 
     /**
      * @param mixed $data
-     * @param \Netgen\EzPlatformSearchExtra\API\Values\Content\Search\SearchHit $searchResult
+     * @param \Netgen\EzPlatformSearchExtra\API\Values\Content\Search\SearchHit $searchHit
      * @param string[] $extraFields
+     *
+     * @return array
      */
     private function extractExtraFields($data, SearchHit $searchHit, $extraFields)
     {
         $extractedExtraFields = [];
         foreach ($data->response->docs as $doc) {
             if ($doc->document_type_id === 'content' && $doc->content_id_id == $searchHit->valueObject->id
-            || $doc->document_type_id === 'location' && $doc->location_id_id == $searchHit->valueObject->mainLocationId) {
+            || $doc->document_type_id === 'location' && $doc->location_id == $searchHit->valueObject->id) {
                 foreach ($extraFields as $extraField) {
                     if (property_exists($doc, $extraField)) {
                         $extractedExtraFields[$extraField] = $doc->{$extraField};
