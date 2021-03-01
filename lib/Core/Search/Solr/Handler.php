@@ -26,6 +26,8 @@ class Handler extends BaseHandler
         return $this->resultExtractor->extract(
             $this->gateway->findContent($query, $languageFilter),
             $query->facetBuilders,
+            $query->aggregations,
+            $languageFilter,
             $query
         );
     }
@@ -44,6 +46,8 @@ class Handler extends BaseHandler
         return $this->resultExtractor->extract(
             $this->gateway->findLocations($query, $languageFilter),
             $query->facetBuilders,
+            $query->aggregations,
+            $languageFilter,
             $query
         );
     }
