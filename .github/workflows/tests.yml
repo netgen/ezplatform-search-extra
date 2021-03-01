@@ -137,3 +137,4 @@ jobs:
               env:
                   CORES_SETUP: ${{ matrix.core_setup }}
                   SOLR_CLOUD: ${{ matrix.solr_cloud }}
+
