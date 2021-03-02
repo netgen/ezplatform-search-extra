@@ -12,7 +12,7 @@ use eZ\Publish\SPI\Search\Field;
 use eZ\Publish\SPI\Search\FieldType\BooleanField;
 use eZ\Publish\SPI\Search\FieldType\IntegerField;
 use eZ\Publish\SPI\Search\FieldType\StringField;
-use eZ\Publish\SPI\Search\Handler as SearchHandler;
+use eZ\Publish\Core\Search\Legacy\Content\Handler as SearchHandler;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use RuntimeException;
 
@@ -140,7 +140,7 @@ trait TestFieldMapperTrait
      *
      * @return int
      */
-    private function getCommentCount(Content $content)
+    private function getCommentCount(Content $content): int
     {
         $criteria = [
             new Criterion\ParentLocationId($content->versionInfo->contentInfo->mainLocationId),

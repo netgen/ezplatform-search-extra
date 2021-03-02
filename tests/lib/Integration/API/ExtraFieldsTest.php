@@ -2,6 +2,7 @@
 
 namespace Netgen\EzPlatformSearchExtra\Tests\Integration\API;
 
+use eZ\Publish\API\Repository\SearchService;
 use eZ\Publish\API\Repository\Tests\BaseTest;
 use eZ\Publish\API\Repository\Values\Content\Query;
 use Netgen\EzPlatformSearchExtra\API\Values\Content\Search\LocationQuery;
@@ -13,7 +14,7 @@ use Netgen\EzPlatformSearchExtra\Tests\API\FullTextCriterion;
  */
 class ExtraFieldsTest extends BaseTest
 {
-    public function providerForTestFind()
+    public function providerForTestFind(): array
     {
         return [
             [
@@ -95,7 +96,7 @@ class ExtraFieldsTest extends BaseTest
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
      */
-    public function testPrepareTestFixtures()
+    public function testPrepareTestFixtures(): void
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
@@ -152,7 +153,7 @@ class ExtraFieldsTest extends BaseTest
 
         $this->refreshSearch($repository);
 
-        $this->assertTrue(true);
+        $this->addToAssertionCount(1);
     }
 
     /**
@@ -163,14 +164,14 @@ class ExtraFieldsTest extends BaseTest
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
      */
-    public function testFindContent(Query $query, array $expectedExtraFields)
+    public function testFindContent(Query $query, array $expectedExtraFields): void
     {
         $searchService = $this->getSearchService(false);
 
         /** @var \Netgen\EzPlatformSearchExtra\API\Values\Content\Search\SearchResult $searchResult */
         $searchResult = $searchService->findContentInfo($query);
 
-        $this->assertEquals($expectedExtraFields, $searchResult->searchHits[0]->extraFields);
+        self::assertEquals($expectedExtraFields, $searchResult->searchHits[0]->extraFields);
     }
 
     /**
@@ -181,17 +182,17 @@ class ExtraFieldsTest extends BaseTest
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
      */
-    public function testFindLocations(LocationQuery $query, array $expectedExtraFields)
+    public function testFindLocations(LocationQuery $query, array $expectedExtraFields): void
     {
         $searchService = $this->getSearchService(false);
 
         /** @var \Netgen\EzPlatformSearchExtra\API\Values\Content\Search\SearchResult $searchResult */
         $searchResult = $searchService->findLocations($query);
 
-        $this->assertEquals($expectedExtraFields, $searchResult->searchHits[0]->extraFields);
+        self::assertEquals($expectedExtraFields, $searchResult->searchHits[0]->extraFields);
     }
 
-    protected function getSearchService($initialInitializeFromScratch = true)
+    protected function getSearchService($initialInitializeFromScratch = true): SearchService
     {
         return $this->getRepository($initialInitializeFromScratch)->getSearchService();
     }

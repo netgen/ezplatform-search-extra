@@ -25,6 +25,18 @@ services:
         arguments:
             - '@ezpublish.spi.search'
             - '@ezpublish.api.persistence_handler'
+        tags:
+            - { name: kernel.event_subscriber }
+
+    Symfony\Component\EventDispatcher\EventDispatcher:
+        calls:
+            - ['addSubscriber', ['@netgen_test.search.solr.event_subscriber.child_updates_parent']]
+            - ['addSubscriber', ['@eZ\Publish\Core\Search\Common\EventSubscriber\ContentEventSubscriber']]
+            - ['addSubscriber', ['@eZ\Publish\Core\Search\Common\EventSubscriber\LocationEventSubscriber']]
+            - ['addSubscriber', ['@eZ\Publish\Core\Search\Common\EventSubscriber\ObjectStateEventSubscriber']]
+            - ['addSubscriber', ['@eZ\Publish\Core\Search\Common\EventSubscriber\SectionEventSubscriber']]
+            - ['addSubscriber', ['@eZ\Publish\Core\Search\Common\EventSubscriber\TrashEventSubscriber']]
+            - ['addSubscriber', ['@eZ\Publish\Core\Search\Common\EventSubscriber\UserEventSubscriber']]
 
     netgen_test.search.solr.field_mapper.content:
         class: Netgen\EzPlatformSearchExtra\Tests\Integration\Implementation\Solr\FieldMapper\TestContentFieldMapper
@@ -33,7 +45,7 @@ services:
             - '@ezpublish.spi.persistence.content_type_handler'
             - '@ezpublish.spi.search.legacy'
         tags:
-            - {name: ezpublish.search.solr.field_mapper.content}
+            - { name: ezpublish.search.solr.field_mapper.content }
 
     netgen_test.search.solr.field_mapper.location:
         class: Netgen\EzPlatformSearchExtra\Tests\Integration\Implementation\Solr\FieldMapper\TestLocationFieldMapper
