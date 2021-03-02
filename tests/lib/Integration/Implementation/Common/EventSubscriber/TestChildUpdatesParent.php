@@ -20,10 +20,8 @@ class TestChildUpdatesParent implements EventSubscriberInterface
 {
     private const PARENT_CONTENT_TYPE_IDENTIFIER = 'extra_fields_test';
     private const CHILD_CONTENT_TYPE_IDENTIFIER = 'extra_fields_test_comment';
-    /** @var \eZ\Publish\SPI\Search\Handler */
-    protected $searchHandler;
 
-    /** @var \eZ\Publish\SPI\Persistence\Handler */
+    protected $searchHandler;
     protected $persistenceHandler;
 
     public function __construct(
@@ -37,18 +35,18 @@ class TestChildUpdatesParent implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            PublishVersionEvent::class => 'handlePublishVersionEvent',
-            DeleteContentEvent::class => 'handleDeleteContentEvent',
-            DeleteTranslationEvent::class => 'handleDeleteTranslationEvent',
-            DeleteLocationEvent::class => 'handleDeleteLocationEvent',
-            HideLocationEvent::class => 'handleHideLocationEvent',
-            UnhideLocationEvent::class => 'handleUnhideLocationEvent',
-            TrashEvent::class => 'handleTrashEvent',
-            RecoverEvent::class => 'handleRecoverEvent',
+            PublishVersionEvent::class => 'onPublishVersion',
+            DeleteContentEvent::class => 'onDeleteContent',
+            DeleteTranslationEvent::class => 'onDeleteTranslation',
+            DeleteLocationEvent::class => 'onDeleteLocation',
+            HideLocationEvent::class => 'onHideLocation',
+            UnhideLocationEvent::class => 'onUnhideLocation',
+            TrashEvent::class => 'onTrash',
+            RecoverEvent::class => 'onRecover',
         ];
     }
 
-    public function handlePublishVersionEvent(PublishVersionEvent $event): void
+    public function onPublishVersion(PublishVersionEvent $event): void
     {
         $this->handleEvent(
             $event->getContent()->id,
@@ -56,7 +54,7 @@ class TestChildUpdatesParent implements EventSubscriberInterface
         );
     }
 
-    public function handleDeleteContentEvent(DeleteContentEvent $event): void
+    public function onDeleteContent(DeleteContentEvent $event): void
     {
         $this->handleEvent(
             $event->getContentInfo()->id,
@@ -64,7 +62,7 @@ class TestChildUpdatesParent implements EventSubscriberInterface
         );
     }
 
-    public function handleDeleteTranslationEvent(DeleteTranslationEvent $event): void
+    public function onDeleteTranslation(DeleteTranslationEvent $event): void
     {
         $this->handleEvent(
             $event->getContentInfo()->id,
@@ -72,7 +70,7 @@ class TestChildUpdatesParent implements EventSubscriberInterface
         );
     }
 
-    public function handleDeleteLocationEvent(DeleteLocationEvent $event): void
+    public function onDeleteLocation(DeleteLocationEvent $event): void
     {
         $this->handleEvent(
             $event->getLocation()->contentId,
@@ -80,7 +78,7 @@ class TestChildUpdatesParent implements EventSubscriberInterface
         );
     }
 
-    public function handleHideLocationEvent(HideLocationEvent $event): void
+    public function onHideLocation(HideLocationEvent $event): void
     {
         $this->handleEvent(
             $event->getLocation()->contentId,
@@ -88,7 +86,7 @@ class TestChildUpdatesParent implements EventSubscriberInterface
         );
     }
 
-    public function handleUnhideLocationEvent(UnhideLocationEvent $event): void
+    public function onUnhideLocation(UnhideLocationEvent $event): void
     {
         $this->handleEvent(
             $event->getRevealedLocation()->contentId,
@@ -96,7 +94,7 @@ class TestChildUpdatesParent implements EventSubscriberInterface
         );
     }
 
-    public function handleTrashEvent(TrashEvent $event): void
+    public function onTrash(TrashEvent $event): void
     {
         $this->handleEvent(
             $event->getLocation()->contentId,
@@ -104,7 +102,7 @@ class TestChildUpdatesParent implements EventSubscriberInterface
         );
     }
 
-    public function handleRecoverEvent(RecoverEvent $event): void
+    public function onRecover(RecoverEvent $event): void
     {
         $this->handleEvent(
             $event->getLocation()->contentId,

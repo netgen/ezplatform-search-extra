@@ -17,7 +17,6 @@ class TestContentFieldMapper extends ContentFieldMapper implements TestFieldMapp
         return $this->accepts($content);
     }
 
-
     /**
      * {@inheritdoc}
      */
