@@ -36,13 +36,6 @@ class TestChildUpdatesParent implements EventSubscriberInterface
     {
         return [
             PublishVersionEvent::class => 'onPublishVersion',
-            DeleteContentEvent::class => 'onDeleteContent',
-            DeleteTranslationEvent::class => 'onDeleteTranslation',
-            DeleteLocationEvent::class => 'onDeleteLocation',
-            HideLocationEvent::class => 'onHideLocation',
-            UnhideLocationEvent::class => 'onUnhideLocation',
-            TrashEvent::class => 'onTrash',
-            RecoverEvent::class => 'onRecover',
         ];
     }
 
