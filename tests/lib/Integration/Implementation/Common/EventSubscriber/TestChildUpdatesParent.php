@@ -48,73 +48,48 @@ class TestChildUpdatesParent implements EventSubscriberInterface
 
     public function onPublishVersion(PublishVersionEvent $event): void
     {
-        $this->handleEvent(
-            $event->getContent()->id,
-            $event->getVersionInfo()->versionNo
-        );
+        $this->handleEvent($event->getContent()->id);
     }
 
     public function onDeleteContent(DeleteContentEvent $event): void
     {
-        $this->handleEvent(
-            $event->getContentInfo()->id,
-            $event->getContentInfo()->currentVersionNo
-        );
+        $this->handleEvent($event->getContentInfo()->id);
     }
 
     public function onDeleteTranslation(DeleteTranslationEvent $event): void
     {
-        $this->handleEvent(
-            $event->getContentInfo()->id,
-            $event->getContentInfo()->currentVersionNo
-        );
+        $this->handleEvent($event->getContentInfo()->id);
     }
 
     public function onDeleteLocation(DeleteLocationEvent $event): void
     {
-        $this->handleEvent(
-            $event->getLocation()->contentId,
-            $event->getLocation()->contentInfo->currentVersionNo
-        );
+        $this->handleEvent($event->getLocation()->contentId);
     }
 
     public function onHideLocation(HideLocationEvent $event): void
     {
-        $this->handleEvent(
-            $event->getLocation()->contentId,
-            $event->getLocation()->contentInfo->currentVersionNo
-        );
+        $this->handleEvent($event->getLocation()->contentId);
     }
 
     public function onUnhideLocation(UnhideLocationEvent $event): void
     {
-        $this->handleEvent(
-            $event->getRevealedLocation()->contentId,
-            $event->getRevealedLocation()->contentInfo->currentVersionNo
-        );
+        $this->handleEvent($event->getRevealedLocation()->contentId);
     }
 
     public function onTrash(TrashEvent $event): void
     {
-        $this->handleEvent(
-            $event->getLocation()->contentId,
-            $event->getLocation()->contentInfo->currentVersionNo
-        );
+        $this->handleEvent($event->getLocation()->contentId);
     }
 
     public function onRecover(RecoverEvent $event): void
     {
-        $this->handleEvent(
-            $event->getLocation()->contentId,
-            $event->getLocation()->contentInfo->currentVersionNo
-        );
+        $this->handleEvent($event->getLocation()->contentId);
     }
 
-    private function handleEvent(int $contentId, int $versionNo): void
+    private function handleEvent(int $contentId): void
     {
         $contentHandler = $this->persistenceHandler->contentHandler();
-        $content = $contentHandler->load($contentId, $versionNo);
-        $contentInfo = $content->versionInfo->contentInfo;
+        $contentInfo = $contentHandler->loadContentInfo($contentId);
         $contentType = $this->persistenceHandler->contentTypeHandler()->load($contentInfo->contentTypeId);
 
         if ($contentType->identifier !== self::CHILD_CONTENT_TYPE_IDENTIFIER) {
