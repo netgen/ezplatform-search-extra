@@ -18,7 +18,7 @@
         "netgen/ezplatform-site-api": "^4.3",
         "ezsystems/ezplatform-solr-search-engine": "^3.1",
         "ezsystems/ezplatform-xmltext-fieldtype": "^2.0",
-        "phpunit/phpunit": "~9.0.0",
+        "phpunit/phpunit": "^8.2",
         "matthiasnoback/symfony-dependency-injection-test": "^4.1"
     },
     "conflict": {
