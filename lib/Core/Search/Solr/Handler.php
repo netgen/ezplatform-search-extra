@@ -23,7 +23,7 @@ class Handler extends BaseHandler
             DocumentMapper::DOCUMENT_TYPE_IDENTIFIER_CONTENT
         );
 
-        return $this->resultExtractor->extract(
+        return $this->contentResultExtractor->extract(
             $this->gateway->findContent($query, $languageFilter),
             $query->facetBuilders,
             $query->aggregations,
@@ -43,7 +43,7 @@ class Handler extends BaseHandler
             DocumentMapper::DOCUMENT_TYPE_IDENTIFIER_LOCATION
         );
 
-        return $this->resultExtractor->extract(
+        return $this->locationResultExtractor->extract(
             $this->gateway->findLocations($query, $languageFilter),
             $query->facetBuilders,
             $query->aggregations,
