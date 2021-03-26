@@ -129,7 +129,7 @@ jobs:
                   SOLR_CORES: ${{ matrix.solr_cores }}
               if: matrix.solr_version
             - run: |
-                  sed -i.bak s/EzSystems\\\\EzPlatformSolrSearchEngine\\\\Tests\\\\SetupFactory\\\\LegacySetupFactory/Netgen\\\\EzPlatformSearchExtra\\\\Tests\\\\Integration\\\\SetupFactory\\\\Solr/g ${{ matrix.config }}
+                  sed -i.bak s/EzSystems\\\\EzPlatformSolrSearchEngine\\\\Tests\\\\SetupFactory\\\\LegacySetupFactory/Netgen\\\\EzPlatformSearchExtra\\\\Tests\\\\Integration\\\\SetupFactory\\\\RegressionSolr/g ${{ matrix.config }}
                   sed -i.bak "s/eZ\/Publish\/API\/Repository\/Tests\/SearchServiceTest.php/..\/..\/..\/tests\/lib\/Kernel\/SearchServiceTest.php/g" ${{ matrix.config }}
                   sed -i.bak "s/eZ\/Publish\/API\/Repository\/Tests\/SearchServiceLocationTest.php/..\/..\/..\/tests\/lib\/Kernel\/SearchServiceLocationTest.php/g" ${{ matrix.config }}
               if: matrix.regression

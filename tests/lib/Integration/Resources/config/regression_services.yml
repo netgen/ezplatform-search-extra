@@ -1,0 +1,52 @@
+services:
+    netgen_test.search.solr.subdocument_mapper.content:
+        class: Netgen\EzPlatformSearchExtra\Tests\Integration\Implementation\Solr\SubdocumentMapper\TestContentSubdocumentMapper
+        tags:
+            - {name: netgen.search.solr.subdocument_mapper.content}
+
+    netgen_test.search.solr.subdocument_mapper.content_translation:
+        class: Netgen\EzPlatformSearchExtra\Tests\Integration\Implementation\Solr\SubdocumentMapper\TestContentTranslationSubdocumentMapper
+        tags:
+            - {name: netgen.search.solr.subdocument_mapper.content_translation}
+
+    netgen_test.search.solr.subdocument_mapper.content.sort:
+        class: Netgen\EzPlatformSearchExtra\Tests\Integration\Implementation\Solr\SubdocumentMapper\TestSortContentSubdocumentMapper
+        tags:
+            - {name: netgen.search.solr.subdocument_mapper.content}
+
+    #    netgen_test.search.solr.slot.subdocument_publish_version:
+    #        parent: ezpublish.search.solr.slot
+    #        class: '%ezpublish.search.solr.slot.publish_version.class%'
+    #        tags:
+    #            - {name: ezpublish.search.solr.slot, signal: ContentService\PublishVersionSignal}
+
+    netgen_test.search.solr.event_subscriber.child_updates_parent:
+        class: Netgen\EzPlatformSearchExtra\Tests\Integration\Implementation\Common\EventSubscriber\TestChildUpdatesParent
+        arguments:
+            - '@ezpublish.spi.search'
+            - '@ezpublish.api.persistence_handler'
+        tags:
+            - { name: kernel.event_subscriber }
+
+    # Disabled for regression tests
+    #    Symfony\Component\EventDispatcher\EventDispatcher:
+    #        calls:
+    #            - ['addSubscriber', ['@netgen_test.search.solr.event_subscriber.child_updates_parent']]
+
+    netgen_test.search.solr.field_mapper.content:
+        class: Netgen\EzPlatformSearchExtra\Tests\Integration\Implementation\Solr\FieldMapper\TestContentFieldMapper
+        arguments:
+            - '@ezpublish.spi.persistence.content_handler'
+            - '@ezpublish.spi.persistence.content_type_handler'
+            - '@ezpublish.spi.search.legacy'
+        tags:
+            - { name: ezpublish.search.solr.field_mapper.content }
+
+    netgen_test.search.solr.field_mapper.location:
+        class: Netgen\EzPlatformSearchExtra\Tests\Integration\Implementation\Solr\FieldMapper\TestLocationFieldMapper
+        arguments:
+            - '@ezpublish.spi.persistence.content_handler'
+            - '@ezpublish.spi.persistence.content_type_handler'
+            - '@ezpublish.spi.search.legacy'
+        tags:
+            - { name: ezpublish.search.solr.field_mapper.location }
