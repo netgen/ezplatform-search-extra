@@ -12,7 +12,7 @@ default_cores[4]='core4'
 default_cores[5]='core5'
 
 SOLR_PORT=${SOLR_PORT:-8983}
-SOLR_VERSION=${SOLR_VERSION:-6.6.5}
+SOLR_VERSION=${SOLR_VERSION:-8.11.2}
 SOLR_DEBUG=${SOLR_DEBUG:-false}
 SOLR_HOME=${SOLR_HOME:-ez}
 SOLR_CONFIG=${SOLR_CONFIG:-${default_config_files[*]}}
@@ -22,14 +22,19 @@ SOLR_INSTALL_DIR="${SOLR_DIR}/${SOLR_VERSION}"
 
 download() {
     case ${SOLR_VERSION} in
-        6.6.5 )
+        7.7.2 )
             url="http://archive.apache.org/dist/lucene/solr/${SOLR_VERSION}/solr-${SOLR_VERSION}.tgz"
+            ;;
+        8.11.2 )
+            url="https://dlcdn.apache.org/lucene/solr/${SOLR_VERSION}/solr-${SOLR_VERSION}.tgz"
             ;;
         *)
             echo "Version '${SOLR_VERSION}' is not supported or not valid"
             exit 1
             ;;
     esac
+
+
 
     create_dir ${SOLR_DIR}
 
@@ -97,23 +102,23 @@ exit_on_error() {
 configure() {
     home_dir="${SOLR_INSTALL_DIR}/server/${SOLR_HOME}"
     template_dir="${home_dir}/template"
-    config_dir="${SOLR_INSTALL_DIR}/server/solr/configsets/basic_configs/conf"
+    config_dir="${SOLR_INSTALL_DIR}/server/solr/configsets/_default/conf"
 
     create_dir ${home_dir}
     create_dir ${template_dir}
 
     files=${SOLR_CONFIG}
-    files+=("${config_dir}/currency.xml")
-    files+=("tests/lib/Resources/config/search/solr/solrconfig.xml")
+    files+=("tests/lib/Resources/config/search/solr/${SOLR_VERSION}/solrconfig.xml")
     files+=("${config_dir}/stopwords.txt")
     files+=("${config_dir}/synonyms.txt")
-    files+=("${config_dir}/elevate.xml")
 
     copy_files ${template_dir} "${files[*]}"
     copy_file "${SOLR_INSTALL_DIR}/server/solr/solr.xml" ${home_dir}
 
     # modify solrconfig.xml to remove section that doesn't agree with our schema
-    sed -i.bak '/<updateRequestProcessorChain name="add-unknown-fields-to-the-schema">/,/<\/updateRequestProcessorChain>/d' "${template_dir}/solrconfig.xml"
+    # Adapt autoSoftCommit to have a recommended value, and remove add-unknown-fields-to-the-schema
+    sed -i.bak '/<updateRequestProcessorChain name="add-unknown-fields-to-the-schema".*/,/<\/updateRequestProcessorChain>/d' "${template_dir}/solrconfig.xml"
+    sed -i.bak2 's/${solr.autoSoftCommit.maxTime:-1}/${solr.autoSoftCommit.maxTime:20}/' "${template_dir}/solrconfig.xml"
 }
 
 run() {
