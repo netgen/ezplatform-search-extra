@@ -16,7 +16,7 @@
     },
     "require-dev": {
         "netgen/ezplatform-site-api": "^3.7",
-        "ezsystems/ezplatform-solr-search-engine": "^1.4",
+        "ezsystems/ezplatform-solr-search-engine": "^2.0",
         "ezsystems/ezplatform-xmltext-fieldtype": "^1.7",
         "roave/security-advisories": "dev-master",
         "phpunit/phpunit": "^5.7||^6.0||^7.0",
@@ -24,7 +24,7 @@
     },
     "suggest": {
         "netgen/ezplatform-site-api": "Boost your site-building productivity with eZ Platform",
-        "ezsystems/ezplatform-solr-search-engine": "Supports advanced capabilities with eZ Platform search API, ^1.4 is required"
+        "ezsystems/ezplatform-solr-search-engine": "Supports advanced capabilities with eZ Platform search API, ^2.0 is required"
     },
     "autoload": {
         "psr-4": {
