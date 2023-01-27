@@ -21,7 +21,6 @@ solr/custom-fields-types.xml additions:
     <fieldType name="text_suggest" class="solr.TextField" positionIncrementGap="100">
         <analyzer>
             <tokenizer class="solr.StandardTokenizerFactory"/>
-            <filter class="solr.StandardFilterFactory"/>
             <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" />
             <filter class="solr.LowerCaseFilterFactory"/>
         </analyzer>
