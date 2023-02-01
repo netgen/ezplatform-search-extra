@@ -368,11 +368,11 @@
   <query>
 
     <!-- Maximum number of clauses allowed when parsing a boolean query string.
-         
+
          This limit only impacts boolean queries specified by a user as part of a query string,
          and provides per-collection controls on how complex user specified boolean queries can
          be.  Query strings that specify more clauses then this will result in an error.
-         
+
          If this per-collection limit is greater then the global `maxBooleanClauses` limit
          specified in `solr.xml`, it will have no effect, as that setting also limits the size
          of user specified boolean queries.
@@ -382,7 +382,7 @@
     <!-- Solr Internal Query Caches
 
          There are four implementations of cache available for Solr:
-         LRUCache, based on a synchronized LinkedHashMap, 
+         LRUCache, based on a synchronized LinkedHashMap,
          LFUCache and FastLRUCache, based on a ConcurrentHashMap, and CaffeineCache -
          a modern and robust cache implementation. Note that in Solr 9.0
          only CaffeineCache will be available, other implementations are now
@@ -772,11 +772,22 @@
       <str name="echoParams">explicit</str>
       <int name="rows">10</int>
       <!-- Default search field
-         <str name="df">text</str> 
+         <str name="df">text</str>
         -->
       <!-- Change from JSON to XML format (the default prior to Solr 7.0)
-         <str name="wt">xml</str> 
+         <str name="wt">xml</str>
         -->
+      <!-- <str name="df">text</str> -->
+      <str name="spellcheck.dictionary">default</str>
+      <str name="spellcheck">on</str>
+      <str name="spellcheck.extendedResults">true</str>
+      <str name="spellcheck.count">10</str>
+      <str name="spellcheck.alternativeTermCount">5</str>
+      <str name="spellcheck.maxResultsForSuggest">5</str>
+      <str name="spellcheck.collate">true</str>
+      <str name="spellcheck.collateExtendedResults">true</str>
+      <str name="spellcheck.maxCollationTries">10</str>
+      <str name="spellcheck.maxCollations">5</str>
     </lst>
     <!-- In addition to defaults, "appends" params can be specified
          to identify values which should be appended to the list of
@@ -830,6 +841,9 @@
          <str>nameOfCustomComponent2</str>
        </arr>
       -->
+    <arr name="last-components">
+      <str>spellcheck</str>
+    </arr>
   </requestHandler>
 
   <!-- A request handler that returns indented JSON by default -->
@@ -898,7 +912,6 @@
        http://wiki.apache.org/solr/SpellCheckComponent
     -->
   <searchComponent name="spellcheck" class="solr.SpellCheckComponent">
-
     <str name="queryAnalyzerFieldType">text_general</str>
 
     <!-- Multiple "Spell Checkers" can be declared and used by this
@@ -908,38 +921,31 @@
     <!-- a spellchecker built from a field of the main index -->
     <lst name="spellchecker">
       <str name="name">default</str>
-      <str name="field">_text_</str>
-      <str name="classname">solr.DirectSolrSpellChecker</str>
+      <!-- decide between dictionary based vs index based spelling suggestion, in most cases it makes sense to use index based spell checker as it only generates terms which are actually present in your search corpus -->
+      <str name="classname">solr.IndexBasedSpellChecker</str>
+      <!-- field to use -->
+      <str name="field">spellcheck</str>
       <!-- the spellcheck distance measure used, the default is the internal levenshtein -->
-      <str name="distanceMeasure">internal</str>
-      <!-- minimum accuracy needed to be considered a valid spellcheck suggestion -->
-      <float name="accuracy">0.5</float>
-      <!-- the maximum #edits we consider when enumerating terms: can be 1 or 2 -->
-      <int name="maxEdits">2</int>
-      <!-- the minimum shared prefix when enumerating terms -->
-      <int name="minPrefix">1</int>
-      <!-- maximum number of inspections per result. -->
-      <int name="maxInspections">5</int>
-      <!-- minimum length of a query term to be considered for correction -->
-      <int name="minQueryLength">4</int>
-      <!-- maximum threshold of documents a query term can appear to be considered for correction -->
-      <float name="maxQueryFrequency">0.01</float>
-      <!-- uncomment this to require suggestions to occur in 1% of the documents
-        <float name="thresholdTokenFrequency">.01</float>
-      -->
+      <str name="distanceMeasure">org.apache.lucene.search.spell.LevenshteinDistance</str>
+      <!-- buildOnCommit|buildOnOptimize -->
+      <str name="buildOnCommit">true</str>
+      <!-- $solr.solr.home/data/spellchecker-->
+      <str name="spellcheckIndexDir">./spellchecker</str>
+      <str name="accuracy">0.7</str>
+      <float name="thresholdTokenFrequency">.0001</float>
     </lst>
 
     <!-- a spellchecker that can break or combine words.  See "/spell" handler below for usage -->
     <!--
     <lst name="spellchecker">
-      <str name="name">wordbreak</str>
-      <str name="classname">solr.WordBreakSolrSpellChecker</str>
-      <str name="field">name</str>
-      <str name="combineWords">true</str>
-      <str name="breakWords">true</str>
-      <int name="maxChanges">10</int>
-    </lst>
-    -->
+        <str name="name">wordbreak</str>
+        <str name="classname">solr.WordBreakSolrSpellChecker</str>
+        <str name="field">name</str>
+        <str name="combineWords">true</str>
+        <str name="breakWords">true</str>
+        <int name="maxChanges">10</int>
+        </lst>
+        -->
   </searchComponent>
 
   <!-- A request handler for demonstrating the spellcheck component.

@@ -58,7 +58,7 @@ solr/solrconfig.xml additions
             <!-- field to use -->
             <str name="field">spellcheck</str>
             <!-- the spellcheck distance measure used, the default is the internal levenshtein -->
-            <str name="distanceMeasure">org.apache.lucene.search.spell.LevensteinDistance</str>
+            <str name="distanceMeasure">org.apache.lucene.search.spell.LevenshteinDistance</str>
             <!-- buildOnCommit|buildOnOptimize -->
             <str name="buildOnCommit">true</str>
             <!-- $solr.solr.home/data/spellchecker-->
