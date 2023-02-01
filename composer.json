@@ -18,7 +18,6 @@
         "netgen/ezplatform-site-api": "^3.7",
         "ezsystems/ezplatform-solr-search-engine": "^2.0",
         "ezsystems/ezplatform-xmltext-fieldtype": "^1.7",
-        "roave/security-advisories": "dev-master",
         "phpunit/phpunit": "^5.7||^6.0||^7.0",
         "matthiasnoback/symfony-dependency-injection-test": "~1.0||~3.0"
     },
